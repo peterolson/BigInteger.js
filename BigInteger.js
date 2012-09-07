@@ -12,6 +12,12 @@
 			a[i] = a[i] || 0;
 			b[i] = b[i] || 0;
 		}
+		for (var i = length - 1; i >= 0; i--) {
+			if (a[i] === 0 && b[i] === 0) {
+				a.pop();
+				b.pop();
+			}
+		}
 		first.value = a;
 		second.value = b;
 	};
@@ -34,6 +40,29 @@
 		var val = bigInt(value, s);
 		if (first) normalize(first, val);
 		return val;
+	};
+
+	var goesInto = function (a, b) {
+		var a = bigInt(a, sign.positive), b = bigInt(b, sign.positive);
+		var n = 0;
+		do {
+			var inc = 1;
+			var c = bigInt(a.value, sign.positive), t = c.times(10);
+			while (t.lesser(b)) {
+				c = t;
+				inc *= 10;
+				t = t.times(10);
+			}
+			while (c.lesserOrEquals(b)) {
+				b = b.minus(c);
+				n += inc;
+			}
+		} while (a.lesserOrEquals(b));
+
+		return {
+			remainder: b.value,
+			result: n
+		};
 	};
 
 	var bigInt = function (value, s) {
@@ -64,6 +93,7 @@
 						o.subtract(first, second) :
 						o.subtract(second, first);
 				}
+				normalize(first, second);
 				var a = first.value, b = second.value;
 				var result = [],
 					carry = 0;
@@ -144,6 +174,49 @@
 			times: function (n, m) {
 				return o.multiply(n, m);
 			},
+			divmod: function (n, m) {
+				var s, first = self, second;
+				if (m) (first = parse(n)) && (second = parse(m));
+				else second = parse(n, first);
+				s = first.sign !== second.sign;
+				if (second.equals(0)) throw "Cannot divide by zero";
+				var a = first.value, b = second.value;
+				var result = [], remainder = [];
+				for (var i = a.length - 1; i >= 0; i--) {
+					var n = [a[i]].concat(remainder);
+					var quotient = goesInto(b, n);
+					result.push(quotient.result);
+					remainder = quotient.remainder;
+				}
+				result.reverse();
+				return {
+					quotient: bigInt(result, s),
+					remainder: bigInt(remainder, first.sign)
+				};
+			},
+			divide: function (n, m) {
+				return o.divmod(n, m).quotient;
+			},
+			over: function (n, m) {
+				return o.divide(n, m);
+			},
+			mod: function (n, m) {
+				return o.divmod(n, m).remainder;
+			},
+			pow: function (n, m) {
+				var first = self, second;
+				if (m) (first = parse(n)) && (second = parse(m));
+				else second = parse(n, first);
+				var a = first, b = second;
+				if (b.lesser(0)) return ZERO;
+				if (b.equals(0)) return ONE;
+				var result = bigInt(a.value, a.sign);
+				while (b.greater(1)) {
+					result = result.times(a);
+					b = b.prev();
+				}
+				return bigInt(result.value, s);
+			},
 			next: function (m) {
 				var first = m || self;
 				return o.add(first, 1);
@@ -154,10 +227,11 @@
 			},
 			compare: function (n, m, compareAbs) {
 				var first = self, second;
-				if (m) (first = parse(n)) && (second = parse(m));
+				if (m) (first = parse(n)) && (second = parse(m, first));
 				else second = parse(n, first);
 				if (second.sign !== first.sign) return first.sign === sign.positive ? 1 : -1;
 				var multiplier = first.sign === sign.positive || compareAbs ? 1 : -1;
+				normalize(first, second);
 				var a = first.value, b = second.value;
 				for (var i = a.length - 1; i >= 0; i--) {
 					if (a[i] > b[i]) return 1 * multiplier;
@@ -174,7 +248,7 @@
 			notEquals: function (n, m) {
 				return !o.equals(n, m);
 			},
-			less: function (n, m) {
+			lesser: function (n, m) {
 				return o.compare(n, m) < 0;
 			},
 			greater: function (n, m) {
@@ -183,7 +257,7 @@
 			greaterOrEquals: function (n, m) {
 				return o.compare(n, m) >= 0;
 			},
-			lessOrEquals: function (n, m) {
+			lesserOrEquals: function (n, m) {
 				return o.compare(n, m) <= 0;
 			},
 			toString: function (m) {
@@ -203,10 +277,14 @@
 		return o;
 	};
 
-	//multiply, divide, mod, pow
+	var ZERO = bigInt([0], sign.positive);
+	var ONE = bigInt([1], sign.positive);
 
-	return function (a) {
-		if (typeof a === "undefined") return bigInt(0);
+	var fnReturn = function (a) {
+		if (typeof a === "undefined") return ZERO;
 		return parse(a);
 	};
+	fnReturn.zero = ZERO;
+	fnReturn.one = ONE;
+	return fnReturn;
 })();

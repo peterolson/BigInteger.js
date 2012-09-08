@@ -179,7 +179,7 @@
 				if (m) (first = parse(n)) && (second = parse(m));
 				else second = parse(n, first);
 				s = first.sign !== second.sign;
-				if (second.equals(0)) throw "Cannot divide by zero";
+				if (second.equals(0)) throw new Error("Cannot divide by zero");
 				var a = first.value, b = second.value;
 				var result = [], remainder = [];
 				for (var i = a.length - 1; i >= 0; i--) {
@@ -225,12 +225,12 @@
 				var first = m || self;
 				return o.subtract(first, 1);
 			},
-			compare: function (n, m, compareAbs) {
+			compare: function (n, m) {
 				var first = self, second;
 				if (m) (first = parse(n)) && (second = parse(m, first));
 				else second = parse(n, first);
 				if (second.sign !== first.sign) return first.sign === sign.positive ? 1 : -1;
-				var multiplier = first.sign === sign.positive || compareAbs ? 1 : -1;
+				var multiplier = first.sign === sign.positive ? 1 : -1;
 				normalize(first, second);
 				var a = first.value, b = second.value;
 				for (var i = a.length - 1; i >= 0; i--) {
@@ -240,7 +240,11 @@
 				return 0;
 			},
 			compareAbs: function (n, m) {
-				return o.compare(n, m, true);
+				var first = self, second;
+				if (m) (first = parse(n)) && (second = parse(m, first));
+				else second = parse(n, first);
+				first.sign = second.sign = sign.positive;
+				return o.compare(first, second);
 			},
 			equals: function (n, m) {
 				return o.compare(n, m) === 0;
@@ -272,6 +276,12 @@
 				if (!str.length) str = "0";
 				var s = first.sign === sign.positive ? "" : "-";
 				return s + str;
+			},
+			toJSNumber: function (m) {
+				return +o.toString(m);
+			},
+			valueOf: function (m) {
+				return o.toJSNumber(m);
 			}
 		};
 		return o;
@@ -279,6 +289,7 @@
 
 	var ZERO = bigInt([0], sign.positive);
 	var ONE = bigInt([1], sign.positive);
+	var MINUS_ONE = bigInt([-1], sign.positive);
 
 	var fnReturn = function (a) {
 		if (typeof a === "undefined") return ZERO;
@@ -286,5 +297,6 @@
 	};
 	fnReturn.zero = ZERO;
 	fnReturn.one = ONE;
+	fnReturn.minusOne = MINUS_ONE;
 	return fnReturn;
 })();

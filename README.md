@@ -1,7 +1,7 @@
-BigInt.js
+BigInteger.js
 =========
 
-**BigInt.js** is an arbitrary-length integer library for Javascript, allowing arithmetic operations on integers of unlimited size, except for memory and time limitations.
+**BigInteger.js** is an arbitrary-length integer library for Javascript, allowing arithmetic operations on integers of unlimited size, except for memory and time limitations.
 
 `bigInt(number)`
 ---
@@ -137,6 +137,8 @@ Performs multiplication.
 ---
 Adds one to the number.
 
+ - `bigInt(6).next()` => `7`
+
 `notEquals(number)`
 ---
 Checks if two numbers are not equal.
@@ -197,4 +199,6 @@ Converts a bigInt to a string.
 
 `valueOf()`
 ---
-Converts a bigInt to a native Javascript number.
+Converts a bigInt to a native Javascript number. This override allows you to use native arithmetic operators without explicit conversion:
+
+    bigInt("100") + bigInt("200") === 300; //true

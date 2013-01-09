@@ -17,6 +17,7 @@ Examples:
     var zero = bigInt();
     var ninetyThree = bigInt(93);
 	var largeNumber = bigInt("75643564363473453456342378564387956906736546456235345");
+	var googol = bigInt("1e100");
 	var bigNumber = bigInt(largeNumber);
 
 Note that Javascript numbers larger than `9007199254740992` and smaller than `-9007199254740992` are not precisely represented numbers and will not produce exact results. If you are dealing with numbers outside that range, it is better to pass in strings.

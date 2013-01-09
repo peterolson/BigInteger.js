@@ -30,7 +30,21 @@
 			s = sign.negative;
 			text = text.slice(1);
 		}
-		var isValid = /^([1-9][0-9]*)|(\-?0)$/.test(text);
+		var text = text.split("e");
+		if (text.length > 2) throw new Error("Invalid integer");
+		if (text[1]) {
+		    var exp = text[1];
+		    if (exp[0] === "+") exp = exp.slice(1);
+		    exp = parse(exp);
+		    if (exp.lesser(0)) throw new Error("Cannot include negative exponent part for integers");
+		    while (exp.notEquals(0)) {
+		        text[0] += "0";
+		        exp = exp.prev();
+		    }
+		}
+		text = text[0];
+		if (text === "-0") text = "0";
+		var isValid = /^([1-9][0-9]*)$|^0$/.test(text);
 		if (!isValid) throw new Error("Invalid integer");
 		while (text.length) {
 			var divider = text.length > logBase ? text.length - logBase : 0;

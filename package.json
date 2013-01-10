@@ -1,0 +1,32 @@
+{
+  "name": "big-integer",
+  "version": "1.0.0",
+  "author": "Peter Olson <peter.e.c.olson+npm@gmail.com>",
+  "description": "An arbitrary length integer library for Javascript",
+  "contributors": [],
+  "bin": {},
+  "scripts": {},
+  "main": "./BigInteger",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:peterolson/BigInteger.js.git"
+  },
+  "keywords": [
+    "math",
+    "big",
+    "bignum",
+	"bigint",
+	"biginteger",
+	"integer",
+	"arbitrary",
+	"precision",
+	"arithmetic"
+  ],
+  "dependencies" : {}, 
+  "license": "WTFPL",
+  "engines": {
+    "node": ">=0.6"
+  }
+}
+
+          

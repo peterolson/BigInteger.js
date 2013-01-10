@@ -3,7 +3,11 @@ BigInteger.js
 
 **BigInteger.js** is an arbitrary-length integer library for Javascript, allowing arithmetic operations on integers of unlimited size, notwithstanding memory and time limitations.
 
-You can download [BigInteger.js from GitHub](http://peterolson.github.com/BigInteger.js/BigInteger.min.js).
+If you are using a browser, you can download [BigInteger.js from GitHub](http://peterolson.github.com/BigInteger.js/BigInteger.min.js).
+
+If you are using node, you can install BigInteger with [npm](https://npmjs.org/).
+
+    npm install big-integer
 
 `bigInt(number)`
 ---

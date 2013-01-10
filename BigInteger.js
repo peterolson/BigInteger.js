@@ -314,3 +314,7 @@
 	fnReturn.minusOne = MINUS_ONE;
 	return fnReturn;
 })();
+
+if (typeof module !== "undefined") {
+    module.exports = bigInt;
+}

@@ -225,11 +225,13 @@
                 if (b.lesser(0)) return ZERO;
                 if (b.equals(0)) return ONE;
                 var result = bigInt(a.value, a.sign);
-                while (b.greater(1)) {
-                    result = result.times(a);
-                    b = b.prev();
+
+                if (b.mod(2).equals(0)) {
+                    var c = result.pow(b.over(2));
+                    return c.times(c);
+                } else {
+                    return result.times(result.pow(b.minus(1)));
                 }
-                return bigInt(result.value, s);
             },
             next: function (m) {
                 var first = m || self;

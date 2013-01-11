@@ -59,6 +59,38 @@ var testResults = (function (bigInt) {
 	    "2 ^ -3 = 0": bigInt(2).pow(-3).equals(0),
 	    "0-- = -1": bigInt.zero.prev().equals(-1),
 	    "9007199254740992++ = 9007199254740993": bigInt(9007199254740992).next().equals("9007199254740993"),
+		"Lots of nulls":bigInt("10000000").toString()=="10000000",
+		"Lots of nulls 2":bigInt("100001010000000").toString()=="100001010000000",
+		"10 Factorial" : (function () {
+			var res = "3628800"; //http://www.wolframalpha.com/input/?i=10%21
+			var f = new Array();
+			function factorial (n){
+			  if (n.equals(bigInt.zero) || n.equals(bigInt.one))
+				return bigInt.one;
+			  if(f.indexOf(n) > -1)
+				  return f[n];
+			  else
+				  return f[n]=factorial(n.prev()).times(n);
+			}
+			return factorial(bigInt(10)).equals(res);
+		})(),
+		"100 Factorial" : (function () {
+			var res = "93326215443944152681699238856266700490715968264381621468592963895217599993229915608941463976156518286253697920827223758251185210916864000000000000000000000000"; //http://puzzles.nigelcoldwell.co.uk/nineteen.htm
+			
+			var f = new Array();
+			function factorial (n){
+			  if (n.equals(bigInt.zero) || n.equals(bigInt.one))
+				return bigInt.one;
+			  if(f.indexOf(n) > -1)
+				  return f[n];
+			  else
+				  return f[n]=factorial(n.prev()).times(n);
+			}
+			console.log(factorial(bigInt(100)).toString());
+			console.log((bigInt(res)).toString());
+			console.log(res);
+			return factorial(bigInt(100)).toString().length == res.length;
+		})(),
 	    "Fail on negative exponent": (function () {
 	        try {
 	            bigInt("12e-5");

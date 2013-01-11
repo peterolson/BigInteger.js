@@ -282,7 +282,7 @@
 				var first = m || self;
 				var str = "", len = first.value.length;
 				while (len--) {
-					str += first.value[len];
+					str += (base.toString() + first.value[len]).slice(-logBase);
 				}
 				while (str[0] === "0") {
 					str = str.slice(1);

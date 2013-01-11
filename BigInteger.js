@@ -18,6 +18,7 @@
                 b.pop();
             }
         }
+        if (!a.length) a = [0], b = [0];
         first.value = a;
         second.value = b;
     };
@@ -58,6 +59,7 @@
 
     var goesInto = function (a, b) {
         var a = bigInt(a, sign.positive), b = bigInt(b, sign.positive);
+        if (a.equals(0)) throw new Error("Cannot divide by 0");
         var n = 0;
         do {
             var inc = 1;
@@ -123,7 +125,7 @@
                 return o.add(n, m);
             },
             subtract: function (n, m) {
-                var s, first = self, second;
+                var first = self, second;
                 if (m) (first = parse(n)) && (second = parse(m));
                 else second = parse(n, first);
                 if (first.sign !== second.sign) return o.add(first, o.negate(second));
@@ -193,6 +195,10 @@
                 if (m) (first = parse(n)) && (second = parse(m));
                 else second = parse(n, first);
                 s = first.sign !== second.sign;
+                if (bigInt(first.value, first.sign).equals(0)) return {
+                    quotient: 0,
+                    remainder: 0
+                };
                 if (second.equals(0)) throw new Error("Cannot divide by zero");
                 var a = first.value, b = second.value;
                 var result = [], remainder = [];
@@ -245,9 +251,10 @@
                 var first = self, second;
                 if (m) (first = parse(n)) && (second = parse(m, first));
                 else second = parse(n, first);
+                normalize(first, second);
+                if (first.value.length === 1 && second.value.length === 1 && first.value[0] === 0 && second.value[0] === 0) return 0;
                 if (second.sign !== first.sign) return first.sign === sign.positive ? 1 : -1;
                 var multiplier = first.sign === sign.positive ? 1 : -1;
-                normalize(first, second);
                 var a = first.value, b = second.value;
                 for (var i = a.length - 1; i >= 0; i--) {
                     if (a[i] > b[i]) return 1 * multiplier;

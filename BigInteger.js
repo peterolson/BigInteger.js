@@ -196,8 +196,8 @@
                 else second = parse(n, first);
                 s = first.sign !== second.sign;
                 if (bigInt(first.value, first.sign).equals(0)) return {
-                    quotient: 0,
-                    remainder: 0
+                    quotient: bigInt([0], sign.positive),
+                    remainder: bigInt([0], sign.positive)
                 };
                 if (second.equals(0)) throw new Error("Cannot divide by zero");
                 var a = first.value, b = second.value;

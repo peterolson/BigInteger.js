@@ -24,7 +24,7 @@ var testResults = (function (bigInt) {
         "12e5 = 1200000": bigInt("12e5").equals(1200000),
         "str.equals(num)": bigInt("1").equals(1),
         "bInt.equals(bInt)": bigInt(123).equals(bigInt(123)),
-        "0 = -0": bigInt("0").greater("-0"),
+        "0 = -0": bigInt("0").equals("-0"),
         "54 != -54": bigInt(54).notEquals(-54),
         "4 > 2": bigInt(4).greater(2),
         "4 >= 2": bigInt(4).greaterOrEquals(2),

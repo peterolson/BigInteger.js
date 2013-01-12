@@ -312,7 +312,7 @@
 
     var ZERO = bigInt([0], sign.positive);
     var ONE = bigInt([1], sign.positive);
-    var MINUS_ONE = bigInt([-1], sign.positive);
+    var MINUS_ONE = bigInt([1], sign.negative);
 
     var fnReturn = function (a) {
         if (typeof a === "undefined") return ZERO;

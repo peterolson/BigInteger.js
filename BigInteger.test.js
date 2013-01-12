@@ -18,7 +18,8 @@ var testResults = (function (bigInt) {
     }
 
     assert({
-        "1 = 1": bigInt("1").equals("1"),
+        "1 = 1": bigInt.one.equals(1),
+        "-1 = -1": bigInt.minusOne.equals(-1),
         "987 = 987": bigInt("987").equals("987"),
         "-123456789 = -123456789": bigInt("-123456789").equals("-123456789"),
         "12e5 = 1200000": bigInt("12e5").equals(1200000),

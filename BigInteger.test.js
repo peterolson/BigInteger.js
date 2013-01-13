@@ -63,6 +63,7 @@ var testResults = (function (bigInt) {
         "-124234233 % 2 = -1": bigInt(-124234233).mod(2).equals(-1),
         "-124234233 % -2 = -1": bigInt(-124234233).mod(-2).equals(-1),
         "93453764643534523 % 2342 = 1119": bigInt("93453764643534523").mod(2342).equals(1119),
+        "32542543 % 100000000 = 32542543": bigInt(32542543).mod(100000000).equals(32542543),
         "2 ^ 3 = 8": bigInt(2).pow(3).equals(8),
         "-2 ^ 3 = -8": bigInt(-2).pow(3).equals(-8),
         "2 ^ -3 = 0": bigInt(2).pow(-3).equals(0),

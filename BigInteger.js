@@ -16,7 +16,7 @@
             if (a[i] === 0 && b[i] === 0) {
                 a.pop();
                 b.pop();
-            }
+            } else break;
         }
         if (!a.length) a = [0], b = [0];
         first.value = a;

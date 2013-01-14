@@ -34,6 +34,12 @@ Examples:
 
 Note that Javascript numbers larger than `9007199254740992` and smaller than `-9007199254740992` are not precisely represented numbers and will not produce exact results. If you are dealing with numbers outside that range, it is better to pass in strings.
 
+Method Chaining
+---
+Note that bigInt operations return bigInts, which allows you to chain methods, for example:
+
+    var salary = bigInt(dollarsPerHour).times(hoursWorked).plus(randomBonuses)
+
 Constants
 ---
 

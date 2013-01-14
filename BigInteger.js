@@ -287,6 +287,22 @@
             lesserOrEquals: function (n, m) {
                 return o.compare(n, m) <= 0;
             },
+            isPositive: function (m) {
+                var first = m || self;
+                return first.sign === sign.positive;
+            },
+            isNegative: function (m) {
+                var first = m || self;
+                return first.sign === sign.negative;
+            },
+            isEven: function (m) {
+                var first = m || self;
+                return first.value[0] % 2 === 0;
+            },
+            isOdd: function (m) {
+                var first = m || self;
+                return first.value[0] % 2 === 1;
+            },
             toString: function (m) {
                 var first = m || self;
                 var str = "", len = first.value.length;

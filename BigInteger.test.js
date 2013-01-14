@@ -69,6 +69,13 @@ var testResults = (function (bigInt) {
         "2 ^ -3 = 0": bigInt(2).pow(-3).equals(0),
         "0-- = -1": bigInt.zero.prev().equals(-1),
         "9007199254740992++ = 9007199254740993": bigInt(9007199254740992).next().equals("9007199254740993"),
+        "0 is positive": bigInt("0").isPositive(),
+        "-0 is negative": bigInt("-0").isNegative(),
+        "9354350000204231 is positive": bigInt(9354350000204231).isPositive(),
+        "-42000000000 is negative": bigInt(-42000000000).isNegative(),
+        "0 is even": bigInt.zero.isEven(),
+        "135313531353135313531353135312 is even": bigInt("135313531353135313531353135312").isEven(),
+        "135313531353135313531353135313 is odd": bigInt("135313531353135313531353135313").isOdd(),
         "Leading zeroes": bigInt("10000000").toString() == "10000000",
         "Leading zeroes 2": bigInt("100001010000000").toString() == "100001010000000",
         "10 Factorial": (function () {

@@ -111,14 +111,14 @@ Checks if the first number is greater than or equal to the second.
  - `bigInt(5).greaterOrEquals(5)` => `true`
  - `bigInt(5).greaterOrEquals(4)` => `true`
 
- `isEven(number)`
+`isEven(number)`
 ---
 Returns `true` if the number is even, `false` otherwise.
 
  - `bigInt(6).isEven()` => `true`
  - `bigInt(3).isEven()` => `false`
 
- `isNegative(number)`
+`isNegative(number)`
 ---
 Returns `true` if the number is negative, `false` otherwise.
 Returns `false` for `0` and `true` for `-0`.
@@ -126,14 +126,14 @@ Returns `false` for `0` and `true` for `-0`.
  - `bigInt(-23).isNegative()` => `true`
  - `bigInt(50).isNegative()` => `false`
 
- `isOdd(number)`
+`isOdd(number)`
 ---
 Returns `true` if the number is odd, `false` otherwise.
 
  - `bigInt(13).isOdd()` => `true`
  - `bigInt(40).isOdd()` => `false`
 
- `isPositive(number)`
+`isPositive(number)`
 ---
 Return `true` if the number is positive, `false` otherwise.
 Returns `true` for `0` and `false` for `-0`.

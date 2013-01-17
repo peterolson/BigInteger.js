@@ -114,8 +114,8 @@
                 var result = [],
 					carry = 0;
                 for (var i = 0; i < a.length || carry > 0; i++) {
-                    var sum = a[i] + b[i] + carry;
-                    carry = sum > base ? 1 : 0;
+                    var sum = (a[i] || 0) + (b[i] || 0) + carry;
+                    carry = sum >= base ? 1 : 0;
                     sum -= carry * base;
                     result.push(sum);
                 }

@@ -21,6 +21,7 @@ var testResults = (function (bigInt) {
         "1 = 1": bigInt.one.equals(1),
         "-1 = -1": bigInt.minusOne.equals(-1),
         "987 = 987": bigInt("987").equals("987"),
+        "9999999 + 1 = 10000000": bigInt("9999999").add(1).equals(10000000),
         "-123456789 = -123456789": bigInt("-123456789").equals("-123456789"),
         "12e5 = 1200000": bigInt("12e5").equals(1200000),
         "str.equals(num)": bigInt("1").equals(1),

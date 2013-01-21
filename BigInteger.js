@@ -45,7 +45,7 @@
         }
         text = text[0];
         if (text === "-0") text = "0";
-        var isValid = /^([1-9][0-9]*)$|^0$/.test(text);
+        var isValid = /^([0-9][0-9]*)$/.test(text);
         if (!isValid) throw new Error("Invalid integer");
         while (text.length) {
             var divider = text.length > logBase ? text.length - logBase : 0;

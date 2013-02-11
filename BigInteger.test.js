@@ -79,6 +79,7 @@ var testResults = (function (bigInt) {
         "0 is even": bigInt.zero.isEven(),
         "135313531353135313531353135312 is even": bigInt("135313531353135313531353135312").isEven(),
         "135313531353135313531353135313 is odd": bigInt("135313531353135313531353135313").isOdd(),
+        "100 ^ 56 !== 0": bigInt(100).pow(56).toString() !== "0", //https://github.com/peterolson/BigInteger.js/issues/5
         "Leading zeroes": bigInt("10000000").toString() == "10000000",
         "Leading zeroes 2": bigInt("100001010000000").toString() == "100001010000000",
         "10 Factorial": (function () {

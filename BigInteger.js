@@ -307,7 +307,8 @@
                 var first = m || self;
                 var str = "", len = first.value.length;
                 while (len--) {
-                    str += (base.toString() + first.value[len]).slice(-logBase);
+                    if (first.value[len].toString().length === 8) str += first.value[len];
+                    else str += (base.toString() + first.value[len]).slice(-logBase);
                 }
                 while (str[0] === "0") {
                     str = str.slice(1);

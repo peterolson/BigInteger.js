@@ -86,6 +86,16 @@ var testResults = (function (bigInt) {
             var res = "3628800"; //http://www.wolframalpha.com/input/?i=10%21
             return factorial(bigInt(10)).equals(res);
         })(),
+        "Immutable during add": (function () {        	
+        	var a = bigInt("14930352");
+        	a.add(9227465);
+            return a.equals("14930352");
+        })(),
+        "Immutable during minus": (function () {        	
+        	var a = bigInt("14930352");
+        	a.minus(9227465);
+            return a.equals("14930352");
+        })(),
         "100 Factorial": (function () {
             var res = "93326215443944152681699238856266700490715968264381621468592963895217599993229915608941463976156518286253697920827223758251185210916864000000000000000000000000"; //http://puzzles.nigelcoldwell.co.uk/nineteen.htm
             return factorial(bigInt(100)).equals(res);

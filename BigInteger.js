@@ -135,9 +135,9 @@
                 var result = [],
 					borrow = 0;
                 for (var i = 0; i < a.length; i++) {
-                    a[i] -= borrow;
-                    borrow = a[i] < b[i] ? 1 : 0;
-                    var minuend = (borrow * base) + a[i] - b[i];
+                    var tmp = a[i] - borrow;
+                    borrow = tmp < b[i] ? 1 : 0;
+                    var minuend = (borrow * base) + tmp - b[i];
                     result.push(minuend);
                 }
                 return bigInt(result, sign.positive);

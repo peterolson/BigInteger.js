@@ -1,6 +1,6 @@
 {
   "name": "big-integer",
-  "version": "1.1.5",
+  "version": "1.1.6",
   "author": "Peter Olson <peter.e.c.olson+npm@gmail.com>",
   "description": "An arbitrary length integer library for Javascript",
   "contributors": [],
@@ -15,12 +15,12 @@
     "math",
     "big",
     "bignum",
-	"bigint",
-	"biginteger",
-	"integer",
-	"arbitrary",
-	"precision",
-	"arithmetic"
+    "bigint",
+    "biginteger",
+    "integer",
+    "arbitrary",
+    "precision",
+    "arithmetic"
   ],
   "dependencies" : {}, 
   "license": "WTFPL",

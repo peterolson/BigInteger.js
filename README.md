@@ -15,7 +15,7 @@ Then you can include it in your code:
 
 	var bigInt = require("big-integer");
 
-`bigInt(number)`
+`bigInt(number, [base])`
 ---
 You can create a bigInt by calling the `bigInt` function. You can pass in
 
@@ -24,6 +24,8 @@ You can create a bigInt by calling the `bigInt` function. You can pass in
  - another bigInt.
  - nothing, and it will return `bigInt.zero`.
 
+ If you provide a second parameter, then it will parse `number` as a number in base `base`. Note that `base` can be any bigInt (even negative or zero). The letters "a-z" and "A-Z" will be interpreted as the numbers 10 to 36. Higher digits can be specified in angle brackets (`<` and `>`).
+
 Examples:
 
     var zero = bigInt();
@@ -31,6 +33,9 @@ Examples:
 	var largeNumber = bigInt("75643564363473453456342378564387956906736546456235345");
 	var googol = bigInt("1e100");
 	var bigNumber = bigInt(largeNumber);
+	 
+	var maximumByte = bigInt("FF", 16);
+	var fiftyFiveGoogol = bigInt("<55>0", googol);
 
 Note that Javascript numbers larger than `9007199254740992` and smaller than `-9007199254740992` are not precisely represented numbers and will not produce exact results. If you are dealing with numbers outside that range, it is better to pass in strings.
 

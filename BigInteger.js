@@ -223,14 +223,12 @@
             mod: function (n, m) {
                 return o.divmod(n, m).remainder;
             },
-            remainder: function (n, m) {
-                return o.divmod(n, m).remainder;
-            },
             pow: function (n, m) {
                 var first = self, second;
                 if (m) (first = parse(n)) && (second = parse(m));
                 else second = parse(n, first);
                 var a = first, b = second;
+                if (bigInt(a.value, a.sign).equals(0)) return ZERO;
                 if (b.lesser(0)) return ZERO;
                 if (b.equals(0)) return ONE;
                 var result = bigInt(a.value, a.sign);
@@ -265,9 +263,6 @@
                 }
                 return 0;
             },
-            compareTo: function (n) {
-                return this.compare(n);
-            }
             compareAbs: function (n, m) {
                 var first = self, second;
                 if (m) (first = parse(n)) && (second = parse(m, first));
@@ -337,8 +332,40 @@
     var ONE = bigInt([1], sign.positive);
     var MINUS_ONE = bigInt([1], sign.negative);
 
-    var fnReturn = function (a) {
+    var parseBase = function (text, base) {
+        base = parse(base);
+        var val = ZERO;
+        var digits = [];
+        var i;
+        var isNegative = false;
+        function parseToken(text) {
+            var c = text[i].toLowerCase();
+            if (i === 0 && text[i] === "-") {
+                isNegative = true;
+                return;
+            }
+            if (/[0-9]/.test(c)) digits.push(parse(c));
+            else if (/[a-z]/.test(c)) digits.push(parse(c.charCodeAt(0) - 87));
+            else if (c === "<") {
+                var start = i;
+                do i++; while (text[i] !== ">");
+                digits.push(parse(text.slice(start + 1, i)));
+            }
+            else throw new Error(c + " is not a valid character");
+        }
+        for (i = 0; i < text.length; i++) {
+            parseToken(text);
+        }
+        digits.reverse();
+        for (i = 0; i < digits.length; i++) {
+            val = val.add(digits[i].times(base.pow(i)));
+        }
+        return isNegative ? -val : val;
+    }
+
+    var fnReturn = function (a, b) {
         if (typeof a === "undefined") return ZERO;
+        if (typeof b !== "undefined") return parseBase(a, b);
         return parse(a);
     };
     fnReturn.zero = ZERO;

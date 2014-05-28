@@ -223,6 +223,9 @@
             mod: function (n, m) {
                 return o.divmod(n, m).remainder;
             },
+            remainder: function(n, m) {
+                return o.mod(n, m);
+            },
             pow: function (n, m) {
                 var first = self, second;
                 if (m) (first = parse(n)) && (second = parse(m));
@@ -262,6 +265,9 @@
                     if (b[i] > a[i]) return -1 * multiplier;
                 }
                 return 0;
+            },
+            compareTo: function(n, m) {
+                return o.compare(n, m);
             },
             compareAbs: function (n, m) {
                 var first = self, second;

@@ -86,6 +86,10 @@ Performs a comparison between the absolute value of two numbers.
  - `bigInt(5).compareAbs(4)` => `1`
  - `bigInt(4).compareAbs(-5)` => `-1`
 
+`compareTo(number)`
+---
+Alias for the `compare` method.
+
 `divide(number)`
 ---
 Performs integer division, disregarding the remainder.
@@ -231,6 +235,10 @@ Subtracts one from the number.
 Performs subtraction.
 
  - `bigInt(3).subtract(5)` => `-2`
+
+`remainder(number)`
+---
+Alias for the `mod` method.
 
 `times(number)`
 ---

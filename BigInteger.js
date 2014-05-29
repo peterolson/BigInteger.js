@@ -321,6 +321,7 @@
                     str = str.slice(1);
                 }
                 if (!str.length) str = "0";
+                if (str === "0") return str;
                 var s = first.sign === sign.positive ? "" : "-";
                 return s + str;
             },

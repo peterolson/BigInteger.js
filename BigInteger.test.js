@@ -128,7 +128,8 @@ var testResults = (function (bigInt) {
         "0xFF = 255": bigInt("FF", 16).equals(255),
         "negabinary 111100001111 = -1285": bigInt("111100001111", -2).equals(-1285),
         "'<5><10>35<75><44><88><145735>' in base -154654987 = -10580775516023906041313915824083789618333601575504631498551": bigInt("<5><10>35<75><44><88><145735>", bigInt(-154654987)).equals("-10580775516023906041313915824083789618333601575504631498551"),
-        "0 * -1 toString is 0": bigInt(0).multiply(-1).toString() === "0" // see Issue 13
+        "0 * -1 toString is 0": bigInt(0).multiply(-1).toString() === "0", // see Issue 13
+        "2e7 = 2E7": bigInt("2e7").equals("2E7")
     });
     return assertions.join("<br>");
 })(bigInt);

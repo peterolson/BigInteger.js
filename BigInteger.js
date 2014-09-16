@@ -31,7 +31,7 @@
             s = sign.negative;
             text = text.slice(1);
         }
-        var text = text.split("e");
+        var text = text.split(/e/i);
         if (text.length > 2) throw new Error("Invalid integer");
         if (text[1]) {
             var exp = text[1];

@@ -367,7 +367,7 @@
         for (i = 0; i < digits.length; i++) {
             val = val.add(digits[i].times(base.pow(i)));
         }
-        return isNegative ? -val : val;
+        return isNegative ? val.negate() : val;
     }
 
     var fnReturn = function (a, b) {

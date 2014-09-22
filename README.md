@@ -14,6 +14,8 @@ If you are using node, you can install BigInteger with [npm](https://npmjs.org/)
 Then you can include it in your code:
 
 	var bigInt = require("big-integer");
+	
+The unit tests are contained in the `BigInteger.test.js` file. You can [run them online from GitHub](http://peterolson.github.io/BigInteger.js/Test.htm).
 
 `bigInt(number, [base])`
 ---

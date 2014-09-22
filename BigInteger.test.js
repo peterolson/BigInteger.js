@@ -87,13 +87,13 @@ var testResults = (function (bigInt) {
             return factorial(bigInt(10)).equals(res);
         })(),
         "Immutable during add": (function () {        	
-        	var a = bigInt("14930352");
-        	a.add(9227465);
+            var a = bigInt("14930352");
+            a.add(9227465);
             return a.equals("14930352");
         })(),
         "Immutable during minus": (function () {        	
-        	var a = bigInt("14930352");
-        	a.minus(9227465);
+            var a = bigInt("14930352");
+            a.minus(9227465);
             return a.equals("14930352");
         })(),
         "100 Factorial": (function () {
@@ -129,7 +129,8 @@ var testResults = (function (bigInt) {
         "negabinary 111100001111 = -1285": bigInt("111100001111", -2).equals(-1285),
         "'<5><10>35<75><44><88><145735>' in base -154654987 = -10580775516023906041313915824083789618333601575504631498551": bigInt("<5><10>35<75><44><88><145735>", bigInt(-154654987)).equals("-10580775516023906041313915824083789618333601575504631498551"),
         "0 * -1 toString is 0": bigInt(0).multiply(-1).toString() === "0", // see Issue 13
-        "2e7 = 2E7": bigInt("2e7").equals("2E7")
+        "2e7 = 2E7": bigInt("2e7").equals("2E7"),
+        "-1 base 16 = -1 base 10": bigInt("-1", 16).equals("-1") // see pull request 15
     });
     return assertions.join("<br>");
 })(bigInt);

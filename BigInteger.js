@@ -11,6 +11,16 @@ var bigInt = (function () {
         this.sign = sign;
     }
 
+    function trim(value) {
+        var trimmedValue = [], highestDigit = 0;
+        for (var i = value.length - 1; i >= 0; i--) {
+            if (i > highestDigit && value[i] === 0) continue;
+            highestDigit = i;
+            trimmedValue[i] = value[i];
+        }
+        return trimmedValue;
+    }
+
     BigInteger.prototype.negate = function () {
         return new BigInteger(this.value, !this.sign);
     };
@@ -33,7 +43,7 @@ var bigInt = (function () {
             sum -= carry * base;
             result.push(sum);
         }
-        return new BigInteger(result, this.sign);
+        return new BigInteger(trim(result), this.sign);
     };
     BigInteger.prototype.plus = function (n) {
         return this.add(n);
@@ -54,7 +64,7 @@ var bigInt = (function () {
             var minuend = (borrow * base) + tmp - bi;
             result.push(minuend);
         }
-        return new BigInteger(result, sign.positive);
+        return new BigInteger(trim(result), sign.positive);
     };
     BigInteger.prototype.minus = function (n) {
         return this.subtract(n);
@@ -99,7 +109,7 @@ var bigInt = (function () {
             sum -= carry * base;
             result.push(sum);
         }
-        return new BigInteger(result, sign);
+        return new BigInteger(trim(result), sign);
     };
     BigInteger.prototype.times = function (n) {
         return this.multiply(n);
@@ -122,8 +132,8 @@ var bigInt = (function () {
         }
         result.reverse();
         return {
-            quotient: new BigInteger(result, sign),
-            remainder: new BigInteger(remainder, this.sign)
+            quotient: new BigInteger(trim(result), sign),
+            remainder: new BigInteger(trim(remainder), this.sign)
         };
     };
     BigInteger.prototype.divide = function (n) {
@@ -141,18 +151,60 @@ var bigInt = (function () {
     BigInteger.prototype.pow = function (n) {
         n = parseInput(n);
         var a = this, b = n, r = ONE;
-        if (b.equals(0)) return r;
-        if (a.equals(0) || b.lesser(0)) return ZERO;
+        if (b.equals(ZERO)) return r;
+        if (a.equals(ZERO) || b.lesser(ZERO)) return ZERO;
         while (true) {
-            if (b.mod(2).equals(1)) {
+            if (b.isOdd()) {
                 r = r.times(a);
             }
-            b = b.over(2);
-            if (b.equals(0)) break;
+            b = b.divide(2);
+            if (b.equals(ZERO)) break;
             a = a.times(a);
         }
         return r;
     };
+    BigInteger.prototype.modPow = function (exp, mod) {
+        exp = parseInput(exp);
+        mod = parseInput(mod);
+        if (mod.equals(ZERO)) throw new Error("Cannot take modPow with modulus 0");
+        var r = ONE,
+            base = this.mod(mod);
+        if (base.equals(ZERO)) return ZERO;
+        while (exp.greater(0)) {
+            if (exp.isOdd()) r = r.multiply(base).mod(mod);
+            exp = exp.divide(2);
+            base = base.square().mod(mod);
+        }
+        return r;
+    };
+    BigInteger.prototype.square = function () {
+        return this.multiply(this);
+    };
+    function gcd(a, b) {
+        a = parseInput(a).abs();
+        b = parseInput(b).abs();
+        if (a.equals(b)) return a;
+        if (a.equals(ZERO)) return b;
+        if (b.equals(ZERO)) return a;
+        if (a.isEven()) {
+            if (b.isOdd()) {
+                return gcd(a.divide(2), b);
+            }
+            return gcd(a.divide(2), b.divide(2)).multiply(2);
+        }
+        if (b.isEven()) {
+            return gcd(a, b.divide(2));
+        }
+        if (a.greater(b)) {
+            return gcd(a.subtract(b).divide(2), b);
+        }
+        return gcd(b.subtract(a).divide(2), a);
+    }
+    function lcm(a, b) {
+        a = parseInput(a).abs();
+        b = parseInput(b).abs();
+        return a.multiply(b).divide(gcd(a, b));
+    }
     BigInteger.prototype.next = function () {
         return this.add(1);
     };
@@ -197,6 +249,16 @@ var bigInt = (function () {
     BigInteger.prototype.lesserOrEquals = function (n) {
         return this.compare(n) <= 0;
     };
+    function max (a, b) {
+        a = parseInput(a);
+        b = parseInput(b);
+        return a.greater(b) ? a : b;
+    }
+    function min (a, b) {
+        a = parseInput(a);
+        b = parseInput(b);
+        return a.lesser(b) ? a : b;
+    }
     BigInteger.prototype.isPositive = function () {
         return this.sign === sign.positive;
     };
@@ -209,6 +271,49 @@ var bigInt = (function () {
     BigInteger.prototype.isOdd = function () {
         return this.value[0] % 2 === 1;
     };
+    BigInteger.prototype.isUnit = function () {
+        return this.value.length === 1 && this.value[0] === 1;
+    };
+    BigInteger.prototype.isDivisibleBy = function (n) {
+        return this.mod(n).equals(ZERO);
+    };
+    BigInteger.prototype.isPrime = function () {
+        var n = this.abs(),
+            nPrev = n.prev();
+        if (n.isUnit()) return false;
+        if (n.equals(2) || n.equals(3) || n.equals(5)) return true;
+        if (n.isEven() || n.isDivisibleBy(3) || n.isDivisibleBy(5)) return false;
+        if (n.lesser(25)) return true;
+        var a = [2, 3, 5, 7, 11, 13, 17, 19],
+            b = nPrev,
+            d, t, i, x;
+        while (b.isEven()) b = b.divide(2);
+        for (i = 0; i < a.length; i++) {
+            x = bigInt(a[i]).modPow(b, n);
+            if (x.equals(ONE) || x.equals(nPrev)) continue;
+            for (t = true, d = b; t && d.lesser(nPrev); d = d.multiply(2)) {
+                x = x.square().mod(n);
+                if (x.equals(nPrev)) t = false;
+            }
+            if (t) return false;
+        }
+        return true;
+    };
+    function randBetween (a, b) {
+        a = parseInput(a);
+        b = parseInput(b);
+        var low = min(a, b), high = max(a, b);
+        var range = high.subtract(low);
+        var length = range.value.length - 1;
+        var result = [], restricted = true;
+        for (var i = length; i >= 0; i--) {
+            var top = restricted ? range.value[i] : base;
+            var digit = Math.floor(Math.random() * top);
+            result.unshift(digit);
+            if (digit < top) restricted = false;
+        }
+        return low.add(new BigInteger(result, false));
+    }
     BigInteger.prototype.toString = function (b) {
         var first = this;
         var str = "", len = first.value.length;
@@ -261,7 +366,7 @@ var bigInt = (function () {
 
 
     function parseInput(text) {
-        if (typeof text === "object") return text;
+        if (text instanceof BigInteger) return text;
         if (Math.abs(+text) < base && +text === (+text | 0)) {
             var value = +text;
             return new BigInteger([Math.abs(value)], (value < 0 || (1 / value) === -Infinity));
@@ -273,7 +378,7 @@ var bigInt = (function () {
             text = text.slice(1);
         }
         var text = text.split(/e/i);
-        if (text.length > 2) throw new Error("Invalid integer");
+        if (text.length > 2) throw new Error("Invalid integer: " + text.join("e"));
         if (text[1]) {
             var exp = text[1];
             if (exp[0] === "+") exp = exp.slice(1);
@@ -287,7 +392,7 @@ var bigInt = (function () {
         text = text[0];
         if (text === "-0") text = "0";
         var isValid = /^([0-9][0-9]*)$/.test(text);
-        if (!isValid) throw new Error("Invalid integer");
+        if (!isValid) throw new Error("Invalid integer: " + text);
         while (text.length) {
             var divider = text.length > logBase ? text.length - logBase : 0;
             value.push(+text.slice(divider));
@@ -335,6 +440,11 @@ var bigInt = (function () {
     fnReturn.zero = ZERO;
     fnReturn.one = ONE;
     fnReturn.minusOne = MINUS_ONE;
+    fnReturn.randBetween = randBetween;
+    fnReturn.min = min;
+    fnReturn.max = max;
+    fnReturn.gcd = gcd;
+    fnReturn.lcm = lcm;
     return fnReturn;
 })();
 

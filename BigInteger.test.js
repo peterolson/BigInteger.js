@@ -80,8 +80,8 @@ var testResults = (function (bigInt) {
         "135313531353135313531353135312 is even": bigInt("135313531353135313531353135312").isEven(),
         "135313531353135313531353135313 is odd": bigInt("135313531353135313531353135313").isOdd(),
         "100 ^ 56 !== 0": bigInt(100).pow(56).toString() !== "0", //https://github.com/peterolson/BigInteger.js/issues/5
-        "Leading zeroes": bigInt("10000000").toString() == "10000000",
-        "Leading zeroes 2": bigInt("100001010000000").toString() == "100001010000000",
+        "Leading zeroes": bigInt("10000000").toString() === "10000000",
+        "Leading zeroes 2": bigInt("100001010000000").toString() === "100001010000000",
         "10 Factorial": (function () {
             var res = "3628800"; //http://www.wolframalpha.com/input/?i=10%21
             return factorial(bigInt(10)).equals(res);
@@ -130,7 +130,19 @@ var testResults = (function (bigInt) {
         "'<5><10>35<75><44><88><145735>' in base -154654987 = -10580775516023906041313915824083789618333601575504631498551": bigInt("<5><10>35<75><44><88><145735>", bigInt(-154654987)).equals("-10580775516023906041313915824083789618333601575504631498551"),
         "0 * -1 toString is 0": bigInt(0).multiply(-1).toString() === "0", // see Issue 13
         "2e7 = 2E7": bigInt("2e7").equals("2E7"),
-        "-1 base 16 = -1 base 10": bigInt("-1", 16).equals("-1") // see pull request 15
+        "-1 base 16 = -1 base 10": bigInt("-1", 16).equals("-1"), // see pull request 15
+        "65536 squared is 4294967296": bigInt("65536").square().equals("4294967296"),
+        "1 is unit": bigInt.one.isUnit(),
+        "-1 is unit": bigInt.minusOne.isUnit(),
+        "5 is not a unit": !bigInt(5).isUnit(),
+        "4^13 (mod 497) = 445": bigInt(4).modPow(13, 497).equals(445),
+        "max(77,432) = 432": bigInt.max(77, 432).equals(432),
+        "min(32, 19) = 19": bigInt.min(32, 19).equals(19),
+        "lcm(21,6)=42": bigInt.lcm(21, 6).equals(42),
+        "gcd(42,56)=14": bigInt.gcd(42, 56).equals(14),
+        "999 is divisible by 333": bigInt(999).isDivisibleBy(333),
+        "7919 is prime": bigInt(7919).isPrime(),
+        "7917 is not prime": !bigInt(7917).isPrime()
     });
     return assertions.join("<br>");
 })(bigInt);

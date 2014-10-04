@@ -112,6 +112,12 @@ Checks if two numbers are equal.
  - `bigInt(5).equals(5)` => `true`
  - `bigInt(4).equals(7)` => `false`
 
+`gcd(a, b)`
+---
+Finds the greatest common denominator of `a` and `b`.
+
+ - `bigInt.gcd(42,56)` => `14`
+
 `greater(number)`
 ---
 Checks if the first number is greater than the second.
@@ -128,14 +134,21 @@ Checks if the first number is greater than or equal to the second.
  - `bigInt(5).greaterOrEquals(5)` => `true`
  - `bigInt(5).greaterOrEquals(4)` => `true`
 
-`isEven(number)`
+`isDivisibleBy(number)`
+---
+Returns `true` if the first number is divisible by the second number, `false` otherwise.
+
+ - `bigInt(999).isDivisibleBy(333)` => `true`
+ - `bigInt(99).isDivisibleBy(5)` => `false`
+
+`isEven()`
 ---
 Returns `true` if the number is even, `false` otherwise.
 
  - `bigInt(6).isEven()` => `true`
  - `bigInt(3).isEven()` => `false`
 
-`isNegative(number)`
+`isNegative()`
 ---
 Returns `true` if the number is negative, `false` otherwise.
 Returns `false` for `0` and `true` for `-0`.
@@ -143,20 +156,41 @@ Returns `false` for `0` and `true` for `-0`.
  - `bigInt(-23).isNegative()` => `true`
  - `bigInt(50).isNegative()` => `false`
 
-`isOdd(number)`
+`isOdd()`
 ---
 Returns `true` if the number is odd, `false` otherwise.
 
  - `bigInt(13).isOdd()` => `true`
  - `bigInt(40).isOdd()` => `false`
 
-`isPositive(number)`
+`isPrime()`
+---
+Returns `true` if the number is prime, `false` otherwise.
+
+ - `bigInt(5).isPrime()` => `true`
+ - `bigInt(6).isPrime()` => `false`
+
+`isPositive()`
 ---
 Return `true` if the number is positive, `false` otherwise.
 Returns `true` for `0` and `false` for `-0`.
 
  - `bigInt(54).isPositive()` => `true`
  - `bigInt(-1).isPositive()` => `false`
+
+`isUnit()`
+---
+Return `true` if the number is `1` or `-1`, `false` otherwise.
+
+ - `bigInt.one.isUnit()` => `true`
+ - `bigInt.minusOne.isUnit()` => `true`
+ - `bigInt(5).isUnit()` => `false`
+
+`lcm(a,b)`
+---
+Finds the least common multiple of `a` and `b`.
+
+ - `bigInt.lcm(21, 6)` => `42`
 
 `lesser(number)`
 ---
@@ -174,6 +208,18 @@ Checks if the first number is less than or equal to the second.
  - `bigInt(5).lesserOrEquals(5)` => `true`
  - `bigInt(5).lesserOrEquals(4)` => `false`
 
+`max(a,b)`
+---
+Returns the largest of `a` and `b`.
+
+ - `bigInt.max(77, 432)` => `432`
+
+`min(a,b)`
+---
+Returns the smallest of `a` and `b`.
+
+ - `bigInt.min(77, 432)` => `77`
+
 `minus(number)`
 ---
 Alias for the `subtract` method.
@@ -186,6 +232,12 @@ Performs division and returns the remainder, disregarding the quotient. The sign
 
  - `bigInt(59).mod(5)` =>  `4`
  - `bigInt(-5).mod(2)` => `-1`
+
+`modPow(exp, mod)`
+---
+Takes the number to the power `exp` modulo `mod`.
+
+ - `bigInt(10).modPow(3, 30)` => `10`
 
 `multiply(number)`
 ---
@@ -232,11 +284,23 @@ Subtracts one from the number.
 
  - `bigInt(6).prev()` => `5`
 
+`square()`
+---
+Squares the number
+
+ - `bigInt(3).square()` => `9`
+
 `subtract(number)`
 ---
 Performs subtraction.
 
  - `bigInt(3).subtract(5)` => `-2`
+
+`randBetween(min, max)`
+---
+Returns a random number between `min` and `max`.
+
+ - `bigInt.randBetween("-1e100", "1e100")` => (for example) `8494907165436643479673097939554427056789510374838494147955756275846226209006506706784609314471378745`
 
 `remainder(number)`
 ---

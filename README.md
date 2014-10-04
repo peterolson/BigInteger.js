@@ -294,12 +294,6 @@ Returns a random number between `min` and `max`.
 ---
 Alias for the `mod` method.
 
-`times(number)`
----
-Alias for the `multiply` method.
-
- - `bigInt(111).times(111)` => `12321`
-
 `square()`
 ---
 Squares the number
@@ -311,6 +305,12 @@ Squares the number
 Performs subtraction.
 
  - `bigInt(3).subtract(5)` => `-2`
+
+`times(number)`
+---
+Alias for the `multiply` method.
+
+ - `bigInt(111).times(111)` => `12321`
 
 `toJSNumber()`
 ---

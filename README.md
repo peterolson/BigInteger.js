@@ -284,18 +284,6 @@ Subtracts one from the number.
 
  - `bigInt(6).prev()` => `5`
 
-`square()`
----
-Squares the number
-
- - `bigInt(3).square()` => `9`
-
-`subtract(number)`
----
-Performs subtraction.
-
- - `bigInt(3).subtract(5)` => `-2`
-
 `randBetween(min, max)`
 ---
 Returns a random number between `min` and `max`.
@@ -311,6 +299,18 @@ Alias for the `mod` method.
 Alias for the `multiply` method.
 
  - `bigInt(111).times(111)` => `12321`
+
+`square()`
+---
+Squares the number
+
+ - `bigInt(3).square()` => `9`
+
+`subtract(number)`
+---
+Performs subtraction.
+
+ - `bigInt(3).subtract(5)` => `-2`
 
 `toJSNumber()`
 ---

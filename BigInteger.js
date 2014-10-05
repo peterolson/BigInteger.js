@@ -1,4 +1,4 @@
-﻿"use strict";
+"use strict";
 var bigInt = (function () {
     var base = 10000000, logBase = 7;
     var sign = {
@@ -116,7 +116,7 @@ var bigInt = (function () {
     };
     BigInteger.prototype.divmod = function (n) {
         n = parseInput(n);
-        var sign = this.sign !== n.sign;
+        var quotientSign = this.sign !== n.sign;
         if (this.equals(0)) return {
             quotient: new BigInteger([0], sign.positive),
             remainder: new BigInteger([0], sign.positive)
@@ -132,7 +132,7 @@ var bigInt = (function () {
         }
         result.reverse();
         return {
-            quotient: new BigInteger(trim(result), sign),
+            quotient: new BigInteger(trim(result), quotientSign),
             remainder: new BigInteger(trim(remainder), this.sign)
         };
     };

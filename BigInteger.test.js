@@ -142,7 +142,8 @@ var testResults = (function (bigInt) {
         "gcd(42,56)=14": bigInt.gcd(42, 56).equals(14),
         "999 is divisible by 333": bigInt(999).isDivisibleBy(333),
         "7919 is prime": bigInt(7919).isPrime(),
-        "7917 is not prime": !bigInt(7917).isPrime()
+        "7917 is not prime": !bigInt(7917).isPrime(),
+        "(0/1) + -100 = -100": (bigInt("0")).divide(bigInt("1")).add(bigInt("-100")).toString() === "-100" // see pull request 16
     });
     return assertions.join("<br>");
 })(bigInt);

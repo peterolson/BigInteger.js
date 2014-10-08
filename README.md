@@ -323,10 +323,13 @@ Override Methods
 
 `toString(radix = 10)`
 ---
-Converts a bigInt to a string.
+Converts a bigInt to a string. There is an optional radix parameter (which defaults to 10) that converts the number to the given radix. Only integer radixes from 2 to 26 are permitted.
 
+ - `bigInt("1e9").toString()` => `"1000000000"`
+ - `bigInt("1e9").toString(16)` => `"3b9aca00"`
+ 
 `valueOf()`
 ---
 Converts a bigInt to a native Javascript number. This override allows you to use native arithmetic operators without explicit conversion:
 
-    bigInt("100") + bigInt("200") === 300; //true
+ - `bigInt("100") + bigInt("200") === 300; //true`

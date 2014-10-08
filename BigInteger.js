@@ -314,12 +314,59 @@ var bigInt = (function () {
         }
         return low.add(new BigInteger(result, false));
     }
-    BigInteger.prototype.toString = function (b) {
+    BigInteger.prototype.toString = function (radix) {
+        if (radix === undefined) {
+            radix = 10;
+        }
         var first = this;
         var str = "", len = first.value.length;
-        while (len--) {
-            if (first.value[len].toString().length === 8) str += first.value[len];
-            else str += (base.toString() + first.value[len]).slice(-logBase);
+        if (len === 0) {
+            return "0";
+        }
+        if (radix === 10) {
+            while (len--) {
+                if (first.value[len].toString().length === 8) str += first.value[len];
+                else str += (base.toString() + first.value[len]).slice(-logBase);
+            }
+        } else {
+            var groupLength = 0;
+            var groupRadix = 1;
+            var y = Math.floor(base / radix);
+            while (y >= groupRadix) {
+                groupLength += 1;
+                groupRadix *= radix;
+            }
+            var size = len + Math.floor((len - 1) / groupLength) + 1;
+            var remainder = [];
+            var n = -1;
+            while (++n < len) {
+                remainder[n] = first.value[n];
+            }
+            var k = size;
+            while (len !== 0) {
+                var carry = 0;
+                var i = len;
+                while (--i >= 0) {
+                    carry = carry * base + remainder[i];
+                    var q = Math.floor(carry / groupRadix);
+                    remainder[i] = q;
+                    carry -= q * groupRadix;
+                }
+                while (len !== 0 && remainder[len - 1] === 0) {
+                    len -= 1;
+                }
+                k -= 1;
+                remainder[k] = carry;
+            }
+            str += remainder[k].toString(radix);
+            while (++k < size) {
+                var t = remainder[k].toString(radix);
+                var j = groupLength - t.length;
+                while (--j >= 0) {
+                    str += "0";
+                }
+                str += t;
+            }
         }
         while (str[0] === "0") {
             str = str.slice(1);

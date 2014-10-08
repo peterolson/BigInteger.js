@@ -143,7 +143,8 @@ var testResults = (function (bigInt) {
         "999 is divisible by 333": bigInt(999).isDivisibleBy(333),
         "7919 is prime": bigInt(7919).isPrime(),
         "7917 is not prime": !bigInt(7917).isPrime(),
-        "(0/1) + -100 = -100": (bigInt("0")).divide(bigInt("1")).add(bigInt("-100")).toString() === "-100" // see pull request 16
+        "(0/1) + -100 = -100": (bigInt("0")).divide(bigInt("1")).add(bigInt("-100")).toString() === "-100", // see pull request 16
+        "dec 366900685503779409298642816707647664013657589336 = hex 4044654fce69424a651af2825b37124c25094658": bigInt("366900685503779409298642816707647664013657589336").toString(16) === "4044654fce69424a651af2825b37124c25094658"
     });
     return assertions.join("<br>");
 })(bigInt);

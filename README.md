@@ -321,7 +321,7 @@ Converts a bigInt into a native Javascript number. Loses precision for numbers o
 Override Methods
 ===
 
-`toString()`
+`toString(radix = 10)`
 ---
 Converts a bigInt to a string.
 

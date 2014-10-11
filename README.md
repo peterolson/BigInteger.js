@@ -323,10 +323,28 @@ Override Methods
 
 `toString(radix = 10)`
 ---
-Converts a bigInt to a string. There is an optional radix parameter (which defaults to 10) that converts the number to the given radix. Only integer radixes from 2 to 26 are permitted.
+Converts a bigInt to a string. There is an optional radix parameter (which defaults to 10) that converts the number to the given radix. Digits in the range `10-36` will use the letters `a-z`.
 
  - `bigInt("1e9").toString()` => `"1000000000"`
  - `bigInt("1e9").toString(16)` => `"3b9aca00"`
+
+Bases larger than 36 are supported. If a digit is larger than 36, it will be enclosed in angle brackets.
+
+ - `bigInt(567890).toString(100)` => `"<56><78><90>"`
+
+Negative bases are also supported.
+
+ - `bigInt(12345).toString(-10)` => `"28465"`
+
+Base 1 and base -1 are also supported.
+
+ - `bigInt(-15).toString(1)` => `"-111111111111111"`
+ - `bigInt(-15).toString(-1)` => `"101010101010101010101010101010"`
+
+Base 0 is only allowed for the number zero.
+
+ - `bigInt(0).toString(0)` => `0`
+ - `bigInt(1).toString(0)` => `Error: Cannot convert nonzero numbers to base 0.`
  
 `valueOf()`
 ---

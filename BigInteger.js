@@ -318,55 +318,15 @@ var bigInt = (function () {
         if (radix === undefined) {
             radix = 10;
         }
+        if (radix !== 10) return toBase(this, radix);
         var first = this;
         var str = "", len = first.value.length;
         if (len === 0) {
             return "0";
         }
-        if (radix === 10) {
-            while (len--) {
-                if (first.value[len].toString().length === 8) str += first.value[len];
-                else str += (base.toString() + first.value[len]).slice(-logBase);
-            }
-        } else {
-            var groupLength = 0;
-            var groupRadix = 1;
-            var y = Math.floor(base / radix);
-            while (y >= groupRadix) {
-                groupLength += 1;
-                groupRadix *= radix;
-            }
-            var size = len + Math.floor((len - 1) / groupLength) + 1;
-            var remainder = [];
-            var n = -1;
-            while (++n < len) {
-                remainder[n] = first.value[n];
-            }
-            var k = size;
-            while (len !== 0) {
-                var carry = 0;
-                var i = len;
-                while (--i >= 0) {
-                    carry = carry * base + remainder[i];
-                    var q = Math.floor(carry / groupRadix);
-                    remainder[i] = q;
-                    carry -= q * groupRadix;
-                }
-                while (len !== 0 && remainder[len - 1] === 0) {
-                    len -= 1;
-                }
-                k -= 1;
-                remainder[k] = carry;
-            }
-            str += remainder[k].toString(radix);
-            while (++k < size) {
-                var t = remainder[k].toString(radix);
-                var j = groupLength - t.length;
-                while (--j >= 0) {
-                    str += "0";
-                }
-                str += t;
-            }
+        while (len--) {
+            if (first.value[len].toString().length === 8) str += first.value[len];
+            else str += (base.toString() + first.value[len]).slice(-logBase);
         }
         while (str[0] === "0") {
             str = str.slice(1);
@@ -478,6 +438,50 @@ var bigInt = (function () {
         }
         return isNegative ? val.negate() : val;
     };
+
+    function stringify(digit) {
+        var v = digit.value;
+        if (v.length === 1 && v[0] <= 36) {
+            return "0123456789abcdefghijklmnopqrstuvwxyz".charAt(v[0]);
+        }
+        return "<" + v + ">";
+    }
+
+    function toBase(n, base) {
+        base = bigInt(base);
+        if (base.equals(0)) {
+            if (n.equals(0)) return "0";
+            throw new Error("Cannot convert nonzero numbers to base 0.");
+        }
+        if (base.equals(-1)) {
+            if (n.equals(0)) return "0";
+            if (n.lesser(0)) return Array(1 - n).join("10");
+            return "1" + Array(+n).join("01");
+        }
+        var minusSign = "";
+        if (n.isNegative() && base.isPositive()) {
+            minusSign = "-";
+            n = n.abs();
+        }
+        if (base.equals(1)) {
+            if (n.equals(0)) return "0";
+            return minusSign + Array(+n + 1).join(1);
+        }
+        var out = [];
+        var left = n, divmod;
+        while (left.lesser(0) || left.compareAbs(base) >= 0) {
+            divmod = left.divmod(base);
+            left = divmod.quotient;
+            var digit = divmod.remainder;
+            if (digit.lesser(0)) {
+                digit = base.minus(digit).abs();
+                left = left.next();
+            }
+            out.push(stringify(digit));
+        }
+        out.push(stringify(left));
+        return minusSign + out.reverse().join("");
+    }
 
     var fnReturn = function (a, b) {
         if (typeof a === "undefined") return ZERO;

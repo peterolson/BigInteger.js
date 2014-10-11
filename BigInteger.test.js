@@ -144,7 +144,10 @@ var testResults = (function (bigInt) {
         "7919 is prime": bigInt(7919).isPrime(),
         "7917 is not prime": !bigInt(7917).isPrime(),
         "(0/1) + -100 = -100": (bigInt("0")).divide(bigInt("1")).add(bigInt("-100")).toString() === "-100", // see pull request 16
-        "dec 366900685503779409298642816707647664013657589336 = hex 4044654fce69424a651af2825b37124c25094658": bigInt("366900685503779409298642816707647664013657589336").toString(16) === "4044654fce69424a651af2825b37124c25094658"
+        "dec 366900685503779409298642816707647664013657589336 = hex 4044654fce69424a651af2825b37124c25094658": bigInt("366900685503779409298642816707647664013657589336").toString(16) === "4044654fce69424a651af2825b37124c25094658",
+        "secretmessage000 converts to and from base -36": bigInt("secretmessage000", -36).toString(-36) === "secretmessage000",
+        "-256 == -100 base 16": bigInt(-256).toString(16) === "-100",
+        "256 in base 1 has 256 ones": bigInt(256).toString(1).length === 256
     });
     return assertions.join("<br>");
 })(bigInt);

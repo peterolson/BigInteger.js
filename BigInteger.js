@@ -384,6 +384,82 @@ var bigInt = (function () {
         }
         return low.add(new BigInteger(result, false));
     }
+
+    var powersOfTwo = [1];
+    while (powersOfTwo[powersOfTwo.length - 1] <= base) powersOfTwo.push(2 * powersOfTwo[powersOfTwo.length - 1]);
+    var powers2Length = powersOfTwo.length, highestPower2 = powersOfTwo[powers2Length - 1];
+
+    BigInteger.prototype.shiftLeft = function (n) {
+        if (!isSmall(n)) {
+            if (n.isNegative()) return this.shiftRight(n.abs());
+            return this.times(bigInt(2).pow(n));
+        }
+        n = +n;
+        if (n < 0) return this.shiftRight(-n);
+        var result = this;
+        while (n >= powers2Length) {
+            result = fastMultiply(result, highestPower2);
+            n -= powers2Length - 1;
+        }
+        return fastMultiply(result, powersOfTwo[n]);
+    };
+
+    BigInteger.prototype.shiftRight = function (n) {
+        if (!isSmall(n)) {
+            if (n.isNegative()) return this.shiftLeft(n.abs());
+            return this.over(bigInt(2).pow(n));
+        }
+        n = +n;
+        if (n < 0) return this.shiftLeft(-n);
+        var result = this;
+        while (n >= powers2Length) {
+            if (result.equals(ZERO)) return result;
+            result = fastDivMod(result, highestPower2).quotient;
+            n -= powers2Length - 1;
+        }
+        return fastDivMod(result, powersOfTwo[n]).quotient;
+    };
+
+    // Reference: http://en.wikipedia.org/wiki/Bitwise_operation#Mathematical_equivalents
+    function bitwise(x, y, fn) {
+        var sum = ZERO;
+        var limit = max(x.abs(), y.abs());
+        var n = 0, _2n = ONE;
+        while (_2n.lesserOrEquals(limit)) {
+            var xMod, yMod;
+            xMod = x.over(_2n).isEven() ? 0 : 1;
+            yMod = y.over(_2n).isEven() ? 0 : 1;
+
+            sum = sum.add(_2n.times(fn(xMod, yMod)));
+
+            _2n = fastMultiply(_2n, 2);
+        }
+        return sum;
+    }
+
+    BigInteger.prototype.not = function () {
+        var body = bitwise(this, this, function (xMod) { return (xMod + 1) % 2; });
+        return !this.sign ? body.negate() : body;
+    };
+
+    BigInteger.prototype.and = function (n) {
+        n = parseInput(n);
+        var body = bitwise(this, n, function (xMod, yMod) { return xMod * yMod; });
+        return this.sign && n.sign ? body.negate() : body;
+    };
+
+    BigInteger.prototype.or = function (n) {
+        n = parseInput(n);
+        var body = bitwise(this, n, function (xMod, yMod) { return (xMod + yMod + xMod * yMod) % 2 });
+        return this.sign || n.sign ? body.negate() : body;
+    };
+
+    BigInteger.prototype.xor = function (n) {
+        n = parseInput(n);
+        var body = bitwise(this, n, function (xMod, yMod) { return (xMod + yMod) % 2; });
+        return this.sign ^ n.sign ? body.negate() : body;
+    };
+
     BigInteger.prototype.toString = function (radix) {
         if (radix === undefined) {
             radix = 10;

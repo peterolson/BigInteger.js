@@ -72,6 +72,12 @@ Performs addition.
 
  - `bigInt(5).add(7)` => `12`
 
+`and(number)`
+---
+Performs the bitwise AND operation.
+
+ - `bigInt(6).and(3)` => `2`
+
 `compare(number)`
 ---
 Performs a comparison between two numbers. If the numbers are equal, it returns `0`. If the first number is greater, it returns `1`. If the first number is lesser, it returns `-1`.
@@ -251,6 +257,12 @@ Adds one to the number.
 
  - `bigInt(6).next()` => `7`
 
+`not()`
+---
+Performs the bitwise NOT operation.
+
+ - `bigInt(10).not()` => `-5`
+
 `notEquals(number)`
 ---
 Checks if two numbers are not equal.
@@ -259,6 +271,12 @@ Checks if two numbers are not equal.
  - `bigInt(4).notEquals(7)` => `true`
 
  - `bigInt(6).next()` => `7`
+
+`or(number)`
+---
+Performs the bitwise OR operation.
+
+ - `bigInt(13).or(10)` => `15`
 
 `over(number)`
 ---
@@ -294,6 +312,20 @@ Returns a random number between `min` and `max`.
 ---
 Alias for the `mod` method.
 
+`shiftLeft(n)`
+---
+Shifts the number left by `n` places in its binary representation. If a negative number is provided, it will shift right.
+
+ - `bigInt(8).shiftLeft(2)` => `32`
+ - `bigInt(8).shiftLeft(-2)` => `2`
+
+`shiftRight(n)`
+---
+Shifts the number right by `n` places in its binary representation. If a negative number is provided, it will shift left.
+
+ - `bigInt(8).shiftRight(2)` => `2`
+ - `bigInt(8).shiftRight(-2)` => `32`
+
 `square()`
 ---
 Squares the number
@@ -317,6 +349,12 @@ Alias for the `multiply` method.
 Converts a bigInt into a native Javascript number. Loses precision for numbers outside the range `[-9007199254740992, 9007199254740992]`.
 
  - `bigInt("18446744073709551616").toJSNumber()` => `18446744073709552000`
+
+`xor(number)`
+---
+Performs the bitwise XOR operation.
+
+ - `bigInt(12).xor(5)` => `9`
 
 Override Methods
 ===

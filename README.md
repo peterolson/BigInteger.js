@@ -111,6 +111,10 @@ Performs division and returns an object with two properties: `quotient` and `rem
  - `bigInt(59).divmod(5)` => `{quotient: bigInt(11), remainder: bigInt(4) }`
  - `bigInt(-5).divmod(2)` => `{quotient: bigInt(-2), remainder: bigInt(-1) }`
 
+`eq(number)`
+---
+Alias for the `equals` method.
+
 `equals(number)`
 ---
 Checks if two numbers are equal.
@@ -123,6 +127,11 @@ Checks if two numbers are equal.
 Finds the greatest common denominator of `a` and `b`.
 
  - `bigInt.gcd(42,56)` => `14`
+
+`geq(number)`
+---
+Alias for the `greaterOrEquals` method.
+
 
 `greater(number)`
 ---
@@ -139,6 +148,10 @@ Checks if the first number is greater than or equal to the second.
  - `bigInt(5).greaterOrEquals(6)` => `false`
  - `bigInt(5).greaterOrEquals(5)` => `true`
  - `bigInt(5).greaterOrEquals(4)` => `true`
+
+`gt(number)`
+---
+Alias for the `greater` method.
 
 `isDivisibleBy(number)`
 ---
@@ -198,6 +211,10 @@ Finds the least common multiple of `a` and `b`.
 
  - `bigInt.lcm(21, 6)` => `42`
 
+`leq(number)`
+---
+Alias for the `lesserOrEquals` method.
+
 `lesser(number)`
 ---
 Checks if the first number is lesser than the second.
@@ -213,6 +230,10 @@ Checks if the first number is less than or equal to the second.
  - `bigInt(5).lesserOrEquals(6)` => `true`
  - `bigInt(5).lesserOrEquals(5)` => `true`
  - `bigInt(5).lesserOrEquals(4)` => `false`
+
+`lt(number)`
+---
+Alias for the `lesser` method.
 
 `max(a,b)`
 ---
@@ -250,6 +271,10 @@ Takes the number to the power `exp` modulo `mod`.
 Performs multiplication.
 
  - `bigInt(111).multiply(111)` => `12321`
+
+`neq(number)`
+---
+Alias for the `notEquals` method.
 
 `next()`
 ---

@@ -319,6 +319,14 @@ var bigInt = (function () {
     BigInteger.prototype.lesserOrEquals = function (n) {
         return this.compare(n) <= 0;
     };
+
+    BigInteger.prototype.lt = BigInteger.prototype.lesser;
+    BigInteger.prototype.leq = BigInteger.prototype.lesserOrEquals;
+    BigInteger.prototype.gt = BigInteger.prototype.greater;
+    BigInteger.prototype.geq = BigInteger.prototype.greaterOrEquals;
+    BigInteger.prototype.eq = BigInteger.prototype.equals;
+    BigInteger.prototype.neq = BigInteger.prototype.notEquals;
+
     function max (a, b) {
         a = parseInput(a);
         b = parseInput(b);

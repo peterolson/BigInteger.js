@@ -47,6 +47,7 @@ var testResults = (function (bigInt) {
         "7 - 3 = 4": bigInt(7).minus(3).equals(4),
         "7 - -3 = 10": bigInt(7).minus(-3).equals(10),
         "-7 - 3 = -10": bigInt(-7).minus(3).equals(-10),
+        "-7 - -3 = -4": bigInt(-7).minus(-3).equals(-4),
         "0 - 5 = -5": bigInt(0).minus(5).equals(-5),
         "|-2| = 2": bigInt(-2).abs().equals(2),
         "100 * 100 = 10000": bigInt(100).times(100).equals(10000),

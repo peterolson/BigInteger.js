@@ -12,13 +12,82 @@ var bigInt = (function () {
     }
 
     function trim(value) {
-        var trimmedValue = [], highestDigit = 0;
-        for (var i = value.length - 1; i >= 0; i--) {
-            if (i > highestDigit && value[i] === 0) continue;
-            highestDigit = i;
-            trimmedValue[i] = value[i];
+        var i = value.length - 1;
+        while (value[i] === 0 && i > 0) i--;
+        return value.slice(0, i + 1);
+    }
+
+    function fastAdd(a, b) {
+        var sign = b < 0;
+        if (a.sign !== sign) {
+            if(sign) return fastSubtract(a.abs(), -b);
+            return fastSubtract(a.abs(), b).negate();
         }
-        return trimmedValue;
+        if (sign) b = -b;
+        var value = a.value,
+            result = [],
+            carry = 0;
+        for (var i = 0; i < value.length || carry > 0; i++) {
+            var sum = (value[i] || 0) + (i > 0 ? 0 : b) + carry;
+            carry = sum >= base ? 1 : 0;
+            result.push(sum % base);
+        }
+        return new BigInteger(result, a.sign);
+    }
+
+    function fastSubtract(a, b) {
+        if (a.sign !== (b < 0)) return fastAdd(a, -b);
+        var sign = false;
+        if (a.sign) sign = true;
+        var value = a.value;
+        if (value.length === 1 && value[0] < b) return new BigInteger([b - value[0]], !sign);
+        if (sign) b = -b;
+        var result = [],
+            borrow = 0;
+        for (var i = 0; i < value.length; i++) {
+            var tmp = value[i] - borrow - (i > 0 ? 0 : b);
+            borrow = tmp < 0 ? 1 : 0;
+            result.push((borrow * base) + tmp);
+        }
+
+        return new BigInteger(result, sign);
+    }
+
+    function fastMultiply(a, b) {
+        var value = a.value,
+            sign = b < 0,
+            result = [],
+            carry = 0;
+        if (sign) b = -b;
+        for (var i = 0; i < value.length || carry > 0; i++) {
+            var product = (value[i] || 0) * b + carry;
+            carry = (product / base) | 0;
+            result.push(product % base);
+        }
+        return new BigInteger(result, sign ? !a.sign : a.sign);
+    }
+
+    function fastDivMod(a, b) {
+        if (b === 0) throw new Error("Cannot divide by zero.");
+        var value = a.value,
+            sign = b < 0,
+            result = [],
+            remainder = 0;
+        if (sign) b = -b;
+        for (var i = value.length - 1; i >= 0; i--) {
+            var divisor = remainder * base + value[i];
+            remainder = divisor % b;
+            result.push(divisor / b | 0);
+        }
+        return {
+            quotient: new BigInteger(trim(result.reverse()), sign ? !a.sign : a.sign),
+            remainder: new BigInteger([remainder], a.sign)
+        };
+    }
+
+    function isSmall(n) {
+        return ((typeof n === "number" || typeof n === "string") && +n <= base) ||
+            (n instanceof BigInteger && n.value.length <= 1);
     }
 
     BigInteger.prototype.negate = function () {
@@ -28,6 +97,7 @@ var bigInt = (function () {
         return new BigInteger(this.value, sign.positive);
     };
     BigInteger.prototype.add = function (n) {
+        if(isSmall(n)) return fastAdd(this, +n);
         n = parseInput(n);
         if (this.sign !== n.sign) {
             if (this.sign === sign.positive) return this.abs().subtract(n.abs());
@@ -40,8 +110,7 @@ var bigInt = (function () {
         for (var i = 0; i < length || carry > 0; i++) {
             var sum = (a[i] || 0) + (b[i] || 0) + carry;
             carry = sum >= base ? 1 : 0;
-            sum -= carry * base;
-            result.push(sum);
+            result.push(sum % base);
         }
         return new BigInteger(trim(result), this.sign);
     };
@@ -49,6 +118,7 @@ var bigInt = (function () {
         return this.add(n);
     };
     BigInteger.prototype.subtract = function (n) {
+        if (isSmall(n)) return fastSubtract(this, +n);
         n = parseInput(n);
         if (this.sign !== n.sign) return this.add(n.negate());
         if (this.sign === sign.negative) return n.negate().subtract(this.negate());
@@ -61,8 +131,7 @@ var bigInt = (function () {
             var ai = a[i] || 0, bi = b[i] || 0;
             var tmp = ai - borrow;
             borrow = tmp < bi ? 1 : 0;
-            var minuend = (borrow * base) + tmp - bi;
-            result.push(minuend);
+            result.push((borrow * base) + tmp - bi);
         }
         return new BigInteger(trim(result), sign.positive);
     };
@@ -70,6 +139,7 @@ var bigInt = (function () {
         return this.subtract(n);
     };
     BigInteger.prototype.multiply = function (n) {
+        if (isSmall(n)) return fastMultiply(this, +n);
         n = parseInput(n);
         var sign = this.sign !== n.sign;
 
@@ -89,9 +159,8 @@ var bigInt = (function () {
             for (var j = 0; j < b.length || carry > 0; j++) {
                 var y = b[j];
                 var product = y ? (x * y) + carry : carry;
-                carry = product > base ? Math.floor(product / base) : 0;
-                product -= carry * base;
-                resultSum[i].push(product);
+                carry = Math.floor(product / base);
+                resultSum[i].push(product % base);
             }
         }
         var max = -1;
@@ -115,6 +184,7 @@ var bigInt = (function () {
         return this.multiply(n);
     };
     BigInteger.prototype.divmod = function (n) {
+        if (isSmall(n)) return fastDivMod(this, +n);
         n = parseInput(n);
         var quotientSign = this.sign !== n.sign;
         if (this.equals(0)) return {
@@ -206,10 +276,10 @@ var bigInt = (function () {
         return a.multiply(b).divide(gcd(a, b));
     }
     BigInteger.prototype.next = function () {
-        return this.add(1);
+        return fastAdd(this, 1);
     };
     BigInteger.prototype.prev = function () {
-        return this.subtract(1);
+        return fastSubtract(this, 1);
     };
     BigInteger.prototype.compare = function (n) {
         var first = this, second = parseInput(n);
@@ -337,10 +407,11 @@ var bigInt = (function () {
         return s + str;
     };
     BigInteger.prototype.toJSNumber = function () {
-        return +this.toString();
+        return this.valueOf();
     };
     BigInteger.prototype.valueOf = function () {
-        return this.toJSNumber();
+        if (this.value.length === 1) return this.sign ? -this.value[0] : this.value[0];
+        return +this.toString();
     };
 
     var goesInto = function (a, b) {

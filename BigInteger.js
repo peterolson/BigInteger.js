@@ -545,6 +545,11 @@ var bigInt = (function () {
             var exp = text[1];
             if (exp[0] === "+") exp = exp.slice(1);
             exp = parseInput(exp);
+            var decimalPlace = text[0].indexOf(".");
+            if (decimalPlace >= 0) {
+                exp = exp.minus(text[0].length - decimalPlace);
+                text[0] = text[0].slice(0, decimalPlace) + text[0].slice(decimalPlace + 1);
+            }
             if (exp.lesser(0)) throw new Error("Cannot include negative exponent part for integers");
             while (exp.notEquals(0)) {
                 text[0] += "0";

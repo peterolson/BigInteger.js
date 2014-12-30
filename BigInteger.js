@@ -174,7 +174,7 @@ var bigInt = (function () {
             for (var j = 0; j < resultSum.length; j++) {
                 sum += resultSum[j][i] || 0;
             }
-            carry = sum > base ? Math.floor(sum / base) : 0;
+            carry = sum >= base ? Math.floor(sum / base) : 0;
             sum -= carry * base;
             result.push(sum);
         }

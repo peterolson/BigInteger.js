@@ -352,6 +352,9 @@ var bigInt = (function () {
     BigInteger.prototype.isUnit = function () {
         return this.value.length === 1 && this.value[0] === 1;
     };
+    BigInteger.prototype.isZero = function () {
+        return this.value.length === 1 && this.value[0] === 0;
+    };
     BigInteger.prototype.isDivisibleBy = function (n) {
         return this.mod(n).equals(ZERO);
     };

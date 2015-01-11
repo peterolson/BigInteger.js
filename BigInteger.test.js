@@ -133,10 +133,10 @@ var testResults = (function (bigInt) {
         //"0 * -1 toString is 0": bigInt(0).multiply(-1).toString() === "0", // see Issue 13
         //"2e7 = 2E7": bigInt("2e7").equals("2E7"),
         "-1 base 16 = -1 base 10": bigInt("-1", 16).equals("-1"), // see pull request 15
-        "65536 squared is 4294967296": bigInt("65536").square().equals("4294967296"),
-        "1 is unit": bigInt.one.isUnit(),
-        "-1 is unit": bigInt.minusOne.isUnit(),
-        "5 is not a unit": !bigInt(5).isUnit(),
+        //"65536 squared is 4294967296": bigInt("65536").square().equals("4294967296"),
+        //"1 is unit": bigInt.one.isUnit(),
+        //"-1 is unit": bigInt.minusOne.isUnit(),
+        //"5 is not a unit": !bigInt(5).isUnit(),
         "4^13 (mod 497) = 445": bigInt(4).modPow(13, 497).equals(445),
         "max(77,432) = 432": bigInt.max(77, 432).equals(432),
         "min(32, 19) = 19": bigInt.min(32, 19).equals(19),

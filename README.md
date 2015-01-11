@@ -199,11 +199,19 @@ Returns `false` for `0` and `-0`.
 
 `isUnit()`
 ---
-Return `true` if the number is `1` or `-1`, `false` otherwise.
+Returns `true` if the number is `1` or `-1`, `false` otherwise.
 
  - `bigInt.one.isUnit()` => `true`
  - `bigInt.minusOne.isUnit()` => `true`
  - `bigInt(5).isUnit()` => `false`
+
+`isZero()`
+---
+Return `true` if the number is `0` or `-0`, `false` otherwise.
+
+ - `bigInt.zero.isZero()` => `true`
+ - `bigInt("-0").isZero()` => `true`
+ - `bigInt(50).isZero()` => `false`
 
 `lcm(a,b)`
 ---

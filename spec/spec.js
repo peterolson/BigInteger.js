@@ -441,6 +441,12 @@ describe("BigInteger", function () {
     });
 
     describe("Square", function () {
+        it("works", function () {
+            expect(bigInt(0).square()).toEqual(0);
+            expect(bigInt(16).square()).toEqual(256);
+            expect(bigInt(-16).square()).toEqual(256);
+            expect(bigInt("65536").square()).toEqual("4294967296");
+        });
     });
 
     describe("Increment and decrement", function () {
@@ -531,6 +537,18 @@ describe("BigInteger", function () {
 
             expect(bigInt("-1026377777777777").isOdd()).toBe(true);
             expect(bigInt("-1026377777777777").isEven()).toBe(false);
+        });
+    });
+
+    describe("isUnit", function () {
+        it("works", function () {
+            expect(bigInt.one.isUnit()).toBe(true);
+            expect(bigInt.minusOne.isUnit()).toBe(true);
+            expect(bigInt.zero.isUnit()).toBe(false);
+            expect(bigInt(5).isUnit()).toBe(false);
+            expect(bigInt(-5).isUnit()).toBe(false);
+            expect(bigInt("654609649089416160").isUnit()).toBe(false);
+            expect(bigInt("-98410980984981094").isUnit()).toBe(false);
         });
     });
 

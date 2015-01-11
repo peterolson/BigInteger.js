@@ -15,7 +15,7 @@ Then you can include it in your code:
 
 	var bigInt = require("big-integer");
 	
-The unit tests are contained in the `BigInteger.test.js` file. You can [run them online from GitHub](http://peterolson.github.io/BigInteger.js/spec/SpecRunner.htm).
+The unit tests are contained in the `spec/spec.js` file. You can [run them online from GitHub](http://peterolson.github.io/BigInteger.js/spec/SpecRunner.html).
 
 `bigInt(number, [base])`
 ---

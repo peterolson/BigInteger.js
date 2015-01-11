@@ -356,6 +356,8 @@ var bigInt = (function () {
         return this.value.length === 1 && this.value[0] === 0;
     };
     BigInteger.prototype.isDivisibleBy = function (n) {
+        n = parseInput(n);
+        if (n.isZero()) return false;
         return this.mod(n).equals(ZERO);
     };
     BigInteger.prototype.isPrime = function () {

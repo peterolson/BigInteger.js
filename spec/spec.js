@@ -440,12 +440,54 @@ describe("BigInteger", function () {
         });
     });
 
+    describe("Power modulo", function () {
+        it("works", function () {
+            expect(bigInt(4).modPow(13, 497)).toEqual(445);
+
+            // See Project Euler problem #97
+            //   https://projecteuler.net/problem=97
+            expect(bigInt(28433).times(bigInt(2).modPow(7830457, "1e10")).plus(1).mod("1e10")).toEqual(8739992577);
+        });
+    });
+
     describe("Square", function () {
         it("works", function () {
             expect(bigInt(0).square()).toEqual(0);
             expect(bigInt(16).square()).toEqual(256);
             expect(bigInt(-16).square()).toEqual(256);
             expect(bigInt("65536").square()).toEqual("4294967296");
+        });
+    });
+
+    describe("min and max", function () {
+        it("work", function () {
+            expect(bigInt.max(6, 6)).toEqual(6);
+            expect(bigInt.max(77, 432)).toEqual(432);
+            expect(bigInt.max(432, 77)).toEqual(432);
+            expect(bigInt.max(77, -432)).toEqual(77);
+            expect(bigInt.max(432, -77)).toEqual(432);
+            expect(bigInt.max(-77, 432)).toEqual(432);
+            expect(bigInt.max(-432, 77)).toEqual(77);
+            expect(bigInt.max(-77, -432)).toEqual(-77);
+            expect(bigInt.max(-432, -77)).toEqual(-77);
+
+            expect(bigInt.min(6, 6)).toEqual(6);
+            expect(bigInt.min(77, 432)).toEqual(77);
+            expect(bigInt.min(432, 77)).toEqual(77);
+            expect(bigInt.min(77, -432)).toEqual(-432);
+            expect(bigInt.min(432, -77)).toEqual(-77);
+            expect(bigInt.min(-77, 432)).toEqual(-77);
+            expect(bigInt.min(-432, 77)).toEqual(-432);
+            expect(bigInt.min(-77, -432)).toEqual(-432);
+            expect(bigInt.min(-432, -77)).toEqual(-432);
+        });
+    });
+
+    describe("lcm and gcd", function () {
+        it("work", function () {
+            expect(bigInt.lcm(21, 6)).toEqual(42);
+            expect(bigInt.gcd(42, 56)).toEqual(14);
+            expect(bigInt.gcd(17, 103)).toEqual(1);
         });
     });
 
@@ -540,15 +582,11 @@ describe("BigInteger", function () {
         });
     });
 
-    describe("isUnit", function () {
+    describe("isDivisibleBy", function () {
         it("works", function () {
-            expect(bigInt.one.isUnit()).toBe(true);
-            expect(bigInt.minusOne.isUnit()).toBe(true);
-            expect(bigInt.zero.isUnit()).toBe(false);
-            expect(bigInt(5).isUnit()).toBe(false);
-            expect(bigInt(-5).isUnit()).toBe(false);
-            expect(bigInt("654609649089416160").isUnit()).toBe(false);
-            expect(bigInt("-98410980984981094").isUnit()).toBe(false);
+            expect(bigInt(999).isDivisibleBy(333)).toBe(true);
+            expect(bigInt(999).isDivisibleBy(331)).toBe(false);
+            expect(bigInt(999).isDivisibleBy(0)).toBe(false);
         });
     });
 
@@ -564,6 +602,30 @@ describe("BigInteger", function () {
             for (var i = 0; i < nonPrimes.length; i++) {
                 expect(bigInt(nonPrimes[i]).isPrime()).toBe(false);
             }
+        });
+    });
+
+    describe("isUnit", function () {
+        it("works", function () {
+            expect(bigInt.one.isUnit()).toBe(true);
+            expect(bigInt.minusOne.isUnit()).toBe(true);
+            expect(bigInt.zero.isUnit()).toBe(false);
+            expect(bigInt(5).isUnit()).toBe(false);
+            expect(bigInt(-5).isUnit()).toBe(false);
+            expect(bigInt("654609649089416160").isUnit()).toBe(false);
+            expect(bigInt("-98410980984981094").isUnit()).toBe(false);
+        });
+    });
+
+    describe("isZero", function () {
+        it("works", function () {
+            expect(bigInt.zero.isZero()).toBe(true);
+            expect(bigInt(0).isZero()).toBe(true);
+            expect(bigInt("-0").isZero()).toBe(true);
+            expect(bigInt(15).isZero()).toBe(false);
+            expect(bigInt(-15).isZero()).toBe(false);
+            expect(bigInt("63213098189462109840").isZero()).toBe(false);
+            expect(bigInt("-64343745644564564563").isZero()).toBe(false);
         });
     });
 

@@ -15,7 +15,7 @@ Then you can include it in your code:
 
 	var bigInt = require("big-integer");
 	
-The unit tests are contained in the `BigInteger.test.js` file. You can [run them online from GitHub](http://peterolson.github.io/BigInteger.js/Test.htm).
+The unit tests are contained in the `BigInteger.test.js` file. You can [run them online from GitHub](http://peterolson.github.io/BigInteger.js/spec/SpecRunner.htm).
 
 `bigInt(number, [base])`
 ---
@@ -170,7 +170,7 @@ Returns `true` if the number is even, `false` otherwise.
 `isNegative()`
 ---
 Returns `true` if the number is negative, `false` otherwise.
-Returns `false` for `0` and `true` for `-0`.
+Returns `false` for `0` and `-0`.
 
  - `bigInt(-23).isNegative()` => `true`
  - `bigInt(50).isNegative()` => `false`
@@ -192,7 +192,7 @@ Returns `true` if the number is prime, `false` otherwise.
 `isPositive()`
 ---
 Return `true` if the number is positive, `false` otherwise.
-Returns `true` for `0` and `false` for `-0`.
+Returns `false` for `0` and `-0`.
 
  - `bigInt(54).isPositive()` => `true`
  - `bigInt(-1).isPositive()` => `false`

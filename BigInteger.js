@@ -12,9 +12,8 @@ var bigInt = (function () {
     }
 
     function trim(value) {
-        var i = value.length - 1;
-        while (value[i] === 0 && i > 0) i--;
-        return value.slice(0, i + 1);
+        while (value[value.length - 1] === 0 && value.length > 1) value.pop();
+        return value;
     }
 
     function fastAdd(a, b) {
@@ -32,14 +31,19 @@ var bigInt = (function () {
             carry = sum >= base ? 1 : 0;
             result.push(sum % base);
         }
-        return new BigInteger(result, a.sign);
+        return new BigInteger(trim(result), a.sign);
     }
 
     function fastSubtract(a, b) {
+        var value = a.value;
+        if (value.length === 1) {
+            value = value[0];
+            if (a.sign) value = -value;
+            return new BigInteger([Math.abs(value - b)], (value - b) < 0);
+        }
         if (a.sign !== (b < 0)) return fastAdd(a, -b);
         var sign = false;
         if (a.sign) sign = true;
-        var value = a.value;
         if (value.length === 1 && value[0] < b) return new BigInteger([b - value[0]], !sign);
         if (sign) b = -b;
         var result = [],
@@ -50,7 +54,7 @@ var bigInt = (function () {
             result.push((borrow * base) + tmp);
         }
 
-        return new BigInteger(result, sign);
+        return new BigInteger(trim(result), sign);
     }
 
     function fastMultiply(a, b) {
@@ -64,7 +68,7 @@ var bigInt = (function () {
             carry = (product / base) | 0;
             result.push(product % base);
         }
-        return new BigInteger(result, sign ? !a.sign : a.sign);
+        return new BigInteger(trim(result), sign ? !a.sign : a.sign);
     }
 
     function fastDivMod(a, b) {
@@ -86,7 +90,7 @@ var bigInt = (function () {
     }
 
     function isSmall(n) {
-        return ((typeof n === "number" || typeof n === "string") && +n <= base) ||
+        return ((typeof n === "number" || typeof n === "string") && +Math.abs(n) <= base) ||
             (n instanceof BigInteger && n.value.length <= 1);
     }
 
@@ -114,9 +118,8 @@ var bigInt = (function () {
         }
         return new BigInteger(trim(result), this.sign);
     };
-    BigInteger.prototype.plus = function (n) {
-        return this.add(n);
-    };
+    BigInteger.prototype.plus = BigInteger.prototype.add;
+
     BigInteger.prototype.subtract = function (n) {
         if (isSmall(n)) return fastSubtract(this, +n);
         n = parseInput(n);
@@ -135,9 +138,8 @@ var bigInt = (function () {
         }
         return new BigInteger(trim(result), sign.positive);
     };
-    BigInteger.prototype.minus = function (n) {
-        return this.subtract(n);
-    };
+    BigInteger.prototype.minus = BigInteger.prototype.subtract;
+
     BigInteger.prototype.multiply = function (n) {
         if (isSmall(n)) return fastMultiply(this, +n);
         n = parseInput(n);
@@ -180,9 +182,8 @@ var bigInt = (function () {
         }
         return new BigInteger(trim(result), sign);
     };
-    BigInteger.prototype.times = function (n) {
-        return this.multiply(n);
-    };
+    BigInteger.prototype.times = BigInteger.prototype.multiply;
+
     BigInteger.prototype.divmod = function (n) {
         if (isSmall(n)) return fastDivMod(this, +n);
         n = parseInput(n);
@@ -209,15 +210,13 @@ var bigInt = (function () {
     BigInteger.prototype.divide = function (n) {
         return this.divmod(n).quotient;
     };
-    BigInteger.prototype.over = function (n) {
-        return this.divide(n);
-    };
+    BigInteger.prototype.over = BigInteger.prototype.divide;
+
     BigInteger.prototype.mod = function (n) {
         return this.divmod(n).remainder;
     };
-    BigInteger.prototype.remainder = function (n) {
-        return this.mod(n);
-    };
+    BigInteger.prototype.remainder = BigInteger.prototype.mod;
+
     BigInteger.prototype.pow = function (n) {
         n = parseInput(n);
         var a = this, b = n, r = ONE;
@@ -295,9 +294,7 @@ var bigInt = (function () {
         }
         return 0;
     };
-    BigInteger.prototype.compareTo = function (n) {
-        return this.compare(n);
-    };
+
     BigInteger.prototype.compareAbs = function (n) {
         return this.abs().compare(n.abs());
     };
@@ -320,6 +317,7 @@ var bigInt = (function () {
         return this.compare(n) <= 0;
     };
 
+    BigInteger.prototype.compareTo = BigInteger.prototype.compare;
     BigInteger.prototype.lt = BigInteger.prototype.lesser;
     BigInteger.prototype.leq = BigInteger.prototype.lesserOrEquals;
     BigInteger.prototype.gt = BigInteger.prototype.greater;
@@ -338,9 +336,11 @@ var bigInt = (function () {
         return a.lesser(b) ? a : b;
     }
     BigInteger.prototype.isPositive = function () {
+        if (this.value.length === 1 && this.value[0] === 0) return false;
         return this.sign === sign.positive;
     };
     BigInteger.prototype.isNegative = function () {
+        if (this.value.length === 1 && this.value[0] === 0) return false;
         return this.sign === sign.negative;
     };
     BigInteger.prototype.isEven = function () {

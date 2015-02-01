@@ -155,8 +155,9 @@ var bigInt = (function () {
             for (var j = 0; j < b.length; j++) {
                 var y = b[j];
                 var product = x * y + result[i+j];
-                result[i+j] = product % base;
-                result[i+j+1] += Math.floor(product / base);
+                var q = Math.floor(product / base);
+                result[i+j] = product - q * base;
+                result[i+j+1] += q;
             }
         }
         return new BigInteger(trim(result), sign);

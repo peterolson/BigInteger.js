@@ -1,6 +1,6 @@
 "use strict";
 var bigInt = (function () {
-    var base = 10000000, logBase = 7;
+    var base = 10000000, logBase = 7, zeros = "0000000";
     var sign = {
         positive: false,
         negative: true
@@ -460,18 +460,15 @@ var bigInt = (function () {
         if (radix !== 10) return toBase(this, radix);
         var first = this;
         var str = "", len = first.value.length;
-        if (len === 0) {
+        if (len === 0 || (len === 1 && first.value[0] === 0)) {
             return "0";
         }
-        while (len--) {
-            if (first.value[len].toString().length === 8) str += first.value[len];
-            else str += (base.toString() + first.value[len]).slice(-logBase);
+        len -= 1;
+        str = first.value[len].toString();
+        while (--len >= 0) {
+            var digit = first.value[len].toString();
+            str += zeros.slice(digit.length) + digit;
         }
-        while (str[0] === "0") {
-            str = str.slice(1);
-        }
-        if (!str.length) str = "0";
-        if (str === "0") return str;
         var s = first.sign === sign.positive ? "" : "-";
         return s + str;
     };
@@ -550,7 +547,7 @@ var bigInt = (function () {
             value.push(+text.slice(divider));
             text = text.slice(0, divider);
         }
-        return new BigInteger(value, s);
+        return new BigInteger(trim(value), s);
     }
 
     var parseBase = function (text, base) {

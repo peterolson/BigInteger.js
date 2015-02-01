@@ -146,39 +146,18 @@ var bigInt = (function () {
         var sign = this.sign !== n.sign;
 
         var a = this.value, b = n.value;
-        var length = Math.max(a.length, b.length);
-        var resultSum = [];
-        for (var i = 0; i < length; i++) {
-            resultSum[i] = [];
-            var j = i;
-            while (j--) {
-                resultSum[i].push(0);
-            }
+        var result = [];
+        for (var i = a.length + b.length; i > 0; i--) {
+            result.push(0);
         }
-        var carry = 0;
         for (var i = 0; i < a.length; i++) {
             var x = a[i];
-            for (var j = 0; j < b.length || carry > 0; j++) {
+            for (var j = 0; j < b.length; j++) {
                 var y = b[j];
-                var product = y ? (x * y) + carry : carry;
-                carry = Math.floor(product / base);
-                resultSum[i].push(product % base);
+                var product = x * y + result[i+j];
+                result[i+j] = product % base;
+                result[i+j+1] += Math.floor(product / base);
             }
-        }
-        var max = -1;
-        for (var i = 0; i < resultSum.length; i++) {
-            var len = resultSum[i].length;
-            if (len > max) max = len;
-        }
-        var result = [], carry = 0;
-        for (var i = 0; i < max || carry > 0; i++) {
-            var sum = carry;
-            for (var j = 0; j < resultSum.length; j++) {
-                sum += resultSum[j][i] || 0;
-            }
-            carry = sum >= base ? Math.floor(sum / base) : 0;
-            sum -= carry * base;
-            result.push(sum);
         }
         return new BigInteger(trim(result), sign);
     };

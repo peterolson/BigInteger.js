@@ -6,7 +6,7 @@
   "contributors": [],
   "bin": {},
   "scripts": {
-    "test": "jasmine"
+    "test": "./node_modules/.bin/jasmine"
   },
   "main": "./BigInteger",
   "repository": {
@@ -24,7 +24,7 @@
     "precision",
     "arithmetic"
   ],
-  "dependencies" : {
+  "devDependencies" : {
     "jasmine": "2.1.x"
   }, 
   "license": "WTFPL",

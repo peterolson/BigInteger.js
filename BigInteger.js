@@ -181,11 +181,11 @@ var bigInt = (function () {
         if (isSmall(n)) return fastDivMod(this, +n);
         n = parseInput(n);
         var quotientSign = this.sign !== n.sign;
-        if (this.equals(0)) return {
+        if (n.equals(ZERO)) throw new Error("Cannot divide by zero");
+        if (this.equals(ZERO)) return {
             quotient: new BigInteger([0], sign.positive),
             remainder: new BigInteger([0], sign.positive)
         };
-        if (n.equals(0)) throw new Error("Cannot divide by zero");
         var a = this.value, b = n.value;
         var result = [0];
         for (var i = 0; i < b.length; i++) {
@@ -193,10 +193,7 @@ var bigInt = (function () {
         }
         var divisorMostSignificantDigit = b[b.length - 1];
         // normalization
-        var lambda = Math.floor(base / 2 / divisorMostSignificantDigit);
-        if (lambda === 0) {
-            lambda = 1;
-        }
+        var lambda = Math.ceil(base / 2 / divisorMostSignificantDigit);
         var remainder = fastMultiplyInternal(a, lambda);
         var divisor = fastMultiplyInternal(b, lambda);
         divisorMostSignificantDigit = divisor[b.length - 1];

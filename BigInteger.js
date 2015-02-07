@@ -57,35 +57,48 @@ var bigInt = (function () {
         return new BigInteger(trim(result), sign);
     }
 
-    function fastMultiply(a, b) {
-        var value = a.value,
-            sign = b < 0,
-            result = [],
-            carry = 0;
-        if (sign) b = -b;
-        for (var i = 0; i < value.length || carry > 0; i++) {
-            var product = (value[i] || 0) * b + carry;
-            carry = (product / base) | 0;
-            result.push(product % base);
+    function fastMultiplyInternal(value, lambda) {
+        var result = [];
+        var carry = 0;
+        for (var i = 0; i < value.length; i++) {
+            carry += lambda * value[i];
+            var q = Math.floor(carry / base);
+            result[i] = (carry - q * base) | 0;
+            carry = q;
         }
-        return new BigInteger(trim(result), sign ? !a.sign : a.sign);
+        result[value.length] = carry | 0;
+        return result;
+    }
+
+    function fastMultiply(a, b) {
+        var result = fastMultiplyInternal(a.value, b < 0 ? -b : b);
+        return new BigInteger(trim(result), b < 0 ? !a.sign : a.sign);
+    }
+
+    function fastDivModInternal(value, lambda) {
+        var quotient = [];
+        for (var i = 0; i < value.length; i++) {
+            quotient[i] = 0;
+        }
+        var remainder = 0;
+        for (var i = value.length - 1; i >= 0; i--) {
+            var divisor = remainder * base + value[i];
+            var q = Math.floor(divisor / lambda);
+            remainder = divisor - q * lambda;
+            quotient[i] = q | 0;
+        }
+        return {
+          quotient: quotient,
+          remainder: remainder | 0
+        };
     }
 
     function fastDivMod(a, b) {
         if (b === 0) throw new Error("Cannot divide by zero.");
-        var value = a.value,
-            sign = b < 0,
-            result = [],
-            remainder = 0;
-        if (sign) b = -b;
-        for (var i = value.length - 1; i >= 0; i--) {
-            var divisor = remainder * base + value[i];
-            remainder = divisor % b;
-            result.push(divisor / b | 0);
-        }
+        var result = fastDivModInternal(a.value, b < 0 ? -b : b);
         return {
-            quotient: new BigInteger(trim(result.reverse()), sign ? !a.sign : a.sign),
-            remainder: new BigInteger([remainder], a.sign)
+            quotient: new BigInteger(trim(result.quotient), b < 0 ? !a.sign : a.sign),
+            remainder: new BigInteger([result.remainder], a.sign)
         };
     }
 
@@ -174,14 +187,59 @@ var bigInt = (function () {
         };
         if (n.equals(0)) throw new Error("Cannot divide by zero");
         var a = this.value, b = n.value;
-        var result = [], remainder = [];
-        for (var i = a.length - 1; i >= 0; i--) {
-            var m = [a[i]].concat(remainder);
-            var quotient = goesInto(b, m);
-            result.push(quotient.result);
-            remainder = quotient.remainder;
+        var result = [0];
+        for (var i = 0; i < b.length; i++) {
+            result[i] = 0;
         }
-        result.reverse();
+        var divisorMostSignificantDigit = b[b.length - 1];
+        // normalization
+        var lambda = Math.floor(base / 2 / divisorMostSignificantDigit);
+        if (lambda === 0) {
+            lambda = 1;
+        }
+        var remainder = fastMultiplyInternal(a, lambda);
+        var divisor = fastMultiplyInternal(b, lambda);
+        divisorMostSignificantDigit = divisor[b.length - 1];
+        for (var shift = a.length - b.length; shift >= 0; shift--) {
+            var quotientDigit = base - 1;
+            if (remainder[shift + b.length] !== divisorMostSignificantDigit) {
+                quotientDigit = Math.floor((remainder[shift + b.length] * base + remainder[shift + b.length - 1]) / divisorMostSignificantDigit);
+            }
+            // remainder -= quotientDigit * divisor
+            var carry = 0;
+            var borrow = 0;
+            for (var i = 0; i < divisor.length; i++) {
+                carry += quotientDigit * divisor[i];
+                var q = Math.floor(carry / base);
+                borrow += remainder[shift + i] - (carry - q * base);
+                carry = q;
+                if (borrow < 0) {
+                    remainder[shift + i] = (borrow + base) | 0;
+                    borrow = -1;
+                } else {
+                    remainder[shift + i] = borrow | 0;
+                    borrow = 0;
+                }
+            }
+            while (borrow !== 0) {
+                quotientDigit -= 1;
+                var carry = 0;
+                for (var i = 0; i < divisor.length; i++) {
+                    carry += remainder[shift + i] - base + divisor[i];
+                    if (carry < 0) {
+                        remainder[shift + i] = (carry + base) | 0;
+                        carry = 0;
+                    } else {
+                        remainder[shift + i] = carry | 0;
+                        carry = +1;
+                    }
+                }
+                borrow += carry;
+            }
+            result[shift] = quotientDigit | 0;
+        }
+        // denormalization
+        remainder = fastDivModInternal(remainder, lambda).quotient;
         return {
             quotient: new BigInteger(trim(result), quotientSign),
             remainder: new BigInteger(trim(remainder), this.sign)
@@ -478,30 +536,6 @@ var bigInt = (function () {
     BigInteger.prototype.valueOf = function () {
         if (this.value.length === 1) return this.sign ? -this.value[0] : this.value[0];
         return +this.toString();
-    };
-
-    var goesInto = function (a, b) {
-        var a = new BigInteger(a, sign.positive), b = new BigInteger(b, sign.positive);
-        if (a.equals(0)) throw new Error("Cannot divide by 0");
-        var n = 0;
-        do {
-            var inc = 1;
-            var c = a, t = c.times(10);
-            while (t.lesser(b)) {
-                c = t;
-                inc *= 10;
-                t = t.times(10);
-            }
-            while (c.lesserOrEquals(b)) {
-                b = b.minus(c);
-                n += inc;
-            }
-        } while (a.lesserOrEquals(b));
-
-        return {
-            remainder: b.value,
-            result: n
-        };
     };
 
     var ZERO = new BigInteger([0], sign.positive);

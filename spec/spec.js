@@ -789,4 +789,9 @@ describe("BigInteger", function () {
             expect(bigInt.one.multiply === bigInt.one.times).toBe(true);
         });
     });
+    describe("Natural logs", function () {
+        it("are correct", function () {
+            expect(bigInt(2).pow(2048).log() === 1419.5654257867682).toBe(true);
+        });
+    });
 });

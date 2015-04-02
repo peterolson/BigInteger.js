@@ -284,6 +284,10 @@ var bigInt = (function () {
     BigInteger.prototype.square = function () {
         return this.multiply(this);
     };
+    BigInteger.prototype.log = function () {
+        var str = this.toString();
+        return str.length * Math.log(10) + Math.log(parseFloat('0.' + str));
+    };
     function gcd(a, b) {
         a = parseInput(a).abs();
         b = parseInput(b).abs();

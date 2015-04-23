@@ -106,7 +106,60 @@ var bigInt = (function () {
         return ((typeof n === "number" || typeof n === "string") && +Math.abs(n) <= base) ||
             (n instanceof BigInteger && n.value.length <= 1);
     }
+    
+    function fromTwosComp(twosComp) {
+    	var sign = (parseInt(twosComp[0]) == 1);
+    	var result = twosComp.substr(1);
+    	if (sign) {
+    		var i = result.length;
+    		while (i >= 0) {
+    			i--;
+    			if (result[i + 1] == 1) break;
+    		}
+    		for (var j = i; j >= 0; j--) 
+    			result = result.substr(0, j) + Math.abs(result[j] - 1) + result.substr(j + 1);
+    	}
+    	var value = new BigInteger([0]);
+    	for (var i = result.length - 1; i >= 0; i--) {
+    		if (parseInt(result[i]) == 1) {
+    			var addend = new BigInteger([2]);
+    			addend = addend.pow(result.length - i - 1);
+    			value = value.add(addend);
+    		}
+    	}
+    	if (sign) value = value.negate();
+    	return value;
+    }
+    
+    function getTwosComp(bI, bits) {		
+    	var posString = bI.abs().toString(2);	
+    	var minbits = posString.length + 2; 	//+2 because of miscalculations when bitcount is exceeded, e.g. when calling .TwosCompNot(15)
+    											// result without '+2' would be 0 instead of -16, which isn't incorrect, but in Java and other cases,
+    											// where 32/64 bits are used, -16 would be the result and thus this wouldn't meet expectations.
+    	
+    	if (bits === undefined || bits < minbits) bits = minbits;
+    	
+    	var result = "";
+    	
+		for (var i = 0; i < bits-posString.length; i++) result += "0";
+		for (var i = 0; i < posString.length; i++) result += posString[i];
+		
+    	if (bI.isNegative()) {
+    		var i = bits-1;
+    		while (i > 0) {
+    			i--;
+    			if (parseInt(result[i + 1]) == 1) break;
+    		}
+    		for (var j = i; j >= 0; j--) 
+    			result = result.substr(0, j) + ((parseInt(result[j]) + 1) % 2) + result.substr(j + 1);
+    	}
+    	
+    	return result;
+    }
 
+    BigInteger.prototype.toTwosComp = function(bits) {
+    	return getTwosComp(this, bits);
+    }
     BigInteger.prototype.negate = function () {
         return new BigInteger(this.value, !this.sign);
     };
@@ -507,6 +560,46 @@ var bigInt = (function () {
         var body = bitwise(this, n, function (xMod, yMod) { return (xMod + yMod) % 2; });
         return this.sign ^ n.sign ? body.negate() : body;
     };
+    
+    
+    function TwosCompBitWise(x, y, fn) {
+    	//both 2Complements need equal many bits
+    	var bitCount = 0;
+    	if (x.abs().greaterOrEquals(y.abs())) {
+    		x = x.toTwosComp();
+    		bitCount = x.length;
+    		y = y.toTwosComp(bitCount);
+    	} else {
+    		y = y.toTwosComp();
+    		bitCount = y.length;
+    		x = x.toTwosComp(bitCount);
+    	}
+    	
+    	var result = "";
+    	for (var i = 0; i < bitCount; i++) {
+    		var a = parseInt(x[i]);
+    		var b = parseInt(y[i]);
+    		result += fn(a, b);
+    	}
+    	
+    	return fromTwosComp(result);
+    }
+    
+    BigInteger.prototype.TwosCompNot = function () {
+    	return TwosCompBitWise(this, this, function(a, b) { return (a + 1) % 2; });
+    }
+    
+    BigInteger.prototype.TwosCompAnd = function (n) {
+    	return TwosCompBitWise(this, n, function(a, b) { return (a * b); });
+    }
+    
+    BigInteger.prototype.TwosCompOr  = function (n) {
+    	return TwosCompBitWise(this, n, function(a, b) { return (a + b + a * b) % 2; });
+    }
+    
+    BigInteger.prototype.TwosCompXor = function (n) {
+    	return TwosCompBitWise(this, n, function(a, b) { return (a + b) % 2; });
+    }
 
     BigInteger.prototype.toString = function (radix) {
         if (radix === undefined) {

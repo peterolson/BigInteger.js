@@ -170,6 +170,13 @@ Returns `true` if the number is even, `false` otherwise.
  - `bigInt(6).isEven()` => `true`
  - `bigInt(3).isEven()` => `false`
 
+`isInstance(x)`
+---
+Returns `true` if `x` is a BigInteger, `false` otherwise.
+
+ - `bigInt.isInstance(bigInt(14))` => `true`
+ - `bigInt.isInstance(14)` => `false`
+
 `isNegative()`
 ---
 Returns `true` if the number is negative, `false` otherwise.

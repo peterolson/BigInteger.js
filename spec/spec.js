@@ -757,6 +757,13 @@ describe("BigInteger", function () {
             expect(bigInt("12").xor(-5)).toEqual("-9");
         });
     });
+    
+    describe("isInstance", function () {
+        it("works", function () {
+            expect(bigInt.isInstance(bigInt(14))).toBe(true);
+            expect(bigInt.isInstance(14)).toBe(false);
+        });
+    });
 
     describe("Aliases", function () {
         it("add, plus are the same", function () {

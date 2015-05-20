@@ -675,6 +675,7 @@ var bigInt = (function () {
     fnReturn.one = ONE;
     fnReturn.minusOne = MINUS_ONE;
     fnReturn.randBetween = randBetween;
+    fnReturn.isInstance = function (x) { return x instanceof BigInteger; };
     fnReturn.min = min;
     fnReturn.max = max;
     fnReturn.gcd = gcd;

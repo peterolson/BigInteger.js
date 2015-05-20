@@ -412,6 +412,12 @@ Converts a bigInt to a string. There is an optional radix parameter (which defau
  - `bigInt("1e9").toString()` => `"1000000000"`
  - `bigInt("1e9").toString(16)` => `"3b9aca00"`
 
+**Note that arithmetical operators will trigger the `valueOf` function rather than the `toString` function.** When converting a bigInteger to a string, you should use the `toString` method or the `String` function instead of adding the empty string.
+
+ - `bigInt("999999999999999999").toString()` => `"999999999999999999"`
+ - `String(bigInt("999999999999999999"))` => `"999999999999999999"`
+ - `bigInt("999999999999999999") + ""` => `1000000000000000000`
+
 Bases larger than 36 are supported. If a digit is larger than 36, it will be enclosed in angle brackets.
 
  - `bigInt(567890).toString(100)` => `"<56><78><90>"`

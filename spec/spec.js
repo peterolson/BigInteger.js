@@ -747,7 +747,14 @@ describe("BigInteger", function () {
             expect(bigInt("435783453").and("902345074")).toEqual("298352912");
             expect(bigInt("435783453").or("902345074")).toEqual("1039775615");
             expect(bigInt("435783453").xor("902345074")).toEqual("741422703");
-            expect(bigInt("94981987261387596").not()).toEqual("-49133200814468275");
+            expect(bigInt("94981987261387596").not()).toEqual("-94981987261387597");
+            expect(bigInt("-6931047708307681506").xor("25214903917")).toEqual("-6931047723896018573");
+            expect(bigInt("-6931047723896018573").and("281474976710655")).toEqual("273577603885427");
+            expect(bigInt("-65").xor("-42")).toEqual("105");
+            expect(bigInt("6").and("-3")).toEqual("4");
+            expect(bigInt("0").not()).toEqual("-1");
+            expect(bigInt("13").or(-8)).toEqual("-3");
+            expect(bigInt("12").xor(-5)).toEqual("-9");
         });
     });
 

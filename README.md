@@ -76,9 +76,10 @@ Performs addition.
 
 `and(number)`
 ---
-Performs the bitwise AND operation.
+Performs the bitwise AND operation. The operands are treated as if they were represented using [two's complement representation](http://en.wikipedia.org/wiki/Two%27s_complement).
 
  - `bigInt(6).and(3)` => `2`
+ - `bigInt(6).and(-3)` => `4`
 
 `compare(number)`
 ---
@@ -294,9 +295,10 @@ Adds one to the number.
 
 `not()`
 ---
-Performs the bitwise NOT operation.
+Performs the bitwise NOT operation. The operands are treated as if they were represented using [two's complement representation](http://en.wikipedia.org/wiki/Two%27s_complement).
 
  - `bigInt(10).not()` => `-5`
+ - `bigInt(0).not()` => `-1`
 
 `notEquals(number)`
 ---
@@ -309,9 +311,10 @@ Checks if two numbers are not equal.
 
 `or(number)`
 ---
-Performs the bitwise OR operation.
+Performs the bitwise OR operation. The operands are treated as if they were represented using [two's complement representation](http://en.wikipedia.org/wiki/Two%27s_complement).
 
  - `bigInt(13).or(10)` => `15`
+ - `bigInt(13).or(-8)` => `-3`
 
 `over(number)`
 ---
@@ -387,9 +390,10 @@ Converts a bigInt into a native Javascript number. Loses precision for numbers o
 
 `xor(number)`
 ---
-Performs the bitwise XOR operation.
+Performs the bitwise XOR operation. The operands are treated as if they were represented using [two's complement representation](http://en.wikipedia.org/wiki/Two%27s_complement).
 
  - `bigInt(12).xor(5)` => `9`
+ - `bigInt(12).xor(-5)` => `-9`
 
 Override Methods
 ===

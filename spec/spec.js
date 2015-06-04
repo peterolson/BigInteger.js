@@ -737,6 +737,7 @@ describe("BigInteger", function () {
 
     describe("Bitwise operations", function () {
         it("shifting left and right work", function () {
+        	expect(bigInt(-5).shiftRight(2)).toEqual(-2);
             expect(bigInt(1024).shiftLeft(100)).toEqual("1298074214633706907132624082305024");
             expect(bigInt("2596148429267413814265248164610049").shiftRight(100)).toEqual(2048);
             expect(bigInt("8589934592").shiftRight(-50)).toEqual("9671406556917033397649408");

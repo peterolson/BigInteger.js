@@ -453,19 +453,23 @@ var bigInt = (function () {
     };
 
     BigInteger.prototype.shiftRight = function (n) {
+        var remQuo = undefined;
         if (!isSmall(n)) {
             if (n.isNegative()) return this.shiftLeft(n.abs());
-            return this.over(bigInt(2).pow(n));
+            remQuo = this.divmod(bigInt(2).pow(n));
+            return remQuo.remainder.compareTo(ZERO) < 0 ? remQuo.quotient.subtract(ONE) : remQuo.quotient;
         }
         n = +n;
         if (n < 0) return this.shiftLeft(-n);
         var result = this;
         while (n >= powers2Length) {
             if (result.equals(ZERO)) return result;
-            result = fastDivMod(result, highestPower2).quotient;
+            remQuo = fastDivMod(result, highestPower2);
+            result = remQuo.remainder.compareTo(ZERO) < 0 ? remQuo.quotient.subtract(ONE) : remQuo.quotient;
             n -= powers2Length - 1;
         }
-        return fastDivMod(result, powersOfTwo[n]).quotient;
+        remQuo = fastDivMod(result, powersOfTwo[n]);
+        return remQuo.remainder.compareTo(ZERO) < 0 ? remQuo.quotient.subtract(ONE) : remQuo.quotient;
     };
 
     function bitwise(x, y, fn) {

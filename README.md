@@ -54,11 +54,16 @@ Note that bigInt operations return bigInts, which allows you to chain methods, f
 Constants
 ---
 
-There are three constants already stored that you do not have to construct with the `bigInt` function yourself:
+There are three named constants already stored that you do not have to construct with the `bigInt` function yourself:
 
  - `bigInt.one`, equivalent to `bigInt(1)`
  - `bigInt.zero`, equivalent to `bigInt(0)`
  - `bigInt.minusOne`, equivalent to `bigInt(-1)`
+ 
+The numbers from -999 to 999 are also already prestored and can be accessed using `bigInt[index]`, for example:
+
+ - `bigInt[-999]`, equivalent to `bigInt(-999)`
+ - `bigInt[256]`, equivalent to `bigInt(256)`
 
 Methods
 ===

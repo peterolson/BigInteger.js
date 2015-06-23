@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+	<head>
+         <meta http-equiv="Cache-control" content="no-cache">
+		<title>Big integer benchmarks</title>
+        <style>
+            img.wait {
+                width: 25px;
+            }
+            table {
+                border-collapse: collapse;
+            }
+            td, th {
+                border: 1px solid black;
+                padding: 0 5px 0 5px;
+                text-align: center;
+            }
+            td:last-child {
+                text-align: left;
+            }
+            body {
+                background-color: #eee;
+            }
+            #container {
+                border: 1px solid black;
+                border-radius: 15px 15px;
+                background-color: #fff;
+                width: 800px;
+                margin: 0 auto;
+                padding: 10px;
+            }
+            div.graph span {
+                display: inline-block;
+                height: 10px;
+                overflow: hidden;
+                background-color: #00AA00;
+            }
+            div.graph span.rme {
+                background-color: #FF8800;
+            }
+
+            #loading {
+                position: fixed;
+                left: 40%;
+                top: 40%;
+                width: 300px;
+                height: 100px;
+                line-height: 100px;
+                background-color: white;
+                border: 2px solid black;
+                text-align: center;
+                font-weight: bolder;
+            }
+
+            .indent {
+                margin-left: 20px;
+            }
+        </style>
+	</head>
+	<body>
+        <div id="loading">Please wait for libraries to load... <span id="loaded">0</span>/<span id="total"></span></div>
+        <div id="container">
+            <h1>Big integer benchmarks</h1>
+            Some performance benchmarks for different libraries that do arbitrary precision integer arithmetic. Keep in mind that the results shown here are only a rough estimate of the relative performance and can change significantly from run to run, as well as across different runtime environments.<br />
+            <button id="btnRunAll">Run all benchmarks</button>
+            <div id="benchmarks"></div>
+        </div>
+        <script src="tests.js"></script>
+        <script src="index.js"></script>
+	</body>
+</html>

@@ -19,6 +19,8 @@ Then you can include it in your code:
 	
 The unit tests are contained in the `spec/spec.js` file. You can [run them online from GitHub](http://peterolson.github.io/BigInteger.js/spec/SpecRunner.html).
 
+There are performance benchmarks that can be viewed from the `benchmarks/index.html` page. You can [run them online from GitHub](http://peterolson.github.io/BigInteger.js/benchmark/).
+
 `bigInt(number, [base])`
 ---
 You can create a bigInt by calling the `bigInt` function. You can pass in
@@ -73,6 +75,8 @@ Returns the absolute value of a bigInt.
 Performs addition.
 
  - `bigInt(5).add(7)` => `12`
+ 
+[View benchmarks for this method](http://peterolson.github.io/BigInteger.js/benchmark/#Addition)
 
 `and(number)`
 ---
@@ -106,6 +110,8 @@ Alias for the `compare` method.
 Performs integer division, disregarding the remainder.
 
  - `bigInt(59).divide(5)` => `11`
+ 
+[View benchmarks for this method](http://peterolson.github.io/BigInteger.js/benchmark/#Division)
 
 `divmod(number)`
 ---
@@ -113,6 +119,8 @@ Performs division and returns an object with two properties: `quotient` and `rem
 
  - `bigInt(59).divmod(5)` => `{quotient: bigInt(11), remainder: bigInt(4) }`
  - `bigInt(-5).divmod(2)` => `{quotient: bigInt(-2), remainder: bigInt(-1) }`
+ 
+[View benchmarks for this method](http://peterolson.github.io/BigInteger.js/benchmark/#Division)
 
 `eq(number)`
 ---
@@ -124,12 +132,6 @@ Checks if two numbers are equal.
 
  - `bigInt(5).equals(5)` => `true`
  - `bigInt(4).equals(7)` => `false`
-
-`gcd(a, b)`
----
-Finds the greatest common denominator of `a` and `b`.
-
- - `bigInt.gcd(42,56)` => `14`
 
 `geq(number)`
 ---
@@ -169,13 +171,6 @@ Returns `true` if the number is even, `false` otherwise.
 
  - `bigInt(6).isEven()` => `true`
  - `bigInt(3).isEven()` => `false`
-
-`isInstance(x)`
----
-Returns `true` if `x` is a BigInteger, `false` otherwise.
-
- - `bigInt.isInstance(bigInt(14))` => `true`
- - `bigInt.isInstance(14)` => `false`
 
 `isNegative()`
 ---
@@ -223,12 +218,6 @@ Return `true` if the number is `0` or `-0`, `false` otherwise.
  - `bigInt("-0").isZero()` => `true`
  - `bigInt(50).isZero()` => `false`
 
-`lcm(a,b)`
----
-Finds the least common multiple of `a` and `b`.
-
- - `bigInt.lcm(21, 6)` => `42`
-
 `leq(number)`
 ---
 Alias for the `lesserOrEquals` method.
@@ -253,23 +242,13 @@ Checks if the first number is less than or equal to the second.
 ---
 Alias for the `lesser` method.
 
-`max(a,b)`
----
-Returns the largest of `a` and `b`.
-
- - `bigInt.max(77, 432)` => `432`
-
-`min(a,b)`
----
-Returns the smallest of `a` and `b`.
-
- - `bigInt.min(77, 432)` => `77`
-
 `minus(number)`
 ---
 Alias for the `subtract` method.
 
  - `bigInt(3).minus(5)` => `-2`
+ 
+[View benchmarks for this method](http://peterolson.github.io/BigInteger.js/benchmark/#Subtraction)
 
 `mod(number)`
 ---
@@ -277,6 +256,8 @@ Performs division and returns the remainder, disregarding the quotient. The sign
 
  - `bigInt(59).mod(5)` =>  `4`
  - `bigInt(-5).mod(2)` => `-1`
+ 
+[View benchmarks for this method](http://peterolson.github.io/BigInteger.js/benchmark/#Division)
 
 `modPow(exp, mod)`
 ---
@@ -289,6 +270,8 @@ Takes the number to the power `exp` modulo `mod`.
 Performs multiplication.
 
  - `bigInt(111).multiply(111)` => `12321`
+
+[View benchmarks for this method](http://peterolson.github.io/BigInteger.js/benchmark/#Multiplication)
 
 `neq(number)`
 ---
@@ -328,12 +311,16 @@ Performs the bitwise OR operation. The operands are treated as if they were repr
 Alias for the `divide` method.
 
  - `bigInt(59).over(5)` => `11`
+ 
+[View benchmarks for this method](http://peterolson.github.io/BigInteger.js/benchmark/#Division)
 
 `plus(number)`
 ---
 Alias for the `add` method.
 
  - `bigInt(5).plus(7)` => `12`
+ 
+[View benchmarks for this method](http://peterolson.github.io/BigInteger.js/benchmark/#Addition)
 
 `pow(number)`
 ---
@@ -341,21 +328,19 @@ Performs exponentiation. If the exponent is less than `0`, `pow` returns `0`. `b
 
  - `bigInt(16).pow(16)` => `18446744073709551616`
 
+[View benchmarks for this method](http://peterolson.github.io/BigInteger.js/benchmark/#Exponentiation)
+
 `prev(number)`
 ---
 Subtracts one from the number.
 
  - `bigInt(6).prev()` => `5`
 
-`randBetween(min, max)`
----
-Returns a random number between `min` and `max`.
-
- - `bigInt.randBetween("-1e100", "1e100")` => (for example) `8494907165436643479673097939554427056789510374838494147955756275846226209006506706784609314471378745`
-
 `remainder(number)`
 ---
 Alias for the `mod` method.
+
+[View benchmarks for this method](http://peterolson.github.io/BigInteger.js/benchmark/#Division)
 
 `shiftLeft(n)`
 ---
@@ -376,18 +361,24 @@ Shifts the number right by `n` places in its binary representation. If a negativ
 Squares the number
 
  - `bigInt(3).square()` => `9`
+ 
+[View benchmarks for this method](http://peterolson.github.io/BigInteger.js/benchmark/#Squaring)
 
 `subtract(number)`
 ---
 Performs subtraction.
 
  - `bigInt(3).subtract(5)` => `-2`
+ 
+[View benchmarks for this method](http://peterolson.github.io/BigInteger.js/benchmark/#Subtraction)
 
 `times(number)`
 ---
 Alias for the `multiply` method.
 
  - `bigInt(111).times(111)` => `12321`
+ 
+[View benchmarks for this method](http://peterolson.github.io/BigInteger.js/benchmark/#Multiplication)
 
 `toJSNumber()`
 ---
@@ -401,6 +392,47 @@ Performs the bitwise XOR operation. The operands are treated as if they were rep
 
  - `bigInt(12).xor(5)` => `9`
  - `bigInt(12).xor(-5)` => `-9`
+ 
+Static Methods
+===
+
+`gcd(a, b)`
+---
+Finds the greatest common denominator of `a` and `b`.
+
+ - `bigInt.gcd(42,56)` => `14`
+
+`isInstance(x)`
+---
+Returns `true` if `x` is a BigInteger, `false` otherwise.
+
+ - `bigInt.isInstance(bigInt(14))` => `true`
+ - `bigInt.isInstance(14)` => `false`
+ 
+`lcm(a,b)`
+---
+Finds the least common multiple of `a` and `b`.
+ 
+ - `bigInt.lcm(21, 6)` => `42`
+ 
+`max(a,b)`
+---
+Returns the largest of `a` and `b`.
+
+ - `bigInt.max(77, 432)` => `432`
+
+`min(a,b)`
+---
+Returns the smallest of `a` and `b`.
+
+ - `bigInt.min(77, 432)` => `77`
+
+`randBetween(min, max)`
+---
+Returns a random number between `min` and `max`.
+
+ - `bigInt.randBetween("-1e100", "1e100")` => (for example) `8494907165436643479673097939554427056789510374838494147955756275846226209006506706784609314471378745`
+
 
 Override Methods
 ===
@@ -435,6 +467,8 @@ Base 0 is only allowed for the number zero.
 
  - `bigInt(0).toString(0)` => `0`
  - `bigInt(1).toString(0)` => `Error: Cannot convert nonzero numbers to base 0.`
+ 
+[View benchmarks for this method](http://peterolson.github.io/BigInteger.js/benchmark/#toString)
  
 `valueOf()`
 ---

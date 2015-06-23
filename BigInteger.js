@@ -1107,6 +1107,7 @@ var bigInt = (function (undefined) {
     CACHE.gcd = gcd;
     CACHE.lcm = lcm;
     CACHE.isInstance = function (x) { return x instanceof BigInteger || x instanceof SmallInteger; };
+    CACHE.randBetween = randBetween;
     return CACHE;
 })();
 

@@ -242,6 +242,13 @@ describe("BigInteger", function () {
             expect(bigInt("-9844190321790980841789").minus(0)).toEqual("-9844190321790980841789");
         });
 
+        it("addition by inverse is 0, subtraction by self is 0", function () {
+            expect(bigInt("5").subtract(bigInt("5"))).toEqual(0);
+            expect(bigInt("5").add(bigInt("-5"))).toEqual(0);
+            expect(bigInt("10000000000000000").subtract(bigInt("10000000000000000"))).toEqual(0);
+            expect(bigInt("10000000000000000").add(bigInt("-10000000000000000"))).toEqual(0);
+        });
+
         it("handles signs correctly", function () {
             expect(bigInt(1).add(1)).toEqual(2);
             expect(bigInt(1).add(-5)).toEqual(-4);
@@ -296,6 +303,8 @@ describe("BigInteger", function () {
             expect(bigInt("9876543210123456789").minus("-1234567890987654321")).toEqual("11111111101111111110");
             expect(bigInt("-9876543210123456789").minus("1234567890987654321")).toEqual("-11111111101111111110");
             expect(bigInt("-9876543210123456789").minus("-1234567890987654321")).toEqual("-8641975319135802468");
+
+            expect(bigInt("-9007199254740991").add(bigInt("-1")).toString() === "-9007199254740992").toBe(true);
         });
 
         it("carries over correctly", function () {
@@ -795,6 +804,7 @@ describe("BigInteger", function () {
 
     describe("Base conversion", function () {
         it("parses numbers correctly", function () {
+            expect(bigInt("10", 2).equals(2)).toBe(true);
             expect(bigInt("FF", 16)).toEqual(255);
             expect(bigInt("111100001111", -2)).toEqual(-1285);
             expect(bigInt("<5><10>35<75><44><88><145735>", "-154654987")).toEqual("-10580775516023906041313915824083789618333601575504631498551");
@@ -811,6 +821,7 @@ describe("BigInteger", function () {
         
         it("outputs numbers correctly", function () {
             expect(bigInt("366900685503779409298642816707647664013657589336").toString(16) === "4044654fce69424a651af2825b37124c25094658").toBe(true);
+            expect(bigInt("111111111111111111111111111111111111111111111111111111", 2).toString(2) === "111111111111111111111111111111111111111111111111111111").toBe(true);
             expect(bigInt("secretmessage000", -36).toString(-36) === "secretmessage000").toBe(true);
             expect(bigInt(-256).toString(16) === "-100").toBe(true);
             expect(bigInt(256).toString(1).length === 256).toBe(true);

@@ -35,9 +35,12 @@ var bigInt = (function (undefined) {
         trim(arr);
         var length = arr.length;
         if (length < 4 && compareAbs(arr, MAX_INT_ARR) < 0) {
-            if (length < 2) return arr[0];
-            if (length < 3) return arr[0] + arr[1] * BASE;
-            return arr[0] + (arr[1] + arr[2] * BASE) * BASE;
+            switch (length) {
+                case 0: return 0;
+                case 1: return arr[0];
+                case 2: return arr[0] + arr[1] * BASE;
+                default: return arr[0] + (arr[1] + arr[2] * BASE) * BASE;
+            }
         }
         return arr;
     }
@@ -126,9 +129,12 @@ var bigInt = (function (undefined) {
         var a = this.value, b = n.value;
         if (n.isSmall) {
             if (isPrecise(a + b)) return new SmallInteger(a + b);
-            b = smallToArray(b);
+            b = smallToArray(Math.abs(b));
         }
-        return new BigInteger(addSmall(b, a), a < 0);
+        if (isPrecise(a + BASE)) {
+            return new BigInteger(addSmall(b, Math.abs(a)), a < 0);
+        }
+        return new BigInteger(add(b, smallToArray(Math.abs(a))), a < 0);
     };
     SmallInteger.prototype.plus = SmallInteger.prototype.add;
 
@@ -949,7 +955,7 @@ var bigInt = (function (undefined) {
             length = text.length;
         if (2 <= base && base <= 36) {
             if (length <= LOG_MAX_INT / Math.log(base)) {
-                return parseInt(text, base);
+                return new SmallInteger(parseInt(text, base));
             }
         }
         base = parseValue(base);

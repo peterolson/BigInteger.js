@@ -319,6 +319,8 @@ describe("BigInteger", function () {
                 last = number.minus(last);
                 expect(number).toEqual(fibs[i]);
             }
+
+            expect(bigInt("9007199254740991").add(bigInt("1")).toString()).toBe("9007199254740992");
         });
 
         it("work", function () {

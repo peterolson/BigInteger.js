@@ -134,7 +134,7 @@ var bigInt = (function (undefined) {
         if (isPrecise(a + BASE)) {
             return new BigInteger(addSmall(b, Math.abs(a)), a < 0);
         }
-        return new BigInteger(add(b, smallToArray(Math.abs(a))), a < 0);
+        return new BigInteger(addAny(b, smallToArray(Math.abs(a))), a < 0);
     };
     SmallInteger.prototype.plus = SmallInteger.prototype.add;
 

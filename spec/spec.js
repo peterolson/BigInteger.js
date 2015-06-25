@@ -305,6 +305,7 @@ describe("BigInteger", function () {
             expect(bigInt("-9876543210123456789").minus("-1234567890987654321")).toEqual("-8641975319135802468");
 
             expect(bigInt("-9007199254740991").add(bigInt("-1")).toString() === "-9007199254740992").toBe(true);
+            expect(bigInt("-5616421592529327000000000000000").minus("987682355516543").toString() === "-5616421592529327987682355516543").toBe(true);
         });
 
         it("carries over correctly", function () {

@@ -115,7 +115,10 @@ var bigInt = (function (undefined) {
         }
         var a = this.value, b = n.value;
         if (n.isSmall) {
-            return new BigInteger(addSmall(a, b), this.sign);
+            if (isPrecise(b + BASE)) {
+                return new BigInteger(addSmall(a, Math.abs(b)), this.sign);
+            }
+            b = smallToArray(Math.abs(b));
         }
         return new BigInteger(addAny(a, b), this.sign);
     };

@@ -126,10 +126,11 @@ var bigInt = (function (undefined) {
 
     SmallInteger.prototype.add = function (v) {
         var n = parseValue(v);
-        if (this.sign !== n.sign) {
+        var a = this.value;
+        if (a < 0 !== n.sign) {
             return this.subtract(n.negate());
         }
-        var a = this.value, b = n.value;
+        var b = n.value;
         if (n.isSmall) {
             if (isPrecise(a + b)) return new SmallInteger(a + b);
             b = smallToArray(Math.abs(b));
@@ -523,7 +524,7 @@ var bigInt = (function (undefined) {
         }
         var comparison = compareAbs(a, b);
         if (comparison === -1) return [CACHE[0], self];
-        if (comparison === 0) return [CACHE[1], CACHE[0]];
+        if (comparison === 0) return [CACHE[self.sign === n.sign ? 1 : -1], CACHE[0]];
 
         // divMod1 is faster on smaller input sizes
         if (a.length + b.length <= 200)

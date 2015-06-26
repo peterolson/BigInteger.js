@@ -306,6 +306,8 @@ describe("BigInteger", function () {
 
             expect(bigInt("-9007199254740991").add(bigInt("-1")).toString() === "-9007199254740992").toBe(true);
             expect(bigInt("-5616421592529327000000000000000").minus("987682355516543").toString() === "-5616421592529327987682355516543").toBe(true);
+
+            expect(bigInt("0").negate().add("10000000000000000")).toEqual("10000000000000000");
         });
 
         it("carries over correctly", function () {
@@ -459,6 +461,7 @@ describe("BigInteger", function () {
 
             expect(bigInt("786456456335437356436").over("-5423424653")).toEqual("-145011041298");
             expect(bigInt("-93453764643534523").over("-2342")).toEqual("39903400787162");
+            expect(bigInt("10000000000000000").divide("-10000000000000000")).toEqual(-1);
         });
 
         it("works", function () {

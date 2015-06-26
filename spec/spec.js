@@ -809,6 +809,15 @@ describe("BigInteger", function () {
         });
     });
 
+    describe("valueOf and toJSNumber", function () {
+        it("works", function () {
+            expect(bigInt(100) + bigInt(200) === 300).toBe(true);
+            expect(bigInt("100000000000300") - bigInt("100000000000000") === 300).toBe(true);
+            expect(bigInt(100).toJSNumber === bigInt(100).valueOf).toBe(true);
+            expect(bigInt("1e30").toJSNumber === bigInt("4e20").valueOf).toBe(true);
+        });
+    });
+
     describe("Base conversion", function () {
         it("parses numbers correctly", function () {
             expect(bigInt("10", 2).equals(2)).toBe(true);

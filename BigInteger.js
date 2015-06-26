@@ -1049,10 +1049,14 @@ var bigInt = (function (undefined) {
     };
 
     BigInteger.prototype.valueOf = function () {
-        if (this.isSmall) return this.value;
         return +this.toString();
     };
     BigInteger.prototype.toJSNumber = BigInteger.prototype.valueOf;
+
+    SmallInteger.prototype.valueOf = function () {
+        return this.value;
+    };
+    SmallInteger.prototype.toJSNumber = SmallInteger.prototype.valueOf;
 
     function parseValue(v) {
         if (v instanceof BigInteger || v instanceof SmallInteger) return v;

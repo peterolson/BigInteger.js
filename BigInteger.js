@@ -221,10 +221,11 @@ var bigInt = (function (undefined) {
 
     SmallInteger.prototype.subtract = function (v) {
         var n = parseValue(v);
-        if (this.sign !== n.sign) {
+        var a = this.value;
+        if (a < 0 !== n.sign) {
             return this.add(n.negate());
         }
-        var a = this.value, b = n.value;
+        var b = n.value;
         if (n.isSmall) {
             return new SmallInteger(a - b);
         }

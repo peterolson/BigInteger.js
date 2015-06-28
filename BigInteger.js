@@ -840,7 +840,7 @@ var bigInt = (function (undefined) {
         while (n >= powers2Length) {
             if (result.isZero()) return result;
             remQuo = divModAny(result, highestPower2);
-            result = remQuo[1].isNegative() ? remQuo.quotient.prev() : remQuo[0];
+            result = remQuo[1].isNegative() ? remQuo[0].prev() : remQuo[0];
             n -= powers2Length - 1;
         }
         remQuo = divModAny(result, powersOfTwo[n]);

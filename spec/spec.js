@@ -851,6 +851,7 @@ describe("BigInteger", function () {
             expect(bigInt("2596148429267413814265248164610049").shiftRight(100)).toEqual(2048);
             expect(bigInt("8589934592").shiftRight(-50)).toEqual("9671406556917033397649408");
             expect(bigInt("38685626227668133590597632").shiftLeft(-50)).toEqual("34359738368");
+            expect(bigInt("-1").shiftRight(25)).toEqual(-1);
         });
 
         it("and, or, xor, and not work", function () {

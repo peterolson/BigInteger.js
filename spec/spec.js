@@ -871,17 +871,29 @@ describe("BigInteger", function () {
 
     describe("randBetween", function () {
         it("return numbers in correct range", function () {
-            expect(bigInt.randBetween(0, 10).leq(10));
-            expect(bigInt.randBetween(0, 10).geq(0));
+            expect(bigInt.randBetween(0, 10).leq(10)).toBe(true);
+            expect(bigInt.randBetween(0, 10).geq(0)).toBe(true);
 
-            expect(bigInt.randBetween(0, "9e99").leq("9e99"));
-            expect(bigInt.randBetween(0, "9e99").geq(0));
+            expect(bigInt.randBetween(0, "9e99").leq("9e99")).toBe(true);
+            expect(bigInt.randBetween(0, "9e99").geq(0)).toBe(true);
 
-            expect(bigInt.randBetween("-9e99", 10).leq(10));
-            expect(bigInt.randBetween("-9e99", 10).geq("-9e99"));
+            expect(bigInt.randBetween("-9e99", 10).leq(10)).toBe(true);
+            expect(bigInt.randBetween("-9e99", 10).geq("-9e99")).toBe(true);
 
-            expect(bigInt.randBetween("-9e99", "9e99").leq("9e99"));
-            expect(bigInt.randBetween("-9e99", "9e99").geq("-9e99"));
+            expect(bigInt.randBetween("-9e99", "9e99").leq("9e99")).toBe(true);
+            expect(bigInt.randBetween("-9e99", "9e99").geq("-9e99")).toBe(true);
+        });
+        it("is within 10% of uniform distribution (this test is probabilistic and has a change of failing)", function () {
+            var buckets = new Array(25), N = 50000;
+            for (var i = 0; i < buckets.length; i++) buckets[i] = 0;
+            var min = bigInt[0], max = bigInt("1e25"), divisor = max.over(buckets.length);
+            for (var i = 0; i < N; i++) {
+                buckets[bigInt.randBetween(min, max).over(divisor)]++;
+            }
+            var ideal = N / buckets.length;
+            for (var i = 0; i < buckets.length; i++) {
+                expect(Math.abs(buckets[i] - ideal) / ideal < 0.1).toBe(true);
+            }
         });
     });
 

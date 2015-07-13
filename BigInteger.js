@@ -940,10 +940,9 @@ var bigInt = (function (undefined) {
     function randBetween(a, b) {
         a = parseValue(a);
         b = parseValue(b);
-        if (a.isSmall) a = smallToArray(a);
-        if (b.isSmall) b = smallToArray(b);
         var low = min(a, b), high = max(a, b);
         var range = high.subtract(low);
+        if (range.isSmall) return low.add(Math.random() * range);
         var length = range.value.length - 1;
         var result = [], restricted = true;
         for (var i = length; i >= 0; i--) {

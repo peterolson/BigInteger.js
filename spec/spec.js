@@ -869,6 +869,22 @@ describe("BigInteger", function () {
         });
     });
 
+    describe("randBetween", function () {
+        it("return numbers in correct range", function () {
+            expect(bigInt.randBetween(0, 10).leq(10));
+            expect(bigInt.randBetween(0, 10).geq(0));
+
+            expect(bigInt.randBetween(0, "9e99").leq("9e99"));
+            expect(bigInt.randBetween(0, "9e99").geq(0));
+
+            expect(bigInt.randBetween("-9e99", 10).leq(10));
+            expect(bigInt.randBetween("-9e99", 10).geq("-9e99"));
+
+            expect(bigInt.randBetween("-9e99", "9e99").leq("9e99"));
+            expect(bigInt.randBetween("-9e99", "9e99").geq("-9e99"));
+        });
+    });
+
     describe("isInstance", function () {
         it("works", function () {
             expect(bigInt.isInstance(bigInt(14))).toBe(true);

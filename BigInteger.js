@@ -1126,6 +1126,6 @@ var bigInt = (function (undefined) {
 })();
 
 // Node.js check
-if (typeof module !== "undefined") {
+if (typeof module !== "undefined" && module.hasOwnProperty("exports")) {
     module.exports = bigInt;
 }

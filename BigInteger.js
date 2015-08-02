@@ -91,15 +91,16 @@ var bigInt = (function (undefined) {
         return add(b, a);
     }
 
-    function addSmall(a, carry) { // assumes a is array, carry is number with |carry| + BASE < MAX_INT
+    function addSmall(a, carry) { // assumes a is array, carry is number with 0 <= carry < MAX_INT
         var l = a.length,
             r = new Array(l),
             base = BASE,
             sum, i;
         for (i = 0; i < l; i++) {
-            sum = a[i] + carry;
+            sum = a[i] - base + carry;
             carry = Math.floor(sum / base);
-            r[i] = sum % base;
+            r[i] = sum - carry * base;
+            carry += 1;
         }
         while (carry > 0) {
             r[i++] = carry % base;
@@ -115,10 +116,7 @@ var bigInt = (function (undefined) {
         }
         var a = this.value, b = n.value;
         if (n.isSmall) {
-            if (isPrecise(b + BASE)) {
-                return new BigInteger(addSmall(a, Math.abs(b)), this.sign);
-            }
-            b = smallToArray(Math.abs(b));
+            return new BigInteger(addSmall(a, Math.abs(b)), this.sign);
         }
         return new BigInteger(addAny(a, b), this.sign);
     };
@@ -135,10 +133,7 @@ var bigInt = (function (undefined) {
             if (isPrecise(a + b)) return new SmallInteger(a + b);
             b = smallToArray(Math.abs(b));
         }
-        if (isPrecise(a + BASE)) {
-            return new BigInteger(addSmall(b, Math.abs(a)), a < 0);
-        }
-        return new BigInteger(addAny(b, smallToArray(Math.abs(a))), a < 0);
+        return new BigInteger(addSmall(b, Math.abs(a)), a < 0);
     };
     SmallInteger.prototype.plus = SmallInteger.prototype.add;
 
@@ -189,7 +184,7 @@ var bigInt = (function (undefined) {
         return new BigInteger(value, sign);
     }
 
-    function subtractSmall(a, b, sign) { // assumes a is array, b is number with |b| < MAX_INT
+    function subtractSmall(a, b, sign) { // assumes a is array, b is number with 0 <= b < MAX_INT
         var l = a.length,
             r = new Array(l),
             carry = -b,

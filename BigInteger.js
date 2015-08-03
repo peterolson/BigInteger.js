@@ -392,13 +392,11 @@ var bigInt = (function (undefined) {
             divisor = multiplySmall(b, lambda),
             quotientDigit, shift, carry, borrow, i, l, q;
         if (remainder.length <= a_l) remainder.push(0);
-        if (divisor.length <= b_l) divisor.push(0);
+        divisor.push(0);
         divisorMostSignificantDigit = divisor[b_l - 1];
         for (shift = a_l - b_l; shift >= 0; shift--) {
             quotientDigit = base - 1;
-            if (remainder[shift + b_l] !== divisorMostSignificantDigit) {
-                quotientDigit = Math.floor((remainder[shift + b_l] * base + remainder[shift + b_l - 1]) / divisorMostSignificantDigit);
-            }
+            quotientDigit = Math.floor((remainder[shift + b_l] * base + remainder[shift + b_l - 1]) / divisorMostSignificantDigit);
             carry = 0;
             borrow = 0;
             l = divisor.length;
@@ -438,7 +436,7 @@ var bigInt = (function (undefined) {
     }
 
     function divMod2(a, b) { // Implementation idea shamelessly stolen from Silent Matt's library http://silentmatt.com/biginteger/
-                             // Performs faster than divMod1 on larger input sizes.
+        // Performs faster than divMod1 on larger input sizes.
         var a_l = a.length,
             b_l = b.length,
             result = [],
@@ -451,24 +449,19 @@ var bigInt = (function (undefined) {
                 result.push(0);
                 continue;
             }
-            if (part.length === 1 && part[0] === 0) {
-                guess = 0;
-            } else {
-                xlen = part.length;
-                highx = part[xlen - 1] * base + part[xlen - 2];
-                highy = b[b_l - 1] * base + b[b_l - 2];
-                if (xlen > b_l) {
-                    highx = (highx + 1) * base;
-                }
-                guess = Math.ceil(highx / highy);
+            xlen = part.length;
+            highx = part[xlen - 1] * base + part[xlen - 2];
+            highy = b[b_l - 1] * base + b[b_l - 2];
+            if (xlen > b_l) {
+                highx = (highx + 1) * base;
             }
+            guess = Math.ceil(highx / highy);
             do {
                 check = multiplySmall(b, guess);
                 if (compareAbs(check, part) <= 0) break;
                 guess--;
             } while (guess);
             result.push(guess);
-            if (!guess) continue;
             part = subtract(part, check);
         }
         result.reverse();
@@ -567,17 +560,16 @@ var bigInt = (function (undefined) {
             b = n.value,
             value, x, y;
         if (b === 0) return CACHE[1];
+        if (a === 0) return CACHE[0];
+        if (a === 1) return CACHE[1];
+        if (a === -1) return n.isEven() ? CACHE[1] : CACHE[-1];
         if (n.sign) {
-            if (a === 1) return CACHE[1];
-            if (a === -1) return isEven(n) ? CACHE[1] : CACHE[-1];
             return CACHE[0];
         }
         if (!n.isSmall) throw new Error("The exponent " + n.toString() + " is too large.");
         if (this.isSmall) {
             if (isPrecise(value = Math.pow(a, b)))
                 return new SmallInteger(truncate(value));
-            if (a === 0) return CACHE[0];
-            if (a === 1) return CACHE[1];
         }
         x = this;
         y = CACHE[1];

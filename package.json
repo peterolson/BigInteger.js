@@ -1,12 +1,12 @@
 {
   "name": "big-integer",
-  "version": "1.5.5",
+  "version": "1.5.6",
   "author": "Peter Olson <peter.e.c.olson+npm@gmail.com>",
   "description": "An arbitrary length integer library for Javascript",
   "contributors": [],
   "bin": {},
   "scripts": {
-    "test": "./node_modules/.bin/jasmine"
+    "test": "node_modules/.bin/karma start my.conf.js"
   },
   "main": "./BigInteger",
   "repository": {
@@ -24,13 +24,15 @@
     "precision",
     "arithmetic"
   ],
-  "devDependencies" : {
-    "jasmine": "2.1.x"
-  }, 
+  "devDependencies": {
+    "jasmine": "2.1.x",
+    "jasmine-core": "^2.3.4",
+    "karma": "^0.13.3",
+    "karma-coverage": "^0.4.2",
+    "karma-jasmine": "^0.3.6"
+  },
   "license": "WTFPL",
   "engines": {
     "node": ">=0.6"
   }
 }
-
-          

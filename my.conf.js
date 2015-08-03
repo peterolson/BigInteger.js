@@ -6,9 +6,13 @@ module.exports = function(config) {
       'BigInteger.js',
       'spec/*.js'
     ],
-    browsers: ['Chrome'],
+    browsers: ['PhantomJS'],
     singleRun: true,
     reporters: ['progress', 'coverage'],
-    preprocessors: { '*.js': ['coverage'] }
+    preprocessors: { '*.js': ['coverage'] },
+    coverageReporter: {
+	    type : 'lcov',
+	    dir : 'coverage/'
+    }
   });
 };

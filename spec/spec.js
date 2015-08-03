@@ -325,6 +325,9 @@ describe("BigInteger", function () {
             }
 
             expect(bigInt("9007199254740991").add(bigInt("1")).toString()).toBe("9007199254740992");
+            expect(bigInt("999999999999999999999000000000000000000000").add("1000000000000000000000")).toEqual("1e42");
+            expect(bigInt("1e20").add("9007199254740972")).toEqual("100009007199254740972");
+            expect(bigInt("-9007199254740983").add(bigInt("-9999999999999998")).toString() === "-19007199254740981").toBe(true); // issue #42
         });
 
         it("work", function () {

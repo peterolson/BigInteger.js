@@ -330,24 +330,26 @@ var bigInt = (function (undefined) {
 
     BigInteger.prototype.times = BigInteger.prototype.multiply;
 
-    SmallInteger.prototype.multiply = function (v) {
-        var n = parseValue(v),
-            a = this.value,
-            b = n.value;
-        if (a === 0) return CACHE[0];
-        if (a === 1) return n;
-        if (a === -1) return n.negate();
-        if (n.isSmall) {
-            if (isPrecise(a * b)) {
-                return new SmallInteger(a * b);
+    function multiplySmallAndArray(a, b, sign) { // a >= 0
+        if (a < BASE) {
+            return new BigInteger(multiplySmall(b, a), sign);
+        }
+        return new BigInteger(multiplyLong(b, smallToArray(a)), sign);
+    }
+    SmallInteger.prototype["_multiplyBySmall"] = function (a) {
+            if (isPrecise(a.value * this.value)) {
+                return new SmallInteger(a.value * this.value);
             }
-            b = smallToArray(Math.abs(b));
-        }
-        var abs = Math.abs(a);
-        if (abs < BASE) {
-            return new BigInteger(multiplySmall(b, abs), this.sign !== n.sign);
-        }
-        return new BigInteger(multiplyLong(b, smallToArray(abs)), this.sign !== n.sign);
+            return multiplySmallAndArray(Math.abs(a.value), smallToArray(Math.abs(this.value)), this.sign !== a.sign);
+    };
+    BigInteger.prototype["_multiplyBySmall"] = function (a) {
+            if (a.value === 0) return CACHE[0];
+            if (a.value === 1) return this;
+            if (a.value === -1) return this.negate();
+            return multiplySmallAndArray(Math.abs(a.value), this.value, this.sign !== a.sign);
+    };
+    SmallInteger.prototype.multiply = function (v) {
+        return parseValue(v)["_multiplyBySmall"](this);
     };
     SmallInteger.prototype.times = SmallInteger.prototype.multiply;
 
@@ -1043,14 +1045,8 @@ var bigInt = (function (undefined) {
         return this.value;
     };
     SmallInteger.prototype.toJSNumber = SmallInteger.prototype.valueOf;
-
-    function parseValue(v) {
-        if (v instanceof BigInteger || v instanceof SmallInteger) return v;
-        if (typeof v === "number") {
-            if (isPrecise(v)) return new SmallInteger(v);
-            v = String(v);
-        }
-        if (typeof v === "string") {
+    
+    function parseStringValue(v) {
             if (isPrecise(+v)) {
                 var x = +v;
                 if (x === truncate(x))
@@ -1087,7 +1083,21 @@ var bigInt = (function (undefined) {
             }
             trim(r);
             return new BigInteger(r, sign);
+    }
+    
+    function parseNumberValue(v) {
+            if (isPrecise(v)) return new SmallInteger(v);
+            return parseStringValue(v.toString());
+    }
+
+    function parseValue(v) {
+        if (typeof v === "number") {
+            return parseNumberValue(v);
         }
+        if (typeof v === "string") {
+            return parseStringValue(v);
+        }
+        return v;
     }
     // Pre-define numbers in range [-999,999]
     var CACHE = function (v, radix) {

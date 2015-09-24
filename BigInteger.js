@@ -772,6 +772,26 @@ var bigInt = (function (undefined) {
     };
     SmallInteger.prototype.isPrime = BigInteger.prototype.isPrime;
 
+    BigInteger.prototype.isProbablePrime = function (iterations) {
+        if (isBasicPrime(this)) return true;
+        if (isBasicPrime(this) === false) return false;
+        var n = this.abs();
+        var t;
+        if (arguments.length) {
+            t = iterations;
+        } else {
+            t = 5; // default (can be changed)
+        }
+        // use the Fermat primality test
+        for (var i = 0; i < t; i++) {
+            var a = bigInt.randBetween(2, n.minus(1));
+            if (a.isSmall) a = Math.floor(a); // randbetween doesn't provide an integer for small numbers
+            if (!bigInt(a).modPow(n.minus(1), n).equals(1)) return false; // definitely composite
+        }
+        return true; // large chance of being prime
+    };
+    SmallInteger.prototype.isProbablePrime = BigInteger.prototype.isProbablePrime;
+
     BigInteger.prototype.next = function () {
         var value = this.value;
         if (this.sign) {

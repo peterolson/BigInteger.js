@@ -741,13 +741,20 @@ var bigInt = (function (undefined) {
     };
     SmallInteger.prototype.isDivisibleBy = BigInteger.prototype.isDivisibleBy;
 
-    BigInteger.prototype.isPrime = function () {
-        var n = this.abs(),
-            nPrev = n.prev();
+    function isBasicPrime(v) {
+        var n = v.abs();
         if (n.isUnit()) return false;
         if (n.equals(2) || n.equals(3) || n.equals(5)) return true;
         if (n.isEven() || n.isDivisibleBy(3) || n.isDivisibleBy(5)) return false;
         if (n.lesser(25)) return true;
+        return null; // we don't know if it's prime: let the other functions figure it out
+    };
+
+    BigInteger.prototype.isPrime = function () {
+        if (isBasicPrime(this)) return true;
+        if (isBasicPrime(this) === false) return false;
+        var n = this.abs(),
+            nPrev = n.prev();
         var a = [2, 3, 5, 7, 11, 13, 17, 19],
             b = nPrev,
             d, t, i, x;

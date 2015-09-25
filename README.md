@@ -216,6 +216,10 @@ This uses the [Fermat primality test](https://en.wikipedia.org/wiki/Fermat_prima
  - `bigInt(5).isProbablePrime()` => `true`
  - `bigInt(49).isProbablePrime()` => `false`
  - `bigInt(1729).isProbablePrime(50)` => `false`
+ 
+Note that this function is not deterministic, since it relies on random sampling of factors, so the result for some numbers is not always the same. [Carmichael numbers](https://en.wikipedia.org/wiki/Carmichael_number) are particularly prone to give unreliable results.
+
+For example, `bigInt(1729).isProbablePrime()` returns `false` about 76% of the time and `true` about 24% of the time. The correct result is `false`.
 
 `isUnit()`
 ---

@@ -192,6 +192,14 @@ Returns `true` if the number is odd, `false` otherwise.
  - `bigInt(13).isOdd()` => `true`
  - `bigInt(40).isOdd()` => `false`
 
+`isPositive()`
+---
+Return `true` if the number is positive, `false` otherwise.
+Returns `false` for `0` and `-0`.
+
+ - `bigInt(54).isPositive()` => `true`
+ - `bigInt(-1).isPositive()` => `false`
+
 `isPrime()`
 ---
 Returns `true` if the number is prime, `false` otherwise.
@@ -208,14 +216,6 @@ This uses the [Fermat primality test](https://en.wikipedia.org/wiki/Fermat_prima
  - `bigInt(5).isProbablePrime()` => `true`
  - `bigInt(49).isProbablePrime()` => `false`
  - `bigInt(1729).isProbablePrime(50)` => `false`
-
-`isPositive()`
----
-Return `true` if the number is positive, `false` otherwise.
-Returns `false` for `0` and `-0`.
-
- - `bigInt(54).isPositive()` => `true`
- - `bigInt(-1).isPositive()` => `false`
 
 `isUnit()`
 ---

@@ -785,6 +785,21 @@ describe("BigInteger", function () {
         });
     });
 
+    describe("isProbablePrime", function () {
+        it("has false positive rate less than 0.1%", function () {
+            var totalPrimes = 0, falsePrimes = 0;
+            for (var i = 1; i < 1e5; i++) {
+                var x = bigInt(i);
+                if (x.isPrime()) {
+                    totalPrimes++;
+                } else if (x.isProbablePrime()) {
+                    falsePrimes++;
+                }
+            }
+            expect(falsePrimes / totalPrimes < 0.001).toBe(true);
+        });
+    });
+
     describe("isUnit", function () {
         it("works", function () {
             expect(bigInt.one.isUnit()).toBe(true);

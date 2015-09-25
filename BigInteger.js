@@ -776,12 +776,7 @@ var bigInt = (function (undefined) {
         if (isBasicPrime(this)) return true;
         if (isBasicPrime(this) === false) return false;
         var n = this.abs();
-        var t;
-        if (arguments.length) {
-            t = iterations;
-        } else {
-            t = 5; // default (can be changed)
-        }
+        var t = iterations === undefined ? 5 : iterations;
         // use the Fermat primality test
         for (var i = 0; i < t; i++) {
             var a = bigInt.randBetween(2, n.minus(1));

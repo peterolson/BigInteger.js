@@ -32,7 +32,7 @@
     "karma-jasmine": "^0.3.6",
     "karma-phantomjs-launcher": "~0.1"
   },
-  "license": "WTFPL",
+  "license": "Unlicense",
   "engines": {
     "node": ">=0.6"
   }

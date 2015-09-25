@@ -747,12 +747,12 @@ var bigInt = (function (undefined) {
         if (n.equals(2) || n.equals(3) || n.equals(5)) return true;
         if (n.isEven() || n.isDivisibleBy(3) || n.isDivisibleBy(5)) return false;
         if (n.lesser(25)) return true;
-        return null; // we don't know if it's prime: let the other functions figure it out
+        // we don't know if it's prime: let the other functions figure it out
     };
 
     BigInteger.prototype.isPrime = function () {
-        if (isBasicPrime(this)) return true;
-        if (isBasicPrime(this) === false) return false;
+        var isPrime = isBasicPrime(this);
+        if (isPrime !== undefined) return isPrime;
         var n = this.abs(),
             nPrev = n.prev();
         var a = [2, 3, 5, 7, 11, 13, 17, 19],
@@ -773,8 +773,8 @@ var bigInt = (function (undefined) {
     SmallInteger.prototype.isPrime = BigInteger.prototype.isPrime;
 
     BigInteger.prototype.isProbablePrime = function (iterations) {
-        if (isBasicPrime(this)) return true;
-        if (isBasicPrime(this) === false) return false;
+        var isPrime = isBasicPrime(this);
+        if (isPrime !== undefined) return isPrime;
         var n = this.abs();
         var t = iterations === undefined ? 5 : iterations;
         // use the Fermat primality test

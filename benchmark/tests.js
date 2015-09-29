@@ -168,7 +168,7 @@ var libraries = (function () {
                 .replace(/(.+)\.square\(\)/g, "$1.times($1)")
                 .replace("parseInt", "new BigNumber");
             })
-        },
+        }/*, // Leemon Baird library link is broken
         "Leemon Baird BigInt.js": {
             url: ["http://www.leemon.com/crypto/BigInt.js"],
             projectURL: "http://www.leemon.com/crypto/BigInt.html",
@@ -185,7 +185,7 @@ var libraries = (function () {
                 .replace("parseInt", "str2bigInt")
                 .replace(/(\w+)\.toString\(([^\)]*)\)/g, "bigInt2str($1, $2)")
             }, ["Exponentiation"])
-        }
+        }*/
     };
     return libraries;
 })();

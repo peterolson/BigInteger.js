@@ -306,7 +306,7 @@ Adds one to the number.
 ---
 Performs the bitwise NOT operation. The operands are treated as if they were represented using [two's complement representation](http://en.wikipedia.org/wiki/Two%27s_complement).
 
- - `bigInt(10).not()` => `-5`
+ - `bigInt(10).not()` => `-11`
  - `bigInt(0).not()` => `-1`
 
 `notEquals(number)`

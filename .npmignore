@@ -6,3 +6,11 @@
 /big-integer*.tgz
 /my.conf.js
 /node_modules
+/*.csproj*
+/*.suo
+/bin
+/coverage
+/*.bat
+/obj
+/Properties
+/Web.*

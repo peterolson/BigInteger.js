@@ -1,0 +1,8 @@
+/.travis.yml
+/.npmignore
+/.gitignore
+/spec
+/benchmark
+/big-integer*.tgz
+/my.conf.js
+/node_modules

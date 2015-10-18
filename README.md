@@ -278,11 +278,11 @@ Performs division and returns the remainder, disregarding the quotient. The sign
  
 [View benchmarks for this method](http://peterolson.github.io/BigInteger.js/benchmark/#Division)
 
-`modPow(exp, mod)`
+`powm(exp, mod)`
 ---
 Takes the number to the power `exp` modulo `mod`.
 
- - `bigInt(10).modPow(3, 30)` => `10`
+ - `bigInt(10).powm(3, 30)` => `10`
 
 `multiply(number)`
 ---

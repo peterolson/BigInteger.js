@@ -193,7 +193,8 @@ var bigInt = (function (undefined) {
         for (i = 0; i < l; i++) {
             difference = a[i] + carry;
             carry = Math.floor(difference / base);
-            r[i] = difference < 0 ? difference % base + base : difference;
+            difference %= base;
+            r[i] = difference < 0 ? difference + base : difference;
         }
         r = arrayToSmall(r);
         if (typeof r === "number") {

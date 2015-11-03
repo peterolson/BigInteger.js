@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/peterolson/BigInteger.js.svg?branch=master)](https://travis-ci.org/peterolson/BigInteger.js)
+[![Coverage Status](https://coveralls.io/repos/peterolson/BigInteger.js/badge.svg?branch=master&service=github)](https://coveralls.io/github/peterolson/BigInteger.js?branch=master)
 
 BigInteger.js
 =========

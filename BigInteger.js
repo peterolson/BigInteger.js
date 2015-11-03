@@ -913,6 +913,14 @@ var bigInt = (function (undefined) {
     };
     SmallInteger.prototype.xor = BigInteger.prototype.xor;
 
+    var LOBMASK_I = 1 << 30, LOBMASK_BI = (BASE & -BASE) * (BASE & -BASE) | LOBMASK_I;
+    function roughLOB(n) { // get lowestOneBit (rough)
+        // SmallInteger: return Min(lowestOneBit(n), 1 << 30)
+        // BigInteger: return Min(lowestOneBit(n), 1 << 14) [BASE=1e7]
+        var v = n.value, x = typeof v === "number" ? v | LOBMASK_I : v[0] + v[1] * BASE | LOBMASK_BI;
+        return x & -x;
+    }
+
     function max(a, b) {
         a = parseValue(a);
         b = parseValue(b);
@@ -929,24 +937,31 @@ var bigInt = (function (undefined) {
         if (a.equals(b)) return a;
         if (a.isZero()) return b;
         if (b.isZero()) return a;
-        if (a.isEven()) {
-            if (b.isOdd()) {
-                return gcd(a.divide(2), b);
+        var c = CACHE[1], d, t;
+        while (a.isEven() && b.isEven()) {
+            d = Math.min(roughLOB(a), roughLOB(b));
+            a = a.divide(d);
+            b = b.divide(d);
+            c = c.multiply(d);
+        }
+        while (a.isEven()) {
+            a = a.divide(roughLOB(a));
+        }
+        do {
+            while (b.isEven()) {
+                b = b.divide(roughLOB(b));
             }
-            return gcd(a.divide(2), b.divide(2)).multiply(2);
-        }
-        if (b.isEven()) {
-            return gcd(a, b.divide(2));
-        }
-        if (a.greater(b)) {
-            return gcd(a.subtract(b).divide(2), b);
-        }
-        return gcd(b.subtract(a).divide(2), a);
+            if (a.greater(b)) {
+                t = b; b = a; a = t;
+            }
+            b = b.subtract(a);
+        } while (!b.isZero());
+        return c.isUnit() ? a : a.multiply(c);
     }
     function lcm(a, b) {
         a = parseValue(a).abs();
         b = parseValue(b).abs();
-        return a.multiply(b).divide(gcd(a, b));
+        return a.divide(gcd(a, b)).multiply(b);
     }
     function randBetween(a, b) {
         a = parseValue(a);

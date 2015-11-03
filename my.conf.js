@@ -12,7 +12,8 @@ module.exports = function(config) {
     preprocessors: { '*.js': ['coverage'] },
     coverageReporter: {
 	    type : 'lcov',
-	    dir : 'coverage/'
+	    dir : 'coverage/',
+	    subdir: '.'
     }
   });
 };

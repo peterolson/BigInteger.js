@@ -668,6 +668,7 @@ describe("BigInteger", function () {
             expect(bigInt.gcd(0, 56)).toEqual(56);
             expect(bigInt.gcd(42, 0)).toEqual(42);
             expect(bigInt.gcd(17, 103)).toEqual(1);
+            expect(bigInt.gcd(192, 84)).toEqual(12);
         });
     });
 

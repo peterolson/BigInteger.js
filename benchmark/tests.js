@@ -116,12 +116,13 @@ var libraries = (function () {
             projectURL: "https://github.com/Yaffle/BigInteger",
             onStart: createInitialization("BigInteger.parseInt"),
             tests: generateTests(function (x) {
-                return x.replace(/\.add/g, "['BigInteger.add']")
-                .replace(/\.minus/g, "['BigInteger.subtract']")
-                .replace(/\.times/g, "['BigInteger.multiply']")
-                .replace(/\.over/g, "['BigInteger.divide']")
-                .replace(/(.+)\.square\(\)/g, "$1['BigInteger.multiply']($1)")
-                .replace(/\.toString/g, "['BigInteger.toString']")
+                return x
+                .replace(/([_a-zA-Z0-9]+)\.add\(([_a-zA-Z0-9]+)\)/g, "BigInteger.add($1, $2)")
+                .replace(/([_a-zA-Z0-9]+)\.minus\(([_a-zA-Z0-9]+)\)/g, "BigInteger.subtract($1, $2)")
+                .replace(/([_a-zA-Z0-9]+)\.times\(([_a-zA-Z0-9]+)\)/g, "BigInteger.multiply($1, $2)")
+                .replace(/([_a-zA-Z0-9]+)\.over\(([_a-zA-Z0-9]+)\)/g, "BigInteger.divide($1, $2)")
+                .replace(/([_a-zA-Z0-9]+)\.square\(\)/g, "BigInteger.multiply($1, $1)")
+                .replace(/([_a-zA-Z0-9]+)\.toString\(([_a-zA-Z0-9]+)\)/g, "($1).toString($2)")
                 .replace("parseInt", "BigInteger.parseInt");
             }, ["Exponentiation"])
         },

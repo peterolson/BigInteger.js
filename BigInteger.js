@@ -399,7 +399,10 @@ var bigInt = (function (undefined) {
         divisorMostSignificantDigit = divisor[b_l - 1];
         for (shift = a_l - b_l; shift >= 0; shift--) {
             quotientDigit = base - 1;
-            quotientDigit = Math.floor((remainder[shift + b_l] * base + remainder[shift + b_l - 1]) / divisorMostSignificantDigit);
+            if (remainder[shift + b_l] !== divisorMostSignificantDigit) {
+              quotientDigit = Math.floor((remainder[shift + b_l] * base + remainder[shift + b_l - 1]) / divisorMostSignificantDigit);
+            }
+            // quotientDigit <= base - 1
             carry = 0;
             borrow = 0;
             l = divisor.length;

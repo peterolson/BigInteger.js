@@ -981,7 +981,7 @@ var bigInt = (function (undefined) {
             if (digit < top) restricted = false;
         }
         result = arrayToSmall(result);
-        return low.add(new BigInteger(result, false, typeof result === "number"));
+        return low.add(typeof result === "number" ? new SmallInteger(result) : new BigInteger(result, false));
     }
     var parseBase = function (text, base) {
         var val = CACHE[0], pow = CACHE[1],

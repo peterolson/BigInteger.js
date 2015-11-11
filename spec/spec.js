@@ -971,6 +971,10 @@ describe("BigInteger", function () {
         });
         it("always returns integers", function () {
             expect(+bigInt.randBetween(0, 127) % 1).toBe(0);
+
+            for (var i = 0; i < 20; i++) { // issue #60
+                expect(bigInt.randBetween(0, "11703780079612452").toString()).not.toBe("undefined");
+            }
         });
         it("is within 10% of uniform distribution (this test is probabilistic and has a small change of failing)", function () {
             var buckets = new Array(25), N = 50000;

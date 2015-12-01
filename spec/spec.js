@@ -231,6 +231,13 @@ describe("BigInteger", function () {
             expect(bigInt(12345)).toEqual("12345");
             expect(bigInt("9876543210")).toEqual(bigInt(9876543210));
         });
+
+        it("allows Infinity and -Infinity", function () {
+            expect(bigInt(56).lesser(Infinity)).toBe(true);
+            expect(bigInt(56).greater(-Infinity)).toBe(true);
+            expect(bigInt("50e50").lesser(Infinity)).toBe(true);
+            expect(bigInt("50e50").greater(-Infinity)).toBe(true);
+        });
     });
 
     describe("Addition and subtraction", function () {

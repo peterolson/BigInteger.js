@@ -637,6 +637,15 @@ var bigInt = (function (undefined) {
     };
 
     BigInteger.prototype.compare = function (v) {
+        // See discussion about comparison with Infinity:
+        // https://github.com/peterolson/BigInteger.js/issues/61
+        if (v === Infinity) {
+            return -1;
+        }
+        if (v === -Infinity) {
+            return 1;
+        }
+
         var n = parseValue(v),
             a = this.value,
             b = n.value;
@@ -651,6 +660,13 @@ var bigInt = (function (undefined) {
     BigInteger.prototype.compareTo = BigInteger.prototype.compare;
 
     SmallInteger.prototype.compare = function (v) {
+        if (v === Infinity) {
+            return -1;
+        }
+        if (v === -Infinity) {
+            return 1;
+        }
+
         var n = parseValue(v),
             a = this.value,
             b = n.value;

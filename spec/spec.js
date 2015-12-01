@@ -233,6 +233,8 @@ describe("BigInteger", function () {
         });
 
         it("allows Infinity and -Infinity", function () {
+            // See issue #61 
+            // https://github.com/peterolson/BigInteger.js/issues/61
             expect(bigInt(56).lesser(Infinity)).toBe(true);
             expect(bigInt(56).greater(-Infinity)).toBe(true);
             expect(bigInt("50e50").lesser(Infinity)).toBe(true);

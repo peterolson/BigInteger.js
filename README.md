@@ -317,8 +317,6 @@ Checks if two numbers are not equal.
  - `bigInt(5).notEquals(5)` => `false`
  - `bigInt(4).notEquals(7)` => `true`
 
- - `bigInt(6).next()` => `7`
-
 `or(number)`
 ---
 Performs the bitwise OR operation. The operands are treated as if they were represented using [two's complement representation](http://en.wikipedia.org/wiki/Two%27s_complement).

@@ -598,8 +598,8 @@ var bigInt = (function (undefined) {
         if (mod.isZero()) throw new Error("Cannot take modPow with modulus 0");
         var r = CACHE[1],
             base = this.mod(mod);
-        if (base.isZero()) return CACHE[0];
         while (exp.isPositive()) {
+            if (base.isZero()) return CACHE[0];
             if (exp.isOdd()) r = r.multiply(base).mod(mod);
             exp = exp.divide(2);
             base = base.square().mod(mod);

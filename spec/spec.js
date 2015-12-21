@@ -609,6 +609,7 @@ describe("BigInteger", function () {
             //   https://projecteuler.net/problem=97
             expect(bigInt(28433).times(bigInt(2).modPow(7830457, "1e10")).plus(1).mod("1e10")).toEqual(8739992577);
             expect(bigInt(0).modPow(4, 20)).toEqual(0);
+            expect(bigInt(0).modPow(0, 20)).toEqual(1);
             try {
                 bigInt(4).modPow(9, 0);
                 expect(true).toBe(false);

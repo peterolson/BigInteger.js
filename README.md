@@ -1,7 +1,7 @@
-# BigInteger.js [![Build Status][travis-img]][travis-url] [![Coverage Status][coveralls-img]][coveralls-url] [![Monthly Downloads][downloads-img]][npm-url]
+# BigInteger.js [![Build Status][travis-img]][travis-url] [![Coverage Status][coveralls-img]][coveralls-url] [![Monthly Downloads][downloads-img]][downloads-url]
 
-[travis-url]: https://travis-ci.org/peterolson/BigInteger.js.svg?branch=master
-[travis-img]: https://travis-ci.org/peterolson/BigInteger.js
+[travis-url]: https://travis-ci.org/peterolson/BigInteger.js
+[travis-img]: https://travis-ci.org/peterolson/BigInteger.js.svg?branch=master
 [coveralls-url]: https://coveralls.io/github/peterolson/BigInteger.js?branch=master
 [coveralls-img]: https://coveralls.io/repos/peterolson/BigInteger.js/badge.svg?branch=master&service=github
 [downloads-url]: https://www.npmjs.com/package/big-integer

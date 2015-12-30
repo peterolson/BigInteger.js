@@ -1,8 +1,11 @@
-[![Build Status](https://travis-ci.org/peterolson/BigInteger.js.svg?branch=master)](https://travis-ci.org/peterolson/BigInteger.js)
-[![Coverage Status](https://coveralls.io/repos/peterolson/BigInteger.js/badge.svg?branch=master&service=github)](https://coveralls.io/github/peterolson/BigInteger.js?branch=master)
+# BigInteger.js [![Build Status][travis-img]][travis-url] [![Coverage Status][coveralls-img]][coveralls-url] [![Monthly Downloads][downloads-img]][npm-url]
 
-BigInteger.js
-=========
+[travis-url]: https://travis-ci.org/peterolson/BigInteger.js.svg?branch=master
+[travis-img]: https://travis-ci.org/peterolson/BigInteger.js
+[coveralls-url]: https://coveralls.io/github/peterolson/BigInteger.js?branch=master
+[coveralls-img]: https://coveralls.io/repos/peterolson/BigInteger.js/badge.svg?branch=master&service=github
+[downloads-url]: https://www.npmjs.com/package/big-integer
+[downloads-img]: https://img.shields.io/npm/dm/big-integer.svg
 
 **BigInteger.js** is an arbitrary-length integer library for Javascript, allowing arithmetic operations on integers of unlimited size, notwithstanding memory and time limitations.
 

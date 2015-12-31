@@ -843,8 +843,7 @@ var bigInt = (function (undefined) {
 
     BigInteger.prototype.shiftLeft = function (n) {
         if (!shift_isSmall(n)) {
-            if (n.isNegative()) return this.shiftRight(n.abs());
-            return this.times(CACHE[2].pow(n));
+            throw new Error(String(n) + " is too large for shifting.");
         }
         n = +n;
         if (n < 0) return this.shiftRight(-n);
@@ -860,9 +859,7 @@ var bigInt = (function (undefined) {
     BigInteger.prototype.shiftRight = function (n) {
         var remQuo;
         if (!shift_isSmall(n)) {
-            if (n.isNegative()) return this.shiftLeft(n.abs());
-            remQuo = this.divmod(CACHE[2].pow(n));
-            return remQuo.remainder.isNegative() ? remQuo.quotient.prev() : remQuo.quotient;
+            throw new Error(String(n) + " is too large for shifting.");
         }
         n = +n;
         if (n < 0) return this.shiftLeft(-n);

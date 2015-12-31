@@ -363,14 +363,14 @@ Alias for the `mod` method.
 
 #### `shiftLeft(n)`
 
-Shifts the number left by `n` places in its binary representation. If a negative number is provided, it will shift right.
+Shifts the number left by `n` places in its binary representation. If a negative number is provided, it will shift right. Throws an error if `n` is outside of the range `[-9007199254740992, 9007199254740992]`.
 
  - `bigInt(8).shiftLeft(2)` => `32`
  - `bigInt(8).shiftLeft(-2)` => `2`
 
 #### `shiftRight(n)`
 
-Shifts the number right by `n` places in its binary representation. If a negative number is provided, it will shift left.
+Shifts the number right by `n` places in its binary representation. If a negative number is provided, it will shift left. Throws an error if `n` is outside of the range `[-9007199254740992, 9007199254740992]`.
 
  - `bigInt(8).shiftRight(2)` => `2`
  - `bigInt(8).shiftRight(-2)` => `32`

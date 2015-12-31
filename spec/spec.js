@@ -956,6 +956,15 @@ describe("BigInteger", function () {
             expect(bigInt("-1").shiftRight(25)).toEqual(-1);
         });
 
+        it("shifting left and right throw for large shifts", function () {
+            expect(function () {
+                bigInt(5).shiftLeft("5e10");
+            }).toThrow();
+            expect(function () {
+                bigInt(5).shiftRight("5e10");
+            }).toThrow();
+        });
+
         it("and, or, xor, and not work", function () {
             expect(bigInt("435783453").and("902345074")).toEqual("298352912");
             expect(bigInt("435783453").or("902345074")).toEqual("1039775615");

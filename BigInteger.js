@@ -1031,7 +1031,7 @@ var bigInt = (function (undefined) {
     function stringify(digit) {
         var v = digit.value;
         if (typeof v === "number") v = [v];
-        if (v.length === 1 && v[0] <= 36) {
+        if (v.length === 1 && v[0] <= 35) {
             return "0123456789abcdefghijklmnopqrstuvwxyz".charAt(v[0]);
         }
         return "<" + v + ">";

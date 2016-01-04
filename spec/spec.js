@@ -941,6 +941,9 @@ describe("BigInteger", function () {
             expect(bigInt("secretmessage000", -36).toString(-36) === "secretmessage000").toBe(true);
             expect(bigInt(-256).toString(16) === "-100").toBe(true);
             expect(bigInt(256).toString(1).length === 256).toBe(true);
+            // see issue #67
+            // https://github.com/peterolson/BigInteger.js/issues/67
+            expect(bigInt(36).toString(40) === "<36>").toBe(true); 
         });
     });
 

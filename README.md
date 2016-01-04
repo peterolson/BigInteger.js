@@ -34,7 +34,7 @@ You can create a bigInt by calling the `bigInt` function. You can pass in
  - another bigInt.
  - nothing, and it will return `bigInt.zero`.
 
- If you provide a second parameter, then it will parse `number` as a number in base `base`. Note that `base` can be any bigInt (even negative or zero). The letters "a-z" and "A-Z" will be interpreted as the numbers 10 to 36. Higher digits can be specified in angle brackets (`<` and `>`).
+ If you provide a second parameter, then it will parse `number` as a number in base `base`. Note that `base` can be any bigInt (even negative or zero). The letters "a-z" and "A-Z" will be interpreted as the numbers 10 to 35. Higher digits can be specified in angle brackets (`<` and `>`).
 
 Examples:
 
@@ -456,7 +456,7 @@ Returns a random number between `min` and `max`.
 
 #### `toString(radix = 10)`
 
-Converts a bigInt to a string. There is an optional radix parameter (which defaults to 10) that converts the number to the given radix. Digits in the range `10-36` will use the letters `a-z`.
+Converts a bigInt to a string. There is an optional radix parameter (which defaults to 10) that converts the number to the given radix. Digits in the range `10-35` will use the letters `a-z`.
 
  - `bigInt("1e9").toString()` => `"1000000000"`
  - `bigInt("1e9").toString(16)` => `"3b9aca00"`
@@ -467,7 +467,7 @@ Converts a bigInt to a string. There is an optional radix parameter (which defau
  - `String(bigInt("999999999999999999"))` => `"999999999999999999"`
  - `bigInt("999999999999999999") + ""` => `1000000000000000000`
 
-Bases larger than 36 are supported. If a digit is larger than 36, it will be enclosed in angle brackets.
+Bases larger than 36 are supported. If a digit is greater than or equal to 36, it will be enclosed in angle brackets.
 
  - `bigInt(567890).toString(100)` => `"<56><78><90>"`
 

@@ -1118,7 +1118,7 @@ var bigInt = (function (undefined) {
                 var text = split[0];
                 var decimalPlace = text.indexOf(".");
                 if (decimalPlace >= 0) {
-                    exp -= text.length - decimalPlace;
+                    exp -= text.length - decimalPlace - 1;
                     text = text.slice(0, decimalPlace) + text.slice(decimalPlace + 1);
                 }
                 if (exp < 0) throw new Error("Cannot include negative exponent part for integers");

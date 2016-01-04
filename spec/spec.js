@@ -878,7 +878,7 @@ describe("BigInteger", function () {
 
             it("e+ or E+ for the exponent", function () {
                 expect(bigInt("2e7").equals("2E+7")).toBe(true);
-                expect(bigInt("1.7976931348623157e+308").equals("17976931348623157000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000")).toBe(true);
+                expect(bigInt("1.7976931348623157e+308").equals("179769313486231570000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000")).toBe(true);
             });
 
             it("decimal point when exponent is large enough", function () {
@@ -914,6 +914,8 @@ describe("BigInteger", function () {
             expect(bigInt("100000000000300") - bigInt("100000000000000") === 300).toBe(true);
             expect(bigInt(100).valueOf() === 100).toBe(true);
             expect(bigInt("1e30").valueOf() === 1e30).toBe(true);
+            expect(+bigInt(43.9e30) === 43.9e30).toBe(true);
+            expect(+bigInt("1.11e+30") == 1.11e+30).toBe(true);
             expect(bigInt(100).toJSNumber === bigInt(100).valueOf).toBe(true);
             expect(bigInt("1e30").toJSNumber === bigInt("4e20").valueOf).toBe(true);
         });
@@ -925,6 +927,10 @@ describe("BigInteger", function () {
             expect(bigInt("FF", 16)).toEqual(255);
             expect(bigInt("111100001111", -2)).toEqual(-1285);
             expect(bigInt("<5><10>35<75><44><88><145735>", "-154654987")).toEqual("-10580775516023906041313915824083789618333601575504631498551");
+
+            expect(function () {
+                bigInt("$,%@#^", "55");
+            }).toThrow();
 
             // See pull request 16
             //   https://github.com/peterolson/BigInteger.js/pull/15

@@ -497,7 +497,7 @@ Converts a bigInt to a native Javascript number. This override allows you to use
 
 To contribute, just fork the project, make some changes, and submit a pull request. Please verify that the unit tests pass before submitting.
 
-The unit tests are contained in the `spec/spec.js` file. You can [run them online from GitHub](http://peterolson.github.io/BigInteger.js/spec/SpecRunner.html).
+The unit tests are contained in the `spec/spec.js` file. You can run them locally by opening the `spec/SpecRunner.html` or file or running `npm test`. You can also [run the tests online from GitHub](http://peterolson.github.io/BigInteger.js/spec/SpecRunner.html).
 
 There are performance benchmarks that can be viewed from the `benchmarks/index.html` page. You can [run them online from GitHub](http://peterolson.github.io/BigInteger.js/benchmark/).
 

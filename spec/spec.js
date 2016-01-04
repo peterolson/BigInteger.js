@@ -913,6 +913,7 @@ describe("BigInteger", function () {
             expect(bigInt(100) + bigInt(200) === 300).toBe(true);
             expect(bigInt("100000000000300") - bigInt("100000000000000") === 300).toBe(true);
             expect(bigInt(100).valueOf() === 100).toBe(true);
+            expect(bigInt("1e30").valueOf() === 1e30).toBe(true);
             expect(bigInt(100).toJSNumber === bigInt(100).valueOf).toBe(true);
             expect(bigInt("1e30").toJSNumber === bigInt("4e20").valueOf).toBe(true);
         });
@@ -941,6 +942,11 @@ describe("BigInteger", function () {
             expect(bigInt("secretmessage000", -36).toString(-36) === "secretmessage000").toBe(true);
             expect(bigInt(-256).toString(16) === "-100").toBe(true);
             expect(bigInt(256).toString(1).length === 256).toBe(true);
+            expect(bigInt(bigInt(77).toString(-1), -1)).toEqual(77);
+            expect(function () {
+                bigInt(10).toString(0);
+            }).toThrow();
+
             // see issue #67
             // https://github.com/peterolson/BigInteger.js/issues/67
             expect(bigInt(36).toString(40) === "<36>").toBe(true); 

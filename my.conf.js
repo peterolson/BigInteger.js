@@ -14,6 +14,7 @@ module.exports = function(config) {
 	    type : 'lcov',
 	    dir : 'coverage/',
 	    subdir: '.'
-    }
+    },
+    browserNoActivityTimeout: 60000
   });
 };

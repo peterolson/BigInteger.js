@@ -586,6 +586,10 @@ describe("BigInteger", function () {
             // See issue #5
             //   https://github.com/peterolson/BigInteger.js/issues/5
             expect(bigInt(100).pow(56).toString()).not.toEqual("0");
+            // See issue #70
+            //   https://github.com/peterolson/BigInteger.js/issues/70
+            expect(bigInt(2).pow(524341).toString().slice(0, 100)).toEqual("2338602704359883640859912989297379218436943633737019475980104697259171662398986536617044612993820032");
+
         });
 
         it("throws an error when the exponent is too large", function () {

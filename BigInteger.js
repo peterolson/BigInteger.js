@@ -306,7 +306,9 @@ var bigInt = (function (undefined) {
             bd = multiplyKaratsuba(b, d),
             abcd = multiplyKaratsuba(addAny(a, b), addAny(c, d));
 
-        return addAny(addAny(ac, shiftLeft(subtract(subtract(abcd, ac), bd), n)), shiftLeft(bd, 2 * n));
+        var product = addAny(addAny(ac, shiftLeft(subtract(subtract(abcd, ac), bd), n)), shiftLeft(bd, 2 * n));
+        trim(product);
+        return product;
     }
 
     BigInteger.prototype.multiply = function (v) {

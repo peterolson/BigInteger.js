@@ -345,20 +345,20 @@ var bigInt = (function (undefined) {
         }
         return new BigInteger(multiplyLong(b, smallToArray(a)), sign);
     }
-    SmallInteger.prototype["_multiplyBySmall"] = function (a) {
+    SmallInteger.prototype._multiplyBySmall = function (a) {
             if (isPrecise(a.value * this.value)) {
                 return new SmallInteger(a.value * this.value);
             }
             return multiplySmallAndArray(Math.abs(a.value), smallToArray(Math.abs(this.value)), this.sign !== a.sign);
     };
-    BigInteger.prototype["_multiplyBySmall"] = function (a) {
+    BigInteger.prototype._multiplyBySmall = function (a) {
             if (a.value === 0) return CACHE[0];
             if (a.value === 1) return this;
             if (a.value === -1) return this.negate();
             return multiplySmallAndArray(Math.abs(a.value), this.value, this.sign !== a.sign);
     };
     SmallInteger.prototype.multiply = function (v) {
-        return parseValue(v)["_multiplyBySmall"](this);
+        return parseValue(v)._multiplyBySmall(this);
     };
     SmallInteger.prototype.times = SmallInteger.prototype.multiply;
 
@@ -776,7 +776,7 @@ var bigInt = (function (undefined) {
         if (n.isEven() || n.isDivisibleBy(3) || n.isDivisibleBy(5)) return false;
         if (n.lesser(25)) return true;
         // we don't know if it's prime: let the other functions figure it out
-    };
+    }
 
     BigInteger.prototype.isPrime = function () {
         var isPrime = isBasicPrime(this);

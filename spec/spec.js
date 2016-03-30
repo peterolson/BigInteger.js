@@ -866,6 +866,11 @@ describe("BigInteger", function () {
         it("multiple exponents", function () {
             test("43e4e6");
             test("234234e43523e4354");
+            try {
+                bigInt("4e5e5");
+            } catch (e) {
+                expect(e instanceof TypeError).toBe(false);
+            }
         });
 
         it("decimal point when exponent is too small", function () {

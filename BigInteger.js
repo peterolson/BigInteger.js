@@ -1117,7 +1117,7 @@ var bigInt = (function (undefined) {
             var sign = v[0] === "-";
             if (sign) v = v.slice(1);
             var split = v.split(/e/i);
-            if (split.length > 2) throw new Error("Invalid integer: " + text.join("e"));
+            if (split.length > 2) throw new Error("Invalid integer: " + split.join("e"));
             if (split.length === 2) {
                 var exp = split[1];
                 if (exp[0] === "+") exp = exp.slice(1);

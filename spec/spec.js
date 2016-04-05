@@ -600,6 +600,12 @@ describe("BigInteger", function () {
             expect(bigInt(-1).pow("1e100")).toEqual(1);
             expect(bigInt(0).pow("1e100")).toEqual(0);
         });
+
+        it("throws an error when the exponent is not an integer", function () {
+            expect(function () {
+                bigInt(5).pow(1 / 2);
+            }).toThrow();
+        });
     });
 
     describe("Power modulo", function () {

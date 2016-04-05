@@ -1147,8 +1147,11 @@ var bigInt = (function (undefined) {
     }
     
     function parseNumberValue(v) {
-            if (isPrecise(v)) return new SmallInteger(v);
-            return parseStringValue(v.toString());
+        if (isPrecise(v)) {
+            if (v !== truncate(v)) throw new Error(v + " is not an integer.");
+            return new SmallInteger(v);
+        }
+        return parseStringValue(v.toString());
     }
 
     function parseValue(v) {

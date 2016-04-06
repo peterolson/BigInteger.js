@@ -1173,6 +1173,9 @@ var bigInt = (function (undefined) {
         CACHE[i] = new SmallInteger(i);
         if (i > 0) CACHE[-i] = new SmallInteger(-i);
     }
+    // Export constructors
+    CACHE.BigInteger = BigInteger;
+    CACHE.SmallInteger = SmallInteger;
     // Backwards compatibility
     CACHE.one = CACHE[1];
     CACHE.zero = CACHE[0];

@@ -1089,4 +1089,15 @@ describe("BigInteger", function () {
             expect(bigInt.one.multiply === bigInt.one.times).toBe(true);
         });
     });
+
+    describe("Integer", function () {
+        it("prototype chain", function () {
+            expect(bigInt(14) instanceof bigInt).toBe(true);
+            expect(bigInt(10e20) instanceof bigInt).toBe(true);
+        });
+
+        it("object construction", function() {
+            expect((new bigInt(14)).add(new bigInt(7)).eq(21)).toBe(true);
+        });
+    });
 });

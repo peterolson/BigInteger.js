@@ -112,7 +112,7 @@ var libraries = (function () {
             tests: generateTests(function (x) { return x.replace("parseInt", "bigInt"); })
         },
         "Yaffle BigInteger": {
-            url: ["https://rawgit.com/Yaffle/BigInteger/master/BigInteger.js"],
+            url: ["https://rawgit.com/Yaffle/BigInteger/gh-pages/BigInteger.js"],
             projectURL: "https://github.com/Yaffle/BigInteger",
             onStart: createInitialization("BigInteger.parseInt"),
             tests: generateTests(function (x) {

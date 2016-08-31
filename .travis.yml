@@ -1,7 +1,13 @@
 language: node_js
 node_js:
+  - "6"
+  - "5"
+  - "4"
+  - "iojs"
+  - "0.12"
   - "0.11"
   - "0.10"
+
 script:
  - npm test
  - cat ./coverage/lcov.info | ./node_modules/.bin/coveralls

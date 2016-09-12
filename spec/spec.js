@@ -626,6 +626,13 @@ describe("BigInteger", function () {
         });
     });
 
+    describe("Modular multiplicative inverse", function () {
+        it("works", function () {
+            expect(bigInt(3).modInv(11)).toEqual(4);
+            expect(bigInt(42).modInv(2017)).toEqual(1969);  
+        });
+    });
+
     describe("Square", function () {
         it("works", function () {
             expect(bigInt(0).square()).toEqual(0);

@@ -823,7 +823,7 @@ var bigInt = (function (undefined) {
     SmallInteger.prototype.isProbablePrime = BigInteger.prototype.isProbablePrime;
 
     BigInteger.prototype.modInv = function (n) {
-        var t = bigInt.zero, newT = bigInt.one, r = n, newR = this.abs(), q, lastT, lastR;
+        var t = bigInt.zero, newT = bigInt.one, r = parseValue(n), newR = this.abs(), q, lastT, lastR;
         while (!newR.equals(bigInt.zero)) {
         	q = r.divide(newR);
           lastT = t;

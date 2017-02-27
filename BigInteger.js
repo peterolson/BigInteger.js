@@ -977,7 +977,7 @@ var bigInt = (function (undefined) {
         b = parseValue(b);
         return a.greater(b) ? a : b;
     }
-    function min(a,b) {
+    function min(a, b) {
         a = parseValue(a);
         b = parseValue(b);
         return a.lesser(b) ? a : b;

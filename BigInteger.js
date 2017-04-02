@@ -467,6 +467,7 @@ var bigInt = (function (undefined) {
             guess, xlen, highx, highy, check;
         while (a_l) {
             part.unshift(a[--a_l]);
+            trim(part);
             if (compareAbs(part, b) < 0) {
                 result.push(0);
                 continue;

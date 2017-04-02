@@ -631,7 +631,7 @@ describe("BigInteger", function () {
         it("works", function () {
             expect(bigInt(3).modInv(11)).toEqual(4);
             expect(bigInt(42).modInv(2017)).toEqual(1969);
-            expect(bigInt(-50).modInv(83)).toEqual(-5);
+            expect(bigInt(-50).modInv(83)).toEqual(-5); // issue #87
             expect(function () {
                 bigInt(154).modInv(3311);
             }).toThrow();

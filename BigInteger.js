@@ -838,6 +838,9 @@ var bigInt = (function (undefined) {
         if (t.compare(0) === -1) {
         	t = t.add(n);
         }
+        if (this.isNegative()) {
+            return t.negate();
+        }
         return t;
     }
     SmallInteger.prototype.modInv = BigInteger.prototype.modInv;

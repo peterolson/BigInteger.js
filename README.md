@@ -421,7 +421,7 @@ Performs the bitwise XOR operation. The operands are treated as if they were rep
  
 ### Static Methods
 
-### `fromArray(digits, base = 10, isNegative?)`
+#### `fromArray(digits, base = 10, isNegative?)`
 
 Constructs a bigInt from an array of digits in base `base`. The optional `isNegative` flag will make the number negative.
 

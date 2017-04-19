@@ -1036,8 +1036,7 @@ var bigInt = (function (undefined) {
         return low.add(typeof result === "number" ? new SmallInteger(result) : new BigInteger(result, false));
     }
     var parseBase = function (text, base) {
-        var val = Integer[0], pow = Integer[1],
-            length = text.length;
+        var length = text.length;
         if (2 <= base && base <= 36) {
             if (length <= LOG_MAX_INT / Math.log(base)) {
                 return new SmallInteger(parseInt(text, base));
@@ -1059,13 +1058,17 @@ var bigInt = (function (undefined) {
             }
             else throw new Error(c + " is not a valid character");
         }
-        digits.reverse();
-        for (i = 0; i < digits.length; i++) {
+        return parseBaseFromArray(digits, base, isNegative);
+    };
+
+    function parseBaseFromArray(digits, base, isNegative) {
+        var val = Integer[0], pow = Integer[1];
+        for (i = digits.length - 1; i >= 0; i--) {
             val = val.add(digits[i].times(pow));
             pow = pow.times(base);
         }
         return isNegative ? val.negate() : val;
-    };
+    }
 
     function stringify(digit) {
         var v = digit.value;
@@ -1209,6 +1212,11 @@ var bigInt = (function (undefined) {
     Integer.lcm = lcm;
     Integer.isInstance = function (x) { return x instanceof BigInteger || x instanceof SmallInteger; };
     Integer.randBetween = randBetween;
+
+    Integer.fromArray = function (digits, base, isNegative) {
+        return parseBaseFromArray(digits.map(parseValue), parseValue(base || 10), isNegative);
+    }
+
     return Integer;
 })();
 

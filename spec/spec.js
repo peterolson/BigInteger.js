@@ -1063,6 +1063,15 @@ describe("BigInteger", function () {
         });
     });
 
+    describe("fromArray", function () {
+        it("works", function () {
+            expect(bigInt.fromArray([1, 2, 3, 4, 5])).toEqual("12345");
+            expect(bigInt.fromArray([1, 2, 3, 4, 5], 10)).toEqual("12345");
+            expect(bigInt.fromArray([1, 2, 3, 4, 5], 10, true)).toEqual("-12345");
+            expect(bigInt.fromArray([1, 2, 3, 4, 5], 256)).toEqual("4328719365");
+        });
+    });
+
     describe("Aliases", function () {
         it("add, plus are the same", function () {
             expect(bigInt.one.add === bigInt.one.plus).toBe(true);

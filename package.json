@@ -6,7 +6,8 @@
   "contributors": [],
   "bin": {},
   "scripts": {
-    "test": "node_modules/.bin/karma start my.conf.js"
+    "test": "node_modules/.bin/karma start my.conf.js",
+    "minify": "uglifyjs BigInteger.js -o BigInteger.min.js"
   },
   "main": "./BigInteger",
   "repository": {
@@ -31,7 +32,8 @@
     "karma": "^0.13.3",
     "karma-coverage": "^0.4.2",
     "karma-jasmine": "^0.3.6",
-    "karma-phantomjs-launcher": "~0.1"
+    "karma-phantomjs-launcher": "~0.1",
+    "uglifyjs": "^2.4.10"
   },
   "license": "Unlicense",
   "engines": {

@@ -118,7 +118,7 @@ var bigInt = (function (undefined) {
     }
 
     BigInteger.prototype.add = function (v) {
-        var value, n = parseValue(v);
+        var n = parseValue(v);
         if (this.sign !== n.sign) {
             return this.subtract(n.negate());
         }
@@ -177,7 +177,7 @@ var bigInt = (function (undefined) {
     }
 
     function subtractAny(a, b, sign) {
-        var value, isSmall;
+        var value;
         if (compareAbs(a, b) >= 0) {
             value = subtract(a,b);
         } else {
@@ -326,7 +326,7 @@ var bigInt = (function (undefined) {
     }
 
     BigInteger.prototype.multiply = function (v) {
-        var value, n = parseValue(v),
+        var n = parseValue(v),
             a = this.value, b = n.value,
             sign = this.sign !== n.sign,
             abs;
@@ -826,23 +826,24 @@ var bigInt = (function (undefined) {
     BigInteger.prototype.modInv = function (n) {
         var t = bigInt.zero, newT = bigInt.one, r = parseValue(n), newR = this.abs(), q, lastT, lastR;
         while (!newR.equals(bigInt.zero)) {
-        	q = r.divide(newR);
-          lastT = t;
-          lastR = r;
-          t = newT;
-          r = newR;
-          newT = lastT.subtract(q.multiply(newT));
-          newR = lastR.subtract(q.multiply(newR));
+            q = r.divide(newR);
+            lastT = t;
+            lastR = r;
+            t = newT;
+            r = newR;
+            newT = lastT.subtract(q.multiply(newT));
+            newR = lastR.subtract(q.multiply(newR));
         }
         if (!r.equals(1)) throw new Error(this.toString() + " and " + n.toString() + " are not co-prime");
         if (t.compare(0) === -1) {
-        	t = t.add(n);
+            t = t.add(n);
         }
         if (this.isNegative()) {
             return t.negate();
         }
         return t;
-    }
+    };
+
     SmallInteger.prototype.modInv = BigInteger.prototype.modInv;
 
     BigInteger.prototype.next = function () {
@@ -1062,7 +1063,7 @@ var bigInt = (function (undefined) {
     };
 
     function parseBaseFromArray(digits, base, isNegative) {
-        var val = Integer[0], pow = Integer[1];
+        var val = Integer[0], pow = Integer[1], i;
         for (i = digits.length - 1; i >= 0; i--) {
             val = val.add(digits[i].times(pow));
             pow = pow.times(base);
@@ -1215,7 +1216,7 @@ var bigInt = (function (undefined) {
 
     Integer.fromArray = function (digits, base, isNegative) {
         return parseBaseFromArray(digits.map(parseValue), parseValue(base || 10), isNegative);
-    }
+    };
 
     return Integer;
 })();

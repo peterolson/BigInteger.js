@@ -1225,3 +1225,10 @@ var bigInt = (function (undefined) {
 if (typeof module !== "undefined" && module.hasOwnProperty("exports")) {
     module.exports = bigInt;
 }
+
+//amd check
+if ( typeof define === "function" && define.amd ) {  
+  define( "big-integer", [], function() {
+    return bigInt;
+  });
+}

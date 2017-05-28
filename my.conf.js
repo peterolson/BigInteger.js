@@ -4,7 +4,7 @@ module.exports = function(config) {
     frameworks: ['jasmine'],
     files: [
       'BigInteger.js',
-      'spec/*.js'
+      'spec/*spec.js'
     ],
     browsers: ['PhantomJS'],
     singleRun: true,

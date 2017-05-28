@@ -6,7 +6,7 @@
   "contributors": [],
   "bin": {},
   "scripts": {
-    "test": "node_modules/.bin/karma start my.conf.js && node_modules/.bin/tsc",
+    "test": "node_modules/.bin/tsc && node_modules/.bin/karma start my.conf.js && node spec/tsDefinitions.js",
     "minify": "uglifyjs BigInteger.js -o BigInteger.min.js"
   },
   "main": "./BigInteger",
@@ -26,6 +26,7 @@
     "arithmetic"
   ],
   "devDependencies": {
+    "@types/lodash": "^4.14.64",
     "@types/node": "^7.0.22",
     "coveralls": "^2.11.4",
     "jasmine": "2.1.x",
@@ -33,7 +34,8 @@
     "karma": "^0.13.3",
     "karma-coverage": "^0.4.2",
     "karma-jasmine": "^0.3.6",
-    "karma-phantomjs-launcher": "~0.1",
+    "karma-phantomjs-launcher": "^1.0.4",
+    "lodash": "^4.17.4",
     "typescript": "^2.3.3",
     "uglifyjs": "^2.4.10"
   },
@@ -41,5 +43,5 @@
   "engines": {
     "node": ">=0.6"
   },
-  "types": "./BigInteger.d.ts"
+  "typings": "./BigInteger.d.ts"
 }

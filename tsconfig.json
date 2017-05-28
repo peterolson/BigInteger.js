@@ -8,6 +8,7 @@
         "noImplicitThis": true,
         "strictNullChecks": false,
         "baseUrl": "./",
+        "moduleResolution": "node",
         "allowJs": true,
         "typeRoots": [
             "./"
@@ -15,11 +16,10 @@
         "types": [
             "node"
         ],
-        "noEmit": true,
         "forceConsistentCasingInFileNames": true
     },
     "files": [
         "BigInteger.d.ts",
-        "spec/tsDefinitions.spec.ts"
+        "spec/tsDefinitions.ts"
     ]
 }

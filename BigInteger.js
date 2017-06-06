@@ -1046,15 +1046,15 @@ var bigInt = (function (undefined) {
         base = parseValue(base);
         var digits = [];
         var i;
-        var isNegative = text[0] === "-";
+        var isNegative = text.charAt(0) === "-";
         for (i = isNegative ? 1 : 0; i < text.length; i++) {
-            var c = text[i].toLowerCase(),
+            var c = text.charAt(i).toLowerCase(),
                 charCode = c.charCodeAt(0);
             if (48 <= charCode && charCode <= 57) digits.push(parseValue(c));
             else if (97 <= charCode && charCode <= 122) digits.push(parseValue(c.charCodeAt(0) - 87));
             else if (c === "<") {
                 var start = i;
-                do { i++; } while (text[i] !== ">");
+                do { i++; } while (text.charAt(i) !== ">");
                 digits.push(parseValue(text.slice(start + 1, i)));
             }
             else throw new Error(c + " is not a valid character");
@@ -1149,16 +1149,16 @@ var bigInt = (function (undefined) {
                     return new SmallInteger(x);
                 throw "Invalid integer: " + v;
             }
-            var sign = v[0] === "-";
+            var sign = v.charAt(0) === "-";
             if (sign) v = v.slice(1);
             var split = v.split(/e/i);
             if (split.length > 2) throw new Error("Invalid integer: " + split.join("e"));
             if (split.length === 2) {
-                var exp = split[1];
+                var exp = split.charAt(1);
                 if (exp[0] === "+") exp = exp.slice(1);
                 exp = +exp;
                 if (exp !== truncate(exp) || !isPrecise(exp)) throw new Error("Invalid integer: " + exp + " is not a valid exponent.");
-                var text = split[0];
+                var text = split.charAt(0);
                 var decimalPlace = text.indexOf(".");
                 if (decimalPlace >= 0) {
                     exp -= text.length - decimalPlace - 1;

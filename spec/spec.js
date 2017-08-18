@@ -952,10 +952,6 @@ describe("BigInteger", function () {
             expect(bigInt("111100001111", -2)).toEqual(-1285);
             expect(bigInt("<5><10>35<75><44><88><145735>", "-154654987")).toEqual("-10580775516023906041313915824083789618333601575504631498551");
 
-            expect(function () {
-                bigInt("$,%@#^", "55");
-            }).toThrow();
-
             // See pull request 16
             //   https://github.com/peterolson/BigInteger.js/pull/15
             expect(bigInt("-1", 16)).toEqual(-1);
@@ -964,6 +960,23 @@ describe("BigInteger", function () {
             expect(bigInt("324AFCCC342342333CCD239998881232324AFCCC342342333CCD239998881232", 16)).toEqual("22748133857356174891035811692236022265357659892433333914058690475216129757746");
             expect(bigInt("234345345345")).toEqual(bigInt("3690123141", 16));
             expect(bigInt("-10", 16)).toEqual("-16");
+        });
+		
+		it("errors on invalid input", function() {
+			expect(function () {
+                bigInt("$,%@#^", "55");
+            }).toThrow();
+			// See issue 101
+			//    https://github.com/peterolson/BigInteger.js/issues/101
+            expect(function () {
+                bigInt("0x10000", 16);
+            }).toThrow();
+			expect(function () {
+                bigInt("a9", 10);
+            }).toThrow();
+			expect(function () {
+                bigInt("33", 2);
+            }).toThrow();
         });
         
         it("outputs numbers correctly", function () {

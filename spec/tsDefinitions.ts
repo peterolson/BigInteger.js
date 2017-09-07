@@ -75,6 +75,7 @@ const testedInstanceFns = [
     'times',
     'toJSNumber',
     'toString',
+	'toJSON',
     'valueOf',
     'xor',
 ];
@@ -229,6 +230,7 @@ isNumber = x.toJSNumber();
 
 isString = x.toString();
 isString = x.toString(36);
+isString = x.toJSON();
 
 isNumber = x.valueOf();
 isBigInteger = x.xor(0).xor(x).xor('0');

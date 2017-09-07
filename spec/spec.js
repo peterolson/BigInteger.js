@@ -1133,5 +1133,14 @@ describe("BigInteger", function () {
         it("object construction", function() {
             expect((new bigInt(14)).add(new bigInt(7)).eq(21)).toBe(true);
         });
+        
+        it("JSON stringifiction", function() {
+            var x = JSON.parse(JSON.stringify({
+                a: bigInt(4), 
+                b: bigInt("4e100")
+            }));
+            expect(x.a).toEqual("4");
+            expect(x.b).toEqual("4e100");
+        });
     });
 });

@@ -1,6 +1,6 @@
 {
   "name": "big-integer",
-  "version": "1.6.24",
+  "version": "1.6.25",
   "author": "Peter Olson <peter.e.c.olson+npm@gmail.com>",
   "description": "An arbitrary length integer library for Javascript",
   "contributors": [],

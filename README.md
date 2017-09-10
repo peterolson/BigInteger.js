@@ -465,7 +465,7 @@ Returns a random number between `min` and `max`.
 
  - `bigInt.randBetween("-1e100", "1e100")` => (for example) `8494907165436643479673097939554427056789510374838494147955756275846226209006506706784609314471378745`
  
- ### `cryptoRandBetween(min, max)`
+ #### `cryptoRandBetween(min, max)`
  
  Identental to the `randBetween()` method except in that it uses a cryptographically secure method of producing random numbers.
 

@@ -1034,6 +1034,31 @@ var bigInt = (function (undefined) {
         result = arrayToSmall(result);
         return low.add(typeof result === "number" ? new SmallInteger(result) : new BigInteger(result, false));
     }
+	function cryptoRandBetween(a, b) {
+	    a = parseValue(a);
+	    b = parseValue(b);
+	    var min = bigInt.min(a, b), max = bigInt.max(a, b);                                                     
+	    var range = max.subtract(min);                                                                          
+	    while(true) {
+			var rand = random(range.toString(2).length);                                                        
+			if(range.geq(rand)) {
+				return min.add(rand);                                                                           
+			}
+	    }
+	    function random(bits) {
+			var bytes = Math.ceil(bits / 32);                                                                   
+			var random_array = window.crypto.getRandomValues(new Uint32Array(bytes));                           
+			var big_random = ""; 
+			for(var i = 0; i < bytes; i++) { 
+				var small_random = random_array[i].toString(2);
+				for(var ii = 0; ii < 32 - small_random.length; ii++) { small_random = "0" + small_random; }     
+				big_random += small_random;                                                                     
+			big_random = big_random.substr(0, bits);                                                            
+			return bigInt(big_random, 2);                                                                       
+	    }
+	}
+	
+	
     var parseBase = function (text, base) {
         var length = text.length;
 		var i;

@@ -1021,8 +1021,8 @@ var bigInt = (function (undefined) {
         a = parseValue(a);
         b = parseValue(b);
         var low = min(a, b), high = max(a, b);
-        var range = high.subtract(low);
-        if (range.isSmall) return low.add(Math.round(Math.random() * range));
+        var range = high.subtract(low).add(1);
+        if (range.isSmall) return low.add(Math.floor(Math.random() * range));
         var length = range.value.length - 1;
         var result = [], restricted = true;
         for (var i = length; i >= 0; i--) {

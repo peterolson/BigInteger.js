@@ -5,7 +5,8 @@ var bigInt = (function (undefined) {
         LOG_BASE = 7,
         MAX_INT = 9007199254740992,
         MAX_INT_ARR = smallToArray(MAX_INT),
-        LOG_MAX_INT = Math.log(MAX_INT);
+        LOG_MAX_INT = Math.log(MAX_INT),
+        STD_BASE = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
     function Integer(v, radix) {
         if (typeof v === "undefined") return Integer[0];
@@ -1036,26 +1037,26 @@ var bigInt = (function (undefined) {
     }
     var parseBase = function (text, base) {
         var length = text.length;
-		var i;
-		var absBase = Math.abs(base);
-		for(var i = 0; i < length; i++) {
-			var c = text[i].toLowerCase();
-			if(c === "-") continue;
-			if(/[a-z0-9]/.test(c)) {
-			    if(/[0-9]/.test(c) && +c >= absBase) {
-					if(c === "1" && absBase === 1) continue;
+        var i;
+        var absBase = Math.abs(base);
+        for(var i = 0; i < length; i++) {
+            var c = text[i].toLowerCase();
+            if(c === "-") continue;
+            if(/[a-z0-9]/.test(c)) {
+                if(/[0-9]/.test(c) && +c >= absBase) {
+                    if(c === "1" && absBase === 1) continue;
                     throw new Error(c + " is not a valid digit in base " + base + ".");
-				} else if(c.charCodeAt(0) - 87 >= absBase) {
-					throw new Error(c + " is not a valid digit in base " + base + ".");
-				}
-			}
-		}
+                } else if(c.charCodeAt(0) - 87 >= absBase) {
+                    throw new Error(c + " is not a valid digit in base " + base + ".");
+                }
+            }
+        }
         if (2 <= base && base <= 36) {
             if (length <= LOG_MAX_INT / Math.log(base)) {
-				var result = parseInt(text, base);
-				if(isNaN(result)) {
-					throw new Error(c + " is not a valid digit in base " + base + ".");
-				}
+                var result = parseInt(text, base);
+                if(isNaN(result)) {
+                    throw new Error(c + " is not a valid digit in base " + base + ".");
+                }
                 return new SmallInteger(parseInt(text, base));
             }
         }
@@ -1086,15 +1087,15 @@ var bigInt = (function (undefined) {
         return isNegative ? val.negate() : val;
     }
 
-    function stringify(digit) {
+    function stringify(digit,radix) {
         var v = digit.value;
         if (typeof v === "number") v = [v];
-        if (v.length === 1 && v[0] <= 35) {
-            return "0123456789abcdefghijklmnopqrstuvwxyz".charAt(v[0]);
+        if (v.length === 1 && v[0] <= radix.length) {
+            return radix.charAt(v[0]);
         }
         return "<" + v + ">";
     }
-    function toBase(n, base) {
+    function toBase(n, base, radix) {
         base = bigInt(base);
         if (base.isZero()) {
             if (n.isZero()) return "0";
@@ -1124,15 +1125,16 @@ var bigInt = (function (undefined) {
                 digit = base.minus(digit).abs();
                 left = left.next();
             }
-            out.push(stringify(digit));
+            out.push(stringify(digit,radix));
         }
-        out.push(stringify(left));
+        out.push(stringify(left,radix));
         return minusSign + out.reverse().join("");
     }
 
-    BigInteger.prototype.toString = function (radix) {
+    BigInteger.prototype.toString = function (radix,grammar) {
         if (radix === undefined) radix = 10;
-        if (radix !== 10) return toBase(this, radix);
+        if (!grammar) grammar =STD_BASE.slice(0,radix);
+        if (radix !== 10) return toBase(this, radix,grammar);
         var v = this.value, l = v.length, str = String(v[--l]), zeros = "0000000", digit;
         while (--l >= 0) {
             digit = String(v[l]);

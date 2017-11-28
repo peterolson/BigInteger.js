@@ -468,9 +468,11 @@ Returns a random number between `min` and `max`.
 
 ### Override Methods
 
-#### `toString(radix = 10)`
+#### `toString(radix = 10,grammar = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")`
 
-Converts a bigInt to a string. There is an optional radix parameter (which defaults to 10) that converts the number to the given radix. Digits in the range `10-35` will use the letters `a-z`.
+Converts a bigInt to a string. There is an optional radix parameter (which defaults to 10) that converts the number to the given radix.There is also an optional grammar to use if you would like to define your own conversions for larger radixes
+
+ Digits in the range `10-35` will use the letters `a-z`, and so on for A-Z
 
  - `bigInt("1e9").toString()` => `"1000000000"`
  - `bigInt("1e9").toString(16)` => `"3b9aca00"`

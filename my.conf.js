@@ -6,7 +6,7 @@ module.exports = function(config) {
       'BigInteger.js',
       'spec/*spec.js'
     ],
-    browsers: ['PhantomJS'],
+    browsers: ['ChromeHeadless'],
     singleRun: true,
     reporters: ['progress', 'coverage'],
     preprocessors: { '*.js': ['coverage'] },

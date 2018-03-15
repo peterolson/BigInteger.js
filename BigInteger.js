@@ -1087,32 +1087,44 @@ var bigInt = (function (undefined) {
     }
 
     function stringify(digit) {
-        var v = digit.value;
-        if (typeof v === "number") v = [v];
-        if (v.length === 1 && v[0] <= 35) {
-            return "0123456789abcdefghijklmnopqrstuvwxyz".charAt(v[0]);
+        if (digit <= 35) {
+            return "0123456789abcdefghijklmnopqrstuvwxyz".charAt(digit);
         }
-        return "<" + v + ">";
+        return "<" + digit + ">";
     }
+
     function toBase(n, base) {
         base = bigInt(base);
         if (base.isZero()) {
-            if (n.isZero()) return "0";
+            if (n.isZero()) return {value: [0], isNegative: false};
             throw new Error("Cannot convert nonzero numbers to base 0.");
         }
         if (base.equals(-1)) {
-            if (n.isZero()) return "0";
-            if (n.isNegative()) return new Array(1 - n).join("10");
-            return "1" + new Array(+n).join("01");
+            if (n.isZero()) return {value: [0], isNegative: false};
+            if (n.isNegative())
+              return {
+                value: []
+                  .concat.apply([], (new Array(-n).fill([1, 0]))),
+                isNegative: false
+              };
+
+            var arr = new Array(+n - 1).fill([0, 1]);
+            arr.unshift([1]);
+            return {
+              value: [].concat.apply([], arr),
+              isNegative: false
+            };
         }
-        var minusSign = "";
+
+        var neg = false;
         if (n.isNegative() && base.isPositive()) {
-            minusSign = "-";
+            neg = true;
             n = n.abs();
         }
         if (base.equals(1)) {
-            if (n.isZero()) return "0";
-            return minusSign + new Array(+n + 1).join(1);
+            if (n.isZero()) return {value: [0], isNegative: false};
+            
+            return {value: new Array(+n).fill(1), isNegative: neg};
         }
         var out = [];
         var left = n, divmod;
@@ -1124,15 +1136,20 @@ var bigInt = (function (undefined) {
                 digit = base.minus(digit).abs();
                 left = left.next();
             }
-            out.push(stringify(digit));
+            out.push(digit);
         }
-        out.push(stringify(left));
-        return minusSign + out.reverse().join("");
+        out.push(left);
+        return {value: out.reverse(), isNegative: neg};
+    }
+
+    function toBaseString(n, base) {
+        var arr = toBase(n, base);
+        return (arr.isNegative ? "-" : "") + arr.value.map(stringify).join('');
     }
 
     BigInteger.prototype.toString = function (radix) {
         if (radix === undefined) radix = 10;
-        if (radix !== 10) return toBase(this, radix);
+        if (radix !== 10) return toBaseString(this, radix);
         var v = this.value, l = v.length, str = String(v[--l]), zeros = "0000000", digit;
         while (--l >= 0) {
             digit = String(v[l]);
@@ -1144,7 +1161,7 @@ var bigInt = (function (undefined) {
 
     SmallInteger.prototype.toString = function (radix) {
         if (radix === undefined) radix = 10;
-        if (radix != 10) return toBase(this, radix);
+        if (radix != 10) return toBaseString(this, radix);
         return String(this.value);
     };
     BigInteger.prototype.toJSON = SmallInteger.prototype.toJSON = function() { return this.toString(); }

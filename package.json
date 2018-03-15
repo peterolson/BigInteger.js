@@ -32,9 +32,9 @@
     "jasmine": "2.1.x",
     "jasmine-core": "^2.3.4",
     "karma": "^0.13.3",
+    "karma-chrome-launcher": "^2.2.0",
     "karma-coverage": "^0.4.2",
     "karma-jasmine": "^0.3.6",
-    "karma-phantomjs-launcher": "^1.0.4",
     "lodash": "^4.17.4",
     "typescript": "^2.3.3",
     "uglifyjs": "^2.4.10"

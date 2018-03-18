@@ -1103,12 +1103,14 @@ var bigInt = (function (undefined) {
             if (n.isZero()) return {value: [0], isNegative: false};
             if (n.isNegative())
               return {
-                value: []
-                  .concat.apply([], (new Array(-n).fill([1, 0]))),
+                value: [].concat.apply([], Array.apply(null, Array(-n))
+                            .map(Array.prototype.valueOf, [1, 0])
+                          ),
                 isNegative: false
               };
 
-            var arr = new Array(+n - 1).fill([0, 1]);
+            var arr = Array.apply(null, Array(+n - 1))
+              .map(Array.prototype.valueOf, [0, 1]);
             arr.unshift([1]);
             return {
               value: [].concat.apply([], arr),
@@ -1124,7 +1126,11 @@ var bigInt = (function (undefined) {
         if (base.equals(1)) {
             if (n.isZero()) return {value: [0], isNegative: false};
             
-            return {value: new Array(+n).fill(1), isNegative: neg};
+            return {
+              value: Array.apply(null, Array(+n))
+                       .map(Number.prototype.valueOf, 1),
+              isNegative: neg
+            };
         }
         var out = [];
         var left = n, divmod;

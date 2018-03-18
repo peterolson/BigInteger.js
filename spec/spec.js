@@ -1007,6 +1007,11 @@ describe("BigInteger", function () {
             isNegative: false
           });
 
+          expect(bigInt("1e20").toArray(10)).toEqual({
+            value: [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            isNegative: false
+          });
+
           expect(bigInt("1e9").toArray(16)).toEqual({
             value: [3, 11, 9, 10, 12, 10, 0, 0],
             isNegative: false
@@ -1027,8 +1032,18 @@ describe("BigInteger", function () {
             isNegative: true
           });
 
+          expect(bigInt(0).toArray(1)).toEqual({
+            value: [0],
+            isNegative: false
+          });
+
           expect(bigInt(-15).toArray(-1)).toEqual({
             value: [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0],
+            isNegative: false
+          });
+
+          expect(bigInt(0).toArray(-1)).toEqual({
+            value: [0],
             isNegative: false
           });
 

@@ -410,22 +410,44 @@ Alias for the `multiply` method.
 
 Converts a bigInt into an object with the properties "value" and "isNegative." "Value" is an array of integers modulo the given radix. "isNegative" is a boolean that represents the sign of the result.
 
- - `bigInt("1e9").toArray(10)` => `"1000000000"`
- - `bigInt("1e9").toArray(16)` => `"3b9aca00"`
- - `bigInt(567890).toArray(100)` => `"<56><78><90>"`
+ - `bigInt("1e9").toArray(10)` => {
+     value: [1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+     isNegative: false
+   }
+ - `bigInt("1e9").toArray(16)` => {
+     value: [3, 11, 9, 10, 12, 10, 0, 0],
+     isNegative: false
+   }
+ - `bigInt(567890).toArray(100)` => {
+     value: [56, 78, 90],
+     isNegative: false
+   }
 
 Negative bases are supported.
 
- - `bigInt(12345).toArray(-10)` => `"28465"`
+ - `bigInt(12345).toArray(-10)` => {
+     value: [2, 8, 4, 6, 5],
+     isNegative: false
+   }
 
 Base 1 and base -1 are also supported.
 
- - `bigInt(-15).toArray(1)` => `"-111111111111111"`
- - `bigInt(-15).toArray(-1)` => `"101010101010101010101010101010"`
+ - `bigInt(-15).toArray(1)` => {
+     value: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+     isNegative: true
+   }
+ - `bigInt(-15).toArray(-1)` => {
+     value: [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1,
+             0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0],
+     isNegative: false
+   }
 
 Base 0 is only allowed for the number zero.
 
- - `bigInt(0).toArray(0)` => `0`
+ - `bigInt(0).toArray(0)` => {
+     value: [0],
+     isNegative: false
+   }
  - `bigInt(1).toArray(0)` => `Error: Cannot convert nonzero numbers to base 0.`
 
 #### `toJSNumber()`

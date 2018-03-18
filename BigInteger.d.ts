@@ -338,6 +338,12 @@ declare namespace bigInt {
         times(number: BigNumber): BigInteger;
 
         /**
+         *
+         * Converts a bigInt to an object representing it as an array of integers module the given radix.
+         */
+         toArray(radix: number): BaseArray;
+
+        /**
          * Converts a bigInt into a native Javascript number. Loses precision for numbers outside the range.
          */
         toJSNumber(): number;
@@ -2365,5 +2371,10 @@ declare namespace bigInt {
         '997': BigInteger;
         '998': BigInteger;
         '999': BigInteger;
+    }
+
+    interface BaseArray {
+        value: number[],
+        isNegative: boolean
     }
 }

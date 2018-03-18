@@ -1136,9 +1136,9 @@ var bigInt = (function (undefined) {
                 digit = base.minus(digit).abs();
                 left = left.next();
             }
-            out.push(digit);
+            out.push(digit.toJSNumber());
         }
-        out.push(left);
+        out.push(left.toJSNumber());
         return {value: out.reverse(), isNegative: neg};
     }
 
@@ -1146,6 +1146,14 @@ var bigInt = (function (undefined) {
         var arr = toBase(n, base);
         return (arr.isNegative ? "-" : "") + arr.value.map(stringify).join('');
     }
+
+    BigInteger.prototype.toArray = function (radix) {
+      return toBase(this, radix);
+    };
+
+    SmallInteger.prototype.toArray = function (radix) {
+      return toBase(this, radix);
+    };
 
     BigInteger.prototype.toString = function (radix) {
         if (radix === undefined) radix = 10;

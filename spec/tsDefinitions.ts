@@ -73,9 +73,10 @@ const testedInstanceFns = [
     'square',
     'subtract',
     'times',
+    'toArray',
     'toJSNumber',
     'toString',
-	'toJSON',
+    'toJSON',
     'valueOf',
     'xor',
 ];
@@ -117,6 +118,7 @@ let isNumber: number;
 let isBoolean: boolean;
 let isString: string;
 let isDivmod: {quotient: bigInt.BigInteger, remainder: bigInt.BigInteger};
+let isBaseArray: bigInt.BaseArray;
 
 // Static methods/properties
 isBigInteger = bigInt.minusOne;
@@ -227,6 +229,9 @@ isBigInteger = x.square();
 isBigInteger = x.subtract(0).subtract(x).subtract('0');
 isBigInteger = x.times(0).times(x).times('0');
 isNumber = x.toJSNumber();
+
+isBaseArray = x.toArray(10);
+isBaseArray = x.toArray(36);
 
 isString = x.toString();
 isString = x.toString(36);

@@ -406,6 +406,28 @@ Alias for the `multiply` method.
  
 [View benchmarks for this method](http://peterolson.github.io/BigInteger.js/benchmark/#Multiplication)
 
+#### `toArray(radix)`
+
+Converts a bigInt into an object with the properties "value" and "isNegative." "Value" is an array of integers modulo the given radix. "isNegative" is a boolean that represents the sign of the result.
+
+ - `bigInt("1e9").toArray(10)` => `"1000000000"`
+ - `bigInt("1e9").toArray(16)` => `"3b9aca00"`
+ - `bigInt(567890).toArray(100)` => `"<56><78><90>"`
+
+Negative bases are supported.
+
+ - `bigInt(12345).toArray(-10)` => `"28465"`
+
+Base 1 and base -1 are also supported.
+
+ - `bigInt(-15).toArray(1)` => `"-111111111111111"`
+ - `bigInt(-15).toArray(-1)` => `"101010101010101010101010101010"`
+
+Base 0 is only allowed for the number zero.
+
+ - `bigInt(0).toArray(0)` => `0`
+ - `bigInt(1).toArray(0)` => `Error: Cannot convert nonzero numbers to base 0.`
+
 #### `toJSNumber()`
 
 Converts a bigInt into a native Javascript number. Loses precision for numbers outside the range `[-9007199254740992, 9007199254740992]`.

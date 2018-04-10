@@ -948,6 +948,7 @@ describe("BigInteger", function () {
             expect(+bigInt("1.11e+30") == 1.11e+30).toBe(true);
             expect(bigInt(100).toJSNumber === bigInt(100).valueOf).toBe(true);
             expect(bigInt("1e30").toJSNumber === bigInt("4e20").valueOf).toBe(true);
+            expect(bigInt("100000000000000008193").toJSNumber()).toBe(100000000000000016384);
         });
     });
 

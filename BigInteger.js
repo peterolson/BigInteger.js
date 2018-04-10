@@ -1181,7 +1181,7 @@ var bigInt = (function (undefined) {
     BigInteger.prototype.toJSON = SmallInteger.prototype.toJSON = function() { return this.toString(); }
 
     BigInteger.prototype.valueOf = function () {
-        return +this.toString();
+        return parseInt(this.toString(), 10);
     };
     BigInteger.prototype.toJSNumber = BigInteger.prototype.valueOf;
 

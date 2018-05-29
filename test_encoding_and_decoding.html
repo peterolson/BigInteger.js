@@ -1,0 +1,164 @@
+<script language="JavaScript" type="text/javascript" src="BigInteger.js"></script>
+
+<script>
+
+document.write(
+    '<br>base<=36, standart encoding by string',
+    '<br>36 <= base <= 32768, encoding by alphabet',
+    '<br>32768 <= base <=63008, encoding using Unicode symbols',
+    '<br>63008 < base, endoning as digits-string',
+    '<br>See more info in console.log (F12 button in browser)...'
+    )
+    
+var randbigint64 = bigInt.randBetween("-1e64", "1e64");
+var randbase = bigInt.randBetween("63008", "65535");
+document.write(
+    '<br><hr>Another encoding example bases:',
+    '<br> base 0 (only for BigInteger-null, else - error): '+bigInt(0).toString(0),', decoding: ',(bigInt(0).toString() === bigInt(bigInt(0).toString(0), 0).toString()),
+    '<br> base 1 (repeat ones): '+bigInt(-15).toString(1), ', decoding: ', (bigInt(-15).toString()===bigInt(bigInt(-15).toString(1), 1).toString()),
+    '<br> base -1 (repeat 10): '+bigInt(-15).toString(-1), ', decoding: ', (bigInt(-15).toString()===bigInt(bigInt(-15).toString(-1), -1).toString()),
+    '<br> negative bases (-10): '+bigInt(12345).toString(-10), ', decoding: ', (bigInt(12345).toString() === bigInt(bigInt(12345).toString(-10), -10).toString()),
+    '<br><br> bases greather than 63008:'+
+    '<br>base: '+randbase.toString()+', int: '+randbigint64.toString()+
+    ',<br> encoded: '+randbigint64.toString(randbase), ', decoding: ', (randbigint64.toString() === bigInt(randbigint64.toString(randbase), randbase).toString()),
+    ',<br> googol base: '+bigInt("1e100").multiply(bigInt('55')).toString(bigInt("1e100")), ', decoding: ',
+    (
+        bigInt("1e100").multiply(bigInt('55')).toString()     //55*googol to string
+        ===                                                   //compare
+        bigInt(
+            bigInt("1e100").multiply(bigInt('55'))            //55*googol
+                .toString(bigInt("1e100"))                    //encoded as string with base "googol"
+            , bigInt("1e100")                                 //and then this decoded with base googol
+        ).toString()                                          //to string 5.5e+101 = 55e+100 = 55*googol
+    ),                                                        //comparation - true or false
+    
+     ',<br>negative googol base: '+bigInt("1e100").multiply(bigInt('55')).toString(-1651653),
+    ', decoding: ',
+    (
+        bigInt("1e100").multiply(bigInt('55')).toString()      //55*googol.toString()
+        ===                                                    //compare
+        bigInt(                                                //with bigInt, encoded and decoded using negative base
+            bigInt("1e100").multiply(bigInt('55'))//55*googol
+            .toString(-651351), //encoded as string with negative base
+            -651351 //and then this decoded with negative base
+        ).toString()//to string...
+    )// true, false... TRUE!
+);
+
+var errors = 0;        //define counting for errors
+//var rounds = 1;
+var rounds = 10;
+
+document.write('<hr>Generator:');
+for(round=1; round<=rounds; round++){
+    //random BigInteger
+    var random_integer = bigInt.randBetween('-1e128', '1e128');    //true to get whole integer with 64 digits
+    
+    //base<=36, standart encoding by string
+    var random_base36 = bigInt.randBetween('2', '36').toJSNumber();                 //random base up to 36
+    //36 <= base <= 32768, encoding by alphabet
+    var random_base_alphabet = bigInt.randBetween('36', '32768').toJSNumber();      //random base for alphabet
+    //32768 <= base <=63008, encoding using Unicode symbols
+    var random_base_unicode = bigInt.randBetween('32768', '63008').toJSNumber();    //random base for Unicode
+    //63008 < base, endoning by digits string
+    var random_base_digits = bigInt.randBetween('63008', '100500').toJSNumber();    //random base for Unicode
+    //var random_base_unicode = bigInt('36').toJSNumber();                          //random base for Unicode
+
+    //encoding using string "var base36"
+    var teststring36 = random_integer.toString(random_base36);
+    //encoding using alphabet with asian characters
+    var teststring_alphabet = random_integer.toString(random_base_alphabet);
+    //encoding with base greater than 32768, using Unicode characters without excluded symbols.
+    var teststring_unicode = random_integer.toString(random_base_unicode);
+    //encoding with base greater than 63008, usign string with digits
+    var teststring_digits = random_integer.toString(random_base_digits);
+    
+    //check decoded BigInteger from string.
+    if(!(random_integer.toString() === bigInt(teststring36, random_base36).toString())){
+        //base 36
+        errors++;
+
+        console.log(
+            'round: '+round+
+            '\n(random_integer.toString() === bigInt(teststring36, random_base36).toString())'+
+            '\n int: ', random_integer.toString(),
+            '\n string: ', teststring36,
+            '\n base: ', random_base36,
+            '\n int from string: ', bigInt(teststring36, random_base36).toString()
+        );
+        
+        document.write('<br><br>Round: '+round+"ERROR. See console.log.")
+    }
+    if(!(random_integer.toString() === bigInt(teststring_alphabet, random_base_alphabet).toString())){
+        //alphabet
+        errors++;
+        
+        console.log(
+            'round: '+round+
+            '(random_integer.toString() === bigInt(teststring_alphabet, random_base_alphabet).toString())'+
+            '\n int: ', random_integer.toString(),
+            '\n string: ', teststring_alphabet,
+            '\n base: ', random_base_alphabet,
+            '\n int from string: ', bigInt(teststring_alphabet, random_base_alphabet).toString()
+        );
+        document.write('<br><br>Round: '+round+"ERROR. See console.log.")
+    }
+    if(!(random_integer.toString() === bigInt(teststring_unicode, random_base_unicode).toString())){
+        //Unidode
+        errors++;
+
+        console.log(
+            'round: '+round+
+            '(random_integer.toString() === bigInt(teststring_unicode, random_base_unicode).toString())'+
+            '\n int: ', random_integer.toString(),
+            '\n string: ', teststring_unicode,
+            '\n base: ', random_base_unicode,
+            '\n int from string: ', bigInt(teststring_unicode, random_base_unicode).toString()
+        );
+        document.write('<br><br>Round: '+round+"ERROR. See console.log.")
+    }
+    if(!(random_integer.toString() === bigInt(teststring_digits, random_base_digits).toString())){
+        //string with digits
+        errors++;
+
+        console.log(
+            'round: '+round+
+            '(random_integer.toString() === bigInt(teststring_digits, random_base_digits).toString())'+
+            '\n int: ', random_integer.toString(),
+            '\n string: ', teststring_digits,
+            '\n base: ', random_base_digits,
+            '\n int from string: ', bigInt(teststring_digits, random_base_digits).toString()
+        );
+        document.write('<br><br>Round: '+round+"ERROR. See console.log.")
+    }
+    if(//all decoded successfully
+        (random_integer.toString() === bigInt(teststring36, random_base36).toString())
+        && (random_integer.toString() === bigInt(teststring_alphabet, random_base_alphabet).toString())
+        && (random_integer.toString() === bigInt(teststring_unicode, random_base_unicode).toString())
+        && (random_integer.toString() === bigInt(teststring_digits, random_base_digits).toString())
+    )
+    {    //print info.
+        document.write(
+            '<br><br>round: '+round+
+            "; int = "+random_integer.toString()+
+            '<br>string base-'+random_base36+
+            "-encoded: '"+teststring36+"'"+
+            ", decoding: '"+(random_integer.toString() === bigInt(teststring36, random_base36).toString())+"'"+
+            '<br>alphabet base-'+random_base_alphabet+
+            "-encoded: '"+teststring_alphabet+"'"+
+            ", decoding: '"+(random_integer.toString() === bigInt(teststring_alphabet, random_base_alphabet).toString())+"'"+
+            '<br>Unicode base-'+random_base_unicode+
+            "-encoded: '"+teststring_unicode+"'"+
+            ", decoding: '"+(random_integer.toString() === bigInt(teststring_unicode, random_base_unicode).toString())+"'",
+            '<br>Digits base-'+random_base_digits+
+            "-encoded: '"+teststring_digits+"'"+
+            ", decoding: '"+(random_integer.toString() === bigInt(teststring_digits, random_base_digits).toString())+"'",
+            "<br>OK"
+        );
+    }
+}
+console.log('Errors percentage: '+(errors/rounds*100)+'%'); //errors percentage: 0%
+ 
+ 
+ 
+</script>

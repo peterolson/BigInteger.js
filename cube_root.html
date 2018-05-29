@@ -1,0 +1,96 @@
+<script language="JavaScript" type="text/javascript" src="BigInteger.js"></script>
+
+<script>
+function croot(cube){
+    string = cube.toString();
+
+    var cube_array = [];
+    for (i=string.length; i>0; i = i-3) {
+        if(i<3){
+            cube_array.push(parseInt(string.substr(0, i))); //from null to i
+            break;
+        }
+        cube_array.push(parseInt(string.substr(i-3, 3)));
+    }
+    cube_array = cube_array.reverse();    //invert array
+    var cubes = [0, 1, 8, 27, 64, 125, 216, 343, 512, 729, 1000]; //3 digits cubes
+
+    var key = 0;
+    var root3 = bigInt('0');
+        for(i=0; i<=cubes.length; i++){
+            key1 = cubes.indexOf(cubes[i]);    
+            if((cubes[key1]-cube_array[key])<=0){continue;}
+            else{
+                key1 = key1-1;
+                var korx = bigInt(key1); //cube root in the index.
+                break;
+            }
+        }
+            difference = bigInt(cube_array[key]-cubes[key1]);
+            root3 = bigInt(root3.toString()+korx.toString());
+
+    var b = true;
+    var c = true;
+    while(c==true){
+        while(b==true)
+        {
+            key = key + 1;
+            if(cube_array[key]===undefined){
+                return root3;
+            }
+            subtracted = difference.multiply(bigInt('1000')).add(bigInt(cube_array[key]));
+            
+            //(10m+n)^3 = 1000m^3 + 300m^2n + 30mn^2 + n^3
+            //(10m+n)^3 - 1000m^3 = 300m^2n + 30mn^2 + n^3
+            //300m^2n + 30mn^2 + n^3     =     3(10×m)^2×n + 3(10×m)×n^2 + n^3     =     (10m+n)^3 - 1000n^3
+            //n -> from 10 to 0 xecking...
+
+            var n = bigInt('10');
+            var m = root3;
+            b = false; c = true;
+        }
+        
+        //3(10×m)^2×n + 3(10×m)×n^2 + n^3
+        m10 = m.multiply(bigInt('10'));             //10×m
+        m102 = m10.multiply(m10);                   //(10×m)^2
+        m1023 = m102.multiply(bigInt('3'));         //3(10×m)^2
+        m1023n = m1023.multiply(n);                 //3(10×m)^2n
+        m103 = m10.multiply(bigInt('3'));           //3(10×m)
+        n2 = n.multiply(n);                         //n^2
+        m103n2 = m103.multiply(n2);                 //3(10×m)×n^2
+        n3 = n2.multiply(n);                        //n^3
+        m1023nplm103n2 = m1023n.add(m103n2);        //3(10×m)^2×n + 3(10×m)×n^2
+        m1023nplm103n2pln3 = m1023nplm103n2.add(n3);//3(10×m)^2×n + 3(10×m)×n^2 + n^3 = 300m^2n + 30mn^2 + n^3
+
+        difference = subtracted.subtract(m1023nplm103n2pln3);
+
+        c = false;
+
+        if(difference.compare(bigInt('0'))=='-1'){
+            n = n.subtract(bigInt('1')); //n--
+            c = true; b = false;
+        }
+        else{
+            root3 = root3.toString()+n.toString();
+            root3 = bigInt(root3);
+            c = true; b = true;
+        }
+    }
+}
+
+var x = bigInt.randBetween("1e64","2e64"); //x
+var x2 = x.multiply(x);                    //x^2
+var xcube = x2.multiply(x);                //x^3
+document.write(
+    '<br>x = '+x.toString(),                //toString()
+    '<br>x<sup>2</sup> = '+x2.toString(),
+    '<br>x<sup>3</sup> = '+xcube.toString()
+);
+
+var root3 = croot(xcube);
+
+//checking
+if(root3.compare(x)=='0')//bigInteger Compare
+{document.write('<br><br><sup>3</sup>√(x<sup>3</sup>) = '+root3.toString()+' === x');}
+
+</script>

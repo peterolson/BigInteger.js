@@ -1091,6 +1091,14 @@ describe("BigInteger", function () {
             expect(bigInt("13").or(-8)).toEqualBigInt("-3");
             expect(bigInt("12").xor(-5)).toEqualBigInt("-9");
         });
+
+        it("bitLength works", function () {
+            expect(bigInt(0).bitLength()).toEqualBigInt(0);
+            expect(bigInt(1).bitLength()).toEqualBigInt(1);
+            expect(bigInt(3).bitLength()).toEqualBigInt(2);
+            expect(bigInt(16).bitLength()).toEqualBigInt(5);
+            expect(bigInt(2).pow(49).bitLength()).toEqualBigInt(50);
+        });
     });
 
     describe("randBetween", function () {

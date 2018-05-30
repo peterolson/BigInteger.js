@@ -1771,6 +1771,7 @@ var maximum_base = maximum_code-how_many_excluded;
                 }else{
                     if(text[i] === alphabet.charAt(0)) continue;
                     digit = bigInt(alphabet.indexOf(text[i], 1)-1);        //alphabet chars without first symbol
+                    if(digit.isNegative()) throw new Error(digit + " is not a valid digit, because text "+text+" containing invalid characters.");
                 }
                 base_exp = bigInt(base).pow(text.length-1-i);
                 add = digit.multiply(base_exp);

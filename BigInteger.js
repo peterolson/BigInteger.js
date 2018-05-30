@@ -1851,7 +1851,6 @@ var maximum_base = maximum_code-how_many_excluded;
         }else if (digit <= base36.length-2) {
             return base36.charAt(digit+1);
 		}else{
-			console.log('test');
             return "<" + digit + ">";
         }
     }

@@ -1771,7 +1771,7 @@ var maximum_base = maximum_code-how_many_excluded;
                 }else{
                     if(text[i] === alphabet.charAt(0)) continue;
                     digit = bigInt(alphabet.indexOf(text[i], 1)-1);        //alphabet chars without first symbol
-                    //if(digit.isNegative()) throw new Error(digit + " is not a valid digit, because text "+text+" containing invalid characters.");
+                    if(digit.isNegative()){throw new Error(digit + " is not a valid digit, because text "+text+" containing invalid characters.");}
 					//this conflicting on github.
                 }
                 base_exp = bigInt(base).pow(text.length-1-i);
@@ -1848,7 +1848,10 @@ var maximum_base = maximum_code-how_many_excluded;
             }else{
                 return String.fromCharCode(digit);
             }
-        }else{
+        }else if (digit <= base36.length-2) {
+            return base36.charAt(digit+1);
+		}else{
+			console.log('test');
             return "<" + digit + ">";
         }
     }
@@ -1967,18 +1970,7 @@ var maximum_base = maximum_code-how_many_excluded;
         return sign + str;
     };
 
-    // Basic sleep function based on ms.
-    // DO NOT USE ON PUBLIC FACING WEBSITES.
-    function sleep(ms) {//ms - milliseconds for sleeping
-        var unixtime_ms = new Date().getTime();
-        while(new Date().getTime() < unixtime_ms + ms) {}
-    }
-
     SmallInteger.prototype.toString = function (radix) {
-        //After many often calls this function can lagging.
-        //So need sleep here 1 milliseconds.
-        sleep(1);
-
         if (radix === undefined) radix = 10;
         if (radix != 10) return toBaseString(this, radix);
         return String(this.value);

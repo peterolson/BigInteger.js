@@ -1,6 +1,6 @@
 //Make compatible with scripts, where BigInteger included and calling as BigInteger, not bigInt
 //Just add BigInteger name for variable
-var bigInt = BigInteger = (function (undefined) {
+var bigInt = (function (undefined) {
     "use strict";
 
     var BASE = 1e7,

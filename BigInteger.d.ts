@@ -101,6 +101,11 @@ declare namespace bigInt {
         and(number: BigNumber): BigInteger;
 
         /**
+         * Returns the number of digits required to represent a bigInt in binary.
+         */
+        bitLength(): BigInteger;
+
+        /**
          * Performs a comparison between two numbers. If the numbers are equal, it returns 0.
          * If the first number is greater, it returns 1. If the first number is lesser, it returns -1.
          */

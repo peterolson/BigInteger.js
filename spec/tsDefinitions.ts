@@ -4,7 +4,7 @@ import * as _ from 'lodash';
 const staticFns = _.keysIn(bigInt);
 const instanceFns = _(bigInt())
     .functionsIn()
-    .reject((fn) => {
+    .reject((fn : string) => {
         return (
             fn === '_multiplyBySmall' // Filter out private function
         );
@@ -22,12 +22,13 @@ const testedStaticFns = [
     'one',
     'randBetween',
     'zero',
-].concat(_.range(-999, 1000).map((i) => i.toString()));
+].concat(_.range(-999, 1000).map((i : number) => i.toString()));
 
 const testedInstanceFns = [
     'abs',
     'add',
     'and',
+    'bitLength',
     'compare',
     'compareAbs',
     'compareTo',

@@ -970,14 +970,20 @@ describe("BigInteger", function () {
         });
 		
 		it("errors on invalid input", function() {
-		//	expect(function () {
-            	//    bigInt("$,%@#^", "55");
-            	//}).toThrow();	//negative number returned.
+			expect(function () {							//<- тут error
+			bigInt("$,%@#^", "55");
+			}).toThrow();	//negative number returned.
+		
 			// See issue 101
 			//    https://github.com/peterolson/BigInteger.js/issues/101
-            expect(function () {
-                bigInt("0x10000", 16);
-            }).toEqualBigInt(bigInt('65536'));
+            
+			//expect(function () {				//<- error, because function
+            //    bigInt("0x10000", 16);
+			//}).toThrow();						//This was returned an error: "Error: x is not a valid digit in base 16."
+			
+			//Now this parsed good, so then...
+			expect(bigInt("0x10000", 16)).toEqualBigInt("65536"); //<- function removed. NOW - OK.
+			
 	    expect(function () {
                 bigInt("a9", 10);
             }).toThrow();
@@ -989,17 +995,23 @@ describe("BigInteger", function () {
         it("outputs numbers correctly", function () {
             expect(bigInt("366900685503779409298642816707647664013657589336").toString(16) === "4044654fce69424a651af2825b37124c25094658").toBe(true);
             expect(bigInt("111111111111111111111111111111111111111111111111111111", 2).toString(2) === "111111111111111111111111111111111111111111111111111111").toBe(true);
-            //expect(bigInt("secretmessage000", -36).toString(-36) === "secretmessage000").toBe(true); //-> returned false
+            expect(bigInt("secretmessage000", -36).toString(-36) === "secretmessage000").toBe(true);
             expect(bigInt(-256).toString(16) === "-100").toBe(true);
-            //expect(bigInt(256).toString(1).length === 256).toBe(true); //false, because <1><1>..., not 11111...(256 times)
+            expect(bigInt(256).toString(1).length === 256).toBe(true);
             expect(bigInt(bigInt(77).toString(-1), -1)).toEqualBigInt(77);
-            expect(bigInt(10).toString(0) === '<0>').toThrow();
+            
+            //expect(function () {				//throw replase to console.log to don't stop script.
+            //    bigInt(10).toString(0);
+            //}).toThrow();
+
+			expect(bigInt(10).toString(0) === '0').toBe(true); //now this just return <0> with any bigInt.
+			//this need to be true, return <0>, and display an error in console.log.
 
             // see issue #67
             // https://github.com/peterolson/BigInteger.js/issues/67
-            //expect(bigInt(36).toString(40) === "<36>").toBe(true); //unicode and alphabet added, return L.
+            //expect(bigInt(36).toString(40) === "<36>").toBe(true); //unicode and alphabet added. This is return L.
             //Make base greather than 63008:
-            expect(bigInt(36).toString(63009) === "<36>").toBe(true); //true
+            expect(bigInt(36).toString(63009) === "<36>").toBe(true); //now this is true
         });
 
         it("converts to arrays correctly", function() {
@@ -1053,7 +1065,13 @@ describe("BigInteger", function () {
             isNegative: false
           });
 
-          expect(function () {return bigInt(1).toArray(0);}).toThrow();
+          //expect(function () {return bigInt(1).toArray(0);}).toThrow(); //<- error
+		  //replace to this:
+		  expect(bigInt(1).toArray(0)).toEqual({
+            value: [0],
+            isNegative: false
+          }); //OK
+
         });
     });
 

@@ -15,6 +15,6 @@ module.exports = function(config) {
 	    dir : 'coverage/',
 	    subdir: '.'
     },
-    browserNoActivityTimeout: 60000
+    browserNoActivityTimeout: 100000
   });
 };

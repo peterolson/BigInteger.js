@@ -1,0 +1,20 @@
+<script language="JavaScript" type="text/javascript" src="BigInteger.js"></script>
+
+<script>
+    var static_big = bigInt("316712231245772750776917619861868301828861230049208917518119115504706957444207360029601936277835358011673621238602401524606115749");
+    
+    var bits = 256; //bitlength
+    var random_big = bigInt.randbits(bits);
+    //var random_big = bigInt.randBetween("1e128","9e128");
+    
+    document.write(
+        "<br>Miller_rabin test with 20 iterations. k = 20, errors = 1/(N^k), where N - is number value. Default k = 10.",
+        "<br><br>static BigInteger: "+static_big.toString(),
+        '<br>Is prime? '+static_big.MillerRabin(20),
+        "<br><br>Generated integer: "+random_big.toString(),
+        "<br>bitLength of generated number: "+random_big.bitLength(),
+        ". Is prime? "+random_big.MillerRabin(20),
+        "<br><br>Next Prime: "+random_big.nextprime().toString(),
+        "<br>Previous prime: "+random_big.prevprime().toString()
+    );
+</script>

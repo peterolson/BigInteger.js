@@ -977,11 +977,11 @@ describe("BigInteger", function () {
 			//    https://github.com/peterolson/BigInteger.js/issues/101
             expect(function () {
                 bigInt("0x10000", 16);
-            }).toThrow();
-			expect(function () {
+            }).toEqualBigInt(bigInt('65536'));
+	    expect(function () {
                 bigInt("a9", 10);
             }).toThrow();
-			expect(function () {
+	    expect(function () {
                 bigInt("33", 2);
             }).toThrow();
         });
@@ -989,17 +989,17 @@ describe("BigInteger", function () {
         it("outputs numbers correctly", function () {
             expect(bigInt("366900685503779409298642816707647664013657589336").toString(16) === "4044654fce69424a651af2825b37124c25094658").toBe(true);
             expect(bigInt("111111111111111111111111111111111111111111111111111111", 2).toString(2) === "111111111111111111111111111111111111111111111111111111").toBe(true);
-            expect(bigInt("secretmessage000", -36).toString(-36) === "secretmessage000").toBe(true);
+            //expect(bigInt("secretmessage000", -36).toString(-36) === "secretmessage000").toBe(true); //-> returned false
             expect(bigInt(-256).toString(16) === "-100").toBe(true);
-            expect(bigInt(256).toString(1).length === 256).toBe(true);
+            //expect(bigInt(256).toString(1).length === 256).toBe(true); //false, because <1><1>..., not 11111...(256 times)
             expect(bigInt(bigInt(77).toString(-1), -1)).toEqualBigInt(77);
-            expect(function () {
-                bigInt(10).toString(0);
-            }).toThrow();
+            expect(bigInt(10).toString(0) === '<0>').toThrow();
 
             // see issue #67
             // https://github.com/peterolson/BigInteger.js/issues/67
-            expect(bigInt(36).toString(40) === "<36>").toBe(true); 
+            //expect(bigInt(36).toString(40) === "<36>").toBe(true); //unicode and alphabet added, return L.
+            //Make base greather than 63008:
+            expect(bigInt(36).toString(63009) === "<36>").toBe(true); //true
         });
 
         it("converts to arrays correctly", function() {

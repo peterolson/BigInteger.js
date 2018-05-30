@@ -92,6 +92,12 @@ Performs the bitwise AND operation. The operands are treated as if they were rep
  - `bigInt(6).and(3)` => `2`
  - `bigInt(6).and(-3)` => `4`
 
+#### `bitLength()`
+
+Returns the number of digits required to represent a bigInt in binary.
+
+ - `bigInt(5)` => `3` (since 5 is `101` in binary, which is three digits long)
+
 #### `compare(number)`
 
 Performs a comparison between two numbers. If the numbers are equal, it returns `0`. If the first number is greater, it returns `1`. If the first number is lesser, it returns `-1`.

@@ -179,7 +179,7 @@ var bigInt = (function (undefined) {
     function subtractAny(a, b, sign) {
         var value;
         if (compareAbs(a, b) >= 0) {
-            value = subtract(a,b);
+            value = subtract(a, b);
         } else {
             value = subtract(b, a);
             sign = !sign;
@@ -354,16 +354,16 @@ var bigInt = (function (undefined) {
         return new BigInteger(multiplyLong(b, smallToArray(a)), sign);
     }
     SmallInteger.prototype._multiplyBySmall = function (a) {
-            if (isPrecise(a.value * this.value)) {
-                return new SmallInteger(a.value * this.value);
-            }
-            return multiplySmallAndArray(Math.abs(a.value), smallToArray(Math.abs(this.value)), this.sign !== a.sign);
+        if (isPrecise(a.value * this.value)) {
+            return new SmallInteger(a.value * this.value);
+        }
+        return multiplySmallAndArray(Math.abs(a.value), smallToArray(Math.abs(this.value)), this.sign !== a.sign);
     };
     BigInteger.prototype._multiplyBySmall = function (a) {
-            if (a.value === 0) return Integer[0];
-            if (a.value === 1) return this;
-            if (a.value === -1) return this.negate();
-            return multiplySmallAndArray(Math.abs(a.value), this.value, this.sign !== a.sign);
+        if (a.value === 0) return Integer[0];
+        if (a.value === 1) return this;
+        if (a.value === -1) return this.negate();
+        return multiplySmallAndArray(Math.abs(a.value), this.value, this.sign !== a.sign);
     };
     SmallInteger.prototype.multiply = function (v) {
         return parseValue(v)._multiplyBySmall(this);
@@ -416,7 +416,7 @@ var bigInt = (function (undefined) {
         for (shift = a_l - b_l; shift >= 0; shift--) {
             quotientDigit = base - 1;
             if (remainder[shift + b_l] !== divisorMostSignificantDigit) {
-              quotientDigit = Math.floor((remainder[shift + b_l] * base + remainder[shift + b_l - 1]) / divisorMostSignificantDigit);
+                quotientDigit = Math.floor((remainder[shift + b_l] * base + remainder[shift + b_l - 1]) / divisorMostSignificantDigit);
             }
             // quotientDigit <= base - 1
             carry = 0;
@@ -799,7 +799,7 @@ var bigInt = (function (undefined) {
         for (i = 0; i < a.length; i++) {
             x = bigInt(a[i]).modPow(b, n);
             if (x.equals(Integer[1]) || x.equals(nPrev)) continue;
-            for (t = true, d = b; t && d.lesser(nPrev) ; d = d.multiply(2)) {
+            for (t = true, d = b; t && d.lesser(nPrev); d = d.multiply(2)) {
                 x = x.square().mod(n);
                 if (x.equals(nPrev)) t = false;
             }
@@ -975,6 +975,29 @@ var bigInt = (function (undefined) {
         return x & -x;
     }
 
+    function integerLogarithm(value, base) {
+        if (base.compareTo(value) <= 0) {
+            var tmp = integerLogarithm(value, base.square(base));
+            var p = tmp.p;
+            var e = tmp.e;
+            var t = p.multiply(base);
+            return t.compareTo(value) <= 0 ? { p: t, e: e * 2 + 1 } : { p: p, e: e * 2 };
+        }
+        return { p: bigInt(1), e: 0 };
+    }
+
+    BigInteger.prototype.bitLength = function () {
+        var n = this;
+        if (n.compareTo(bigInt(0)) < 0) {
+            n = n.negate().subtract(bigInt(1));
+        }
+        if (n.compareTo(bigInt(0)) === 0) {
+            return bigInt(0);
+        }
+        return bigInt(integerLogarithm(n, bigInt(2)).e).add(bigInt(1));
+    }
+    SmallInteger.prototype.bitLength = BigInteger.prototype.bitLength;
+
     function max(a, b) {
         a = parseValue(a);
         b = parseValue(b);
@@ -1036,26 +1059,26 @@ var bigInt = (function (undefined) {
     }
     var parseBase = function (text, base) {
         var length = text.length;
-		var i;
-		var absBase = Math.abs(base);
-		for(var i = 0; i < length; i++) {
-			var c = text[i].toLowerCase();
-			if(c === "-") continue;
-			if(/[a-z0-9]/.test(c)) {
-			    if(/[0-9]/.test(c) && +c >= absBase) {
-					if(c === "1" && absBase === 1) continue;
+        var i;
+        var absBase = Math.abs(base);
+        for (var i = 0; i < length; i++) {
+            var c = text[i].toLowerCase();
+            if (c === "-") continue;
+            if (/[a-z0-9]/.test(c)) {
+                if (/[0-9]/.test(c) && +c >= absBase) {
+                    if (c === "1" && absBase === 1) continue;
                     throw new Error(c + " is not a valid digit in base " + base + ".");
-				} else if(c.charCodeAt(0) - 87 >= absBase) {
-					throw new Error(c + " is not a valid digit in base " + base + ".");
-				}
-			}
-		}
+                } else if (c.charCodeAt(0) - 87 >= absBase) {
+                    throw new Error(c + " is not a valid digit in base " + base + ".");
+                }
+            }
+        }
         if (2 <= base && base <= 36) {
             if (length <= LOG_MAX_INT / Math.log(base)) {
-				var result = parseInt(text, base);
-				if(isNaN(result)) {
-					throw new Error(c + " is not a valid digit in base " + base + ".");
-				}
+                var result = parseInt(text, base);
+                if (isNaN(result)) {
+                    throw new Error(c + " is not a valid digit in base " + base + ".");
+                }
                 return new SmallInteger(parseInt(text, base));
             }
         }
@@ -1096,25 +1119,25 @@ var bigInt = (function (undefined) {
     function toBase(n, base) {
         base = bigInt(base);
         if (base.isZero()) {
-            if (n.isZero()) return {value: [0], isNegative: false};
+            if (n.isZero()) return { value: [0], isNegative: false };
             throw new Error("Cannot convert nonzero numbers to base 0.");
         }
         if (base.equals(-1)) {
-            if (n.isZero()) return {value: [0], isNegative: false};
+            if (n.isZero()) return { value: [0], isNegative: false };
             if (n.isNegative())
-              return {
-                value: [].concat.apply([], Array.apply(null, Array(-n))
-                            .map(Array.prototype.valueOf, [1, 0])
-                          ),
-                isNegative: false
-              };
+                return {
+                    value: [].concat.apply([], Array.apply(null, Array(-n))
+                        .map(Array.prototype.valueOf, [1, 0])
+                    ),
+                    isNegative: false
+                };
 
             var arr = Array.apply(null, Array(+n - 1))
-              .map(Array.prototype.valueOf, [0, 1]);
+                .map(Array.prototype.valueOf, [0, 1]);
             arr.unshift([1]);
             return {
-              value: [].concat.apply([], arr),
-              isNegative: false
+                value: [].concat.apply([], arr),
+                isNegative: false
             };
         }
 
@@ -1124,12 +1147,12 @@ var bigInt = (function (undefined) {
             n = n.abs();
         }
         if (base.equals(1)) {
-            if (n.isZero()) return {value: [0], isNegative: false};
-            
+            if (n.isZero()) return { value: [0], isNegative: false };
+
             return {
-              value: Array.apply(null, Array(+n))
-                       .map(Number.prototype.valueOf, 1),
-              isNegative: neg
+                value: Array.apply(null, Array(+n))
+                    .map(Number.prototype.valueOf, 1),
+                isNegative: neg
             };
         }
         var out = [];
@@ -1145,7 +1168,7 @@ var bigInt = (function (undefined) {
             out.push(digit.toJSNumber());
         }
         out.push(left.toJSNumber());
-        return {value: out.reverse(), isNegative: neg};
+        return { value: out.reverse(), isNegative: neg };
     }
 
     function toBaseString(n, base) {
@@ -1154,11 +1177,11 @@ var bigInt = (function (undefined) {
     }
 
     BigInteger.prototype.toArray = function (radix) {
-      return toBase(this, radix);
+        return toBase(this, radix);
     };
 
     SmallInteger.prototype.toArray = function (radix) {
-      return toBase(this, radix);
+        return toBase(this, radix);
     };
 
     BigInteger.prototype.toString = function (radix) {
@@ -1178,7 +1201,7 @@ var bigInt = (function (undefined) {
         if (radix != 10) return toBaseString(this, radix);
         return String(this.value);
     };
-    BigInteger.prototype.toJSON = SmallInteger.prototype.toJSON = function() { return this.toString(); }
+    BigInteger.prototype.toJSON = SmallInteger.prototype.toJSON = function () { return this.toString(); }
 
     BigInteger.prototype.valueOf = function () {
         return parseInt(this.toString(), 10);
@@ -1191,42 +1214,42 @@ var bigInt = (function (undefined) {
     SmallInteger.prototype.toJSNumber = SmallInteger.prototype.valueOf;
 
     function parseStringValue(v) {
-            if (isPrecise(+v)) {
-                var x = +v;
-                if (x === truncate(x))
-                    return new SmallInteger(x);
-                throw "Invalid integer: " + v;
+        if (isPrecise(+v)) {
+            var x = +v;
+            if (x === truncate(x))
+                return new SmallInteger(x);
+            throw "Invalid integer: " + v;
+        }
+        var sign = v[0] === "-";
+        if (sign) v = v.slice(1);
+        var split = v.split(/e/i);
+        if (split.length > 2) throw new Error("Invalid integer: " + split.join("e"));
+        if (split.length === 2) {
+            var exp = split[1];
+            if (exp[0] === "+") exp = exp.slice(1);
+            exp = +exp;
+            if (exp !== truncate(exp) || !isPrecise(exp)) throw new Error("Invalid integer: " + exp + " is not a valid exponent.");
+            var text = split[0];
+            var decimalPlace = text.indexOf(".");
+            if (decimalPlace >= 0) {
+                exp -= text.length - decimalPlace - 1;
+                text = text.slice(0, decimalPlace) + text.slice(decimalPlace + 1);
             }
-            var sign = v[0] === "-";
-            if (sign) v = v.slice(1);
-            var split = v.split(/e/i);
-            if (split.length > 2) throw new Error("Invalid integer: " + split.join("e"));
-            if (split.length === 2) {
-                var exp = split[1];
-                if (exp[0] === "+") exp = exp.slice(1);
-                exp = +exp;
-                if (exp !== truncate(exp) || !isPrecise(exp)) throw new Error("Invalid integer: " + exp + " is not a valid exponent.");
-                var text = split[0];
-                var decimalPlace = text.indexOf(".");
-                if (decimalPlace >= 0) {
-                    exp -= text.length - decimalPlace - 1;
-                    text = text.slice(0, decimalPlace) + text.slice(decimalPlace + 1);
-                }
-                if (exp < 0) throw new Error("Cannot include negative exponent part for integers");
-                text += (new Array(exp + 1)).join("0");
-                v = text;
-            }
-            var isValid = /^([0-9][0-9]*)$/.test(v);
-            if (!isValid) throw new Error("Invalid integer: " + v);
-            var r = [], max = v.length, l = LOG_BASE, min = max - l;
-            while (max > 0) {
-                r.push(+v.slice(min, max));
-                min -= l;
-                if (min < 0) min = 0;
-                max -= l;
-            }
-            trim(r);
-            return new BigInteger(r, sign);
+            if (exp < 0) throw new Error("Cannot include negative exponent part for integers");
+            text += (new Array(exp + 1)).join("0");
+            v = text;
+        }
+        var isValid = /^([0-9][0-9]*)$/.test(v);
+        if (!isValid) throw new Error("Invalid integer: " + v);
+        var r = [], max = v.length, l = LOG_BASE, min = max - l;
+        while (max > 0) {
+            r.push(+v.slice(min, max));
+            min -= l;
+            if (min < 0) min = 0;
+            max -= l;
+        }
+        trim(r);
+        return new BigInteger(r, sign);
     }
 
     function parseNumberValue(v) {
@@ -1275,8 +1298,8 @@ if (typeof module !== "undefined" && module.hasOwnProperty("exports")) {
 }
 
 //amd check
-if ( typeof define === "function" && define.amd ) {
-  define( "big-integer", [], function() {
-    return bigInt;
-  });
+if (typeof define === "function" && define.amd) {
+    define("big-integer", [], function () {
+        return bigInt;
+    });
 }

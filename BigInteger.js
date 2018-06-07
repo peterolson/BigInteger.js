@@ -1218,7 +1218,7 @@ var bigInt = (function (undefined) {
             var x = +v;
             if (x === truncate(x))
                 return new SmallInteger(x);
-            throw "Invalid integer: " + v;
+            throw new Error("Invalid integer: " + v);
         }
         var sign = v[0] === "-";
         if (sign) v = v.slice(1);

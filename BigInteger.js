@@ -371,19 +371,21 @@ var bigInt = (function (undefined) {
     SmallInteger.prototype.times = SmallInteger.prototype.multiply;
 
     function square(a) {
+        //console.assert(2 * BASE * BASE < MAX_INT);
         var l = a.length,
             r = createArray(l + l),
             base = BASE,
             product, carry, i, a_i, a_j;
         for (i = 0; i < l; i++) {
             a_i = a[i];
-            for (var j = 0; j < l; j++) {
+            carry = 0 - a_i * a_i;
+            for (var j = i; j < l; j++) {
                 a_j = a[j];
-                product = a_i * a_j + r[i + j];
+                product = 2 * (a_i * a_j) + r[i + j] + carry;
                 carry = Math.floor(product / base);
                 r[i + j] = product - carry * base;
-                r[i + j + 1] += carry;
             }
+            r[i + l] = carry;
         }
         trim(r);
         return r;

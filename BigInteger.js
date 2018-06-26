@@ -890,6 +890,7 @@ var bigInt = (function (undefined) {
         n = +n;
         if (n < 0) return this.shiftRight(-n);
         var result = this;
+        if (result.isZero()) return result;
         while (n >= powers2Length) {
             result = result.multiply(highestPower2);
             n -= powers2Length - 1;
@@ -907,7 +908,7 @@ var bigInt = (function (undefined) {
         if (n < 0) return this.shiftLeft(-n);
         var result = this;
         while (n >= powers2Length) {
-            if (result.isZero()) return result;
+            if (result.isZero() || (result.isNegative() && result.isUnit())) return result;
             remQuo = divModAny(result, highestPower2);
             result = remQuo[1].isNegative() ? remQuo[0].prev() : remQuo[0];
             n -= powers2Length - 1;

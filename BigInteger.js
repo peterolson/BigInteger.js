@@ -785,7 +785,7 @@ var bigInt = (function (undefined) {
         if (n.isUnit()) return false;
         if (n.equals(2) || n.equals(3) || n.equals(5)) return true;
         if (n.isEven() || n.isDivisibleBy(3) || n.isDivisibleBy(5)) return false;
-        if (n.lesser(25)) return true;
+        if (n.lesser(49)) return true;
         // we don't know if it's prime: let the other functions figure it out
     }
 

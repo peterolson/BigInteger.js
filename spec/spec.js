@@ -817,6 +817,12 @@ describe("BigInteger", function () {
                 expect(bigInt(primes[i]).isPrime()).toBe(true);
             }
         });
+        it("correctly identifies pseudo primes", function(){
+            var largePrimes = ["3825123056546413051", "3825123056546413051", "3825123056546413051", "318665857834031151167461"];
+            for (var i = 0; i < largePrimes.length; i++) {
+                expect(bigInt(largePrimes[i]).isPrime()).toBe(false);
+            }
+        });
         it("correctly rejects nonprime numbers", function () {
             var nonPrimes = [1, 4, 3 * 5, 4 * 7, 7 * 17, 3 * 103, 17 * 97, 7917];
             for (var i = 0; i < nonPrimes.length; i++) {

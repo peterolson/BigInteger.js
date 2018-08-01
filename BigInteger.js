@@ -785,7 +785,7 @@ var bigInt = (function (undefined) {
         if (n.isUnit()) return false;
         if (n.equals(2) || n.equals(3) || n.equals(5)) return true;
         if (n.isEven() || n.isDivisibleBy(3) || n.isDivisibleBy(5)) return false;
-        if (n.lesser(25)) return true;
+        if (n.lesser(49)) return true;
         // we don't know if it's prime: let the other functions figure it out
     }
 
@@ -794,11 +794,12 @@ var bigInt = (function (undefined) {
         if (isPrime !== undefined) return isPrime;
         var n = this.abs(),
             nPrev = n.prev();
-        var a = [2, 3, 5, 7, 11, 13, 17, 19],
+        var a = [2, 325, 9375, 28178, 450775, 9780504, 1795265022],
             b = nPrev,
             d, t, i, x;
         while (b.isEven()) b = b.divide(2);
         for (i = 0; i < a.length; i++) {
+            if (n.lesser(a[i])) continue;
             x = bigInt(a[i]).modPow(b, n);
             if (x.equals(Integer[1]) || x.equals(nPrev)) continue;
             for (t = true, d = b; t && d.lesser(nPrev); d = d.multiply(2)) {

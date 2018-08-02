@@ -788,13 +788,9 @@ var bigInt = (function (undefined) {
         if (n.lesser(49)) return true;
         // we don't know if it's prime: let the other functions figure it out
     }
-
-    BigInteger.prototype.isPrime = function () {
-        var isPrime = isBasicPrime(this);
-        if (isPrime !== undefined) return isPrime;
-        var n = this.abs(),
-            nPrev = n.prev();
-        var a = [2, 325, 9375, 28178, 450775, 9780504, 1795265022],
+    
+    function millerRabinTest(n, a) {
+        var nPrev = n.prev(),
             b = nPrev,
             d, t, i, x;
         while (b.isEven()) b = b.divide(2);
@@ -809,6 +805,12 @@ var bigInt = (function (undefined) {
             if (t) return false;
         }
         return true;
+    }
+
+    BigInteger.prototype.isPrime = function () {
+        var isPrime = isBasicPrime(this);
+        if (isPrime !== undefined) return isPrime;
+        return millerRabinTest(this.abs(), [2, 325, 9375, 28178, 450775, 9780504, 1795265022]);
     };
     SmallInteger.prototype.isPrime = BigInteger.prototype.isPrime;
 
@@ -817,12 +819,10 @@ var bigInt = (function (undefined) {
         if (isPrime !== undefined) return isPrime;
         var n = this.abs();
         var t = iterations === undefined ? 5 : iterations;
-        // use the Fermat primality test
-        for (var i = 0; i < t; i++) {
-            var a = bigInt.randBetween(2, n.minus(2));
-            if (!a.modPow(n.prev(), n).isUnit()) return false; // definitely composite
+        for (var a = [], i = 0; i < t; i++) {
+            a.push(bigInt.randBetween(2, n.minus(2)));
         }
-        return true; // large chance of being prime
+        return millerRabinTest(n, a);
     };
     SmallInteger.prototype.isProbablePrime = BigInteger.prototype.isProbablePrime;
 

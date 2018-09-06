@@ -792,7 +792,7 @@ var bigInt = (function (undefined) {
     function millerRabinTest(n, a) {
         var nPrev = n.prev(),
             b = nPrev,
-	    r = 0,
+            r = 0,
             d, t, i, x;
         while (b.isEven()) b = b.divide(2), r++;
         next : for (i = 0; i < a.length; i++) {
@@ -801,6 +801,7 @@ var bigInt = (function (undefined) {
             if (x.equals(Integer[1]) || x.equals(nPrev)) continue;
             for (d = r - 1; d != 0; d--) {
                 x = x.square().mod(n);
+		if (x.isUnit()) return false;    
                 if (x.equals(nPrev)) continue next;
             }
             return false;

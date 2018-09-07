@@ -801,7 +801,7 @@ var bigInt = (function (undefined) {
             if (x.equals(Integer[1]) || x.equals(nPrev)) continue;
             for (d = r - 1; d != 0; d--) {
                 x = x.square().mod(n);
-		if (x.isUnit()) return false;    
+                if (x.isUnit()) return false;    
                 if (x.equals(nPrev)) continue next;
             }
             return false;

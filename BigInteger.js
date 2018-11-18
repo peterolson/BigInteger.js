@@ -776,7 +776,7 @@ var bigInt = (function (undefined) {
         if (value === 0) return false;
         if (value === 1) return true;
         if (value === 2) return this.isEven();
-        return this.mod(n).equals(Integer[0]);
+        return this.mod(n).isZero();
     };
     SmallInteger.prototype.isDivisibleBy = BigInteger.prototype.isDivisibleBy;
 
@@ -798,7 +798,7 @@ var bigInt = (function (undefined) {
         next : for (i = 0; i < a.length; i++) {
             if (n.lesser(a[i])) continue;
             x = bigInt(a[i]).modPow(b, n);
-            if (x.equals(Integer[1]) || x.equals(nPrev)) continue;
+            if (x.isUnit() || x.equals(nPrev)) continue;
             for (d = r - 1; d != 0; d--) {
                 x = x.square().mod(n);
                 if (x.isUnit()) return false;    
@@ -815,7 +815,7 @@ var bigInt = (function (undefined) {
         if (isPrime !== undefined) return isPrime;
         var n = this.abs();
         var bits = n.bitLength();
-        if(bits <= 64)
+        if (bits <= 64)
             return millerRabinTest(n, [2, 325, 9375, 28178, 450775, 9780504, 1795265022]);
         var logN = Math.log(2) * bits;
         var t = Math.ceil((strict === true) ? (2 * Math.pow(logN, 2)) : logN);
@@ -840,7 +840,7 @@ var bigInt = (function (undefined) {
 
     BigInteger.prototype.modInv = function (n) {
         var t = bigInt.zero, newT = bigInt.one, r = parseValue(n), newR = this.abs(), q, lastT, lastR;
-        while (!newR.equals(bigInt.zero)) {
+        while (!newR.isZero()) {
             q = r.divide(newR);
             lastT = t;
             lastR = r;
@@ -849,7 +849,7 @@ var bigInt = (function (undefined) {
             newT = lastT.subtract(q.multiply(newT));
             newR = lastR.subtract(q.multiply(newR));
         }
-        if (!r.equals(1)) throw new Error(this.toString() + " and " + n.toString() + " are not co-prime");
+        if (!r.isUnit()) throw new Error(this.toString() + " and " + n.toString() + " are not co-prime");
         if (t.compare(0) === -1) {
             t = t.add(n);
         }
@@ -1162,7 +1162,7 @@ var bigInt = (function (undefined) {
             neg = true;
             n = n.abs();
         }
-        if (base.equals(1)) {
+        if (base.isUnit()) {
             if (n.isZero()) return { value: [0], isNegative: false };
 
             return {

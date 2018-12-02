@@ -10,13 +10,13 @@ describe("BigInteger", function () {
 
     beforeAll(function () {
         jasmine.addMatchers({
-          toEqualBigInt: function() {
-            return {
-              compare: function(actual, expected) {
-                return {pass: bigInt(actual).equals(expected)};
-              }
-            };
-          }
+            toEqualBigInt: function () {
+                return {
+                    compare: function (actual, expected) {
+                        return { pass: bigInt(actual).equals(expected) };
+                    }
+                };
+            }
         });
     });
 
@@ -817,7 +817,7 @@ describe("BigInteger", function () {
                 expect(bigInt(primes[i]).isPrime()).toBe(true);
             }
         });
-        it("correctly identifies pseudo primes", function(){
+        it("correctly identifies pseudo primes", function () {
             var largePrimes = ["3825123056546413051", "3825123056546413051", "3825123056546413051", "318665857834031151167461"];
             for (var i = 0; i < largePrimes.length; i++) {
                 expect(bigInt(largePrimes[i]).isPrime()).toBe(false);
@@ -952,14 +952,13 @@ describe("BigInteger", function () {
 
     describe("valueOf and toJSNumber", function () {
         it("works", function () {
-            expect(bigInt(100) + bigInt(200) === 300).toBe(true);
-            expect(bigInt("100000000000300") - bigInt("100000000000000") === 300).toBe(true);
-            expect(bigInt(100).valueOf() === 100).toBe(true);
-            expect(bigInt("1e30").valueOf() === 1e30).toBe(true);
-            expect(+bigInt(43.9e30) === 43.9e30).toBe(true);
-            expect(+bigInt("1.11e+30") == 1.11e+30).toBe(true);
-            expect(bigInt(100).toJSNumber === bigInt(100).valueOf).toBe(true);
-            expect(bigInt("1e30").toJSNumber === bigInt("4e20").valueOf).toBe(true);
+            expect(bigInt(100) + bigInt(200) == 300).toBe(true);
+            expect(bigInt("100000000000300") - bigInt("100000000000000") == 300).toBe(true);
+            expect(bigInt(100).valueOf() == 100).toBe(true);
+            expect(bigInt(43.9e30) == 43.9e30).toBe(true);
+            expect(bigInt("1.11e+30").toJSNumber() == 1.11e+30).toBe(true);
+            expect(bigInt(100).toJSNumber() === 100).toBe(true);
+            expect(bigInt("1e30").toJSNumber() === 1e30).toBe(true);
             expect(bigInt("100000000000000008193").toJSNumber()).toBe(100000000000000016384);
         });
     });
@@ -980,24 +979,24 @@ describe("BigInteger", function () {
             expect(bigInt("234345345345")).toEqualBigInt(bigInt("3690123141", 16));
             expect(bigInt("-10", 16)).toEqualBigInt("-16");
         });
-		
-		it("errors on invalid input", function() {
-			expect(function () {
+
+        it("errors on invalid input", function () {
+            expect(function () {
                 bigInt("$,%@#^", "55");
             }).toThrow();
-			// See issue 101
-			//    https://github.com/peterolson/BigInteger.js/issues/101
+            // See issue 101
+            //    https://github.com/peterolson/BigInteger.js/issues/101
             expect(function () {
                 bigInt("0x10000", 16);
             }).toThrow();
-			expect(function () {
+            expect(function () {
                 bigInt("a9", 10);
             }).toThrow();
-			expect(function () {
+            expect(function () {
                 bigInt("33", 2);
             }).toThrow();
         });
-        
+
         it("outputs numbers correctly", function () {
             expect(bigInt("366900685503779409298642816707647664013657589336").toString(16) === "4044654fce69424a651af2825b37124c25094658").toBe(true);
             expect(bigInt("111111111111111111111111111111111111111111111111111111", 2).toString(2) === "111111111111111111111111111111111111111111111111111111").toBe(true);
@@ -1011,61 +1010,61 @@ describe("BigInteger", function () {
 
             // see issue #67
             // https://github.com/peterolson/BigInteger.js/issues/67
-            expect(bigInt(36).toString(40) === "<36>").toBe(true); 
+            expect(bigInt(36).toString(40) === "<36>").toBe(true);
         });
 
-        it("converts to arrays correctly", function() {
-          expect(bigInt("1e9").toArray(10)).toEqual({
-            value: [1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            isNegative: false
-          });
+        it("converts to arrays correctly", function () {
+            expect(bigInt("1e9").toArray(10)).toEqual({
+                value: [1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                isNegative: false
+            });
 
-          expect(bigInt("1e20").toArray(10)).toEqual({
-            value: [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            isNegative: false
-          });
+            expect(bigInt("1e20").toArray(10)).toEqual({
+                value: [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                isNegative: false
+            });
 
-          expect(bigInt("1e9").toArray(16)).toEqual({
-            value: [3, 11, 9, 10, 12, 10, 0, 0],
-            isNegative: false
-          });
+            expect(bigInt("1e9").toArray(16)).toEqual({
+                value: [3, 11, 9, 10, 12, 10, 0, 0],
+                isNegative: false
+            });
 
-          expect(bigInt(567890).toArray(100)).toEqual({
-            value: [56, 78, 90],
-            isNegative: false
-          });
+            expect(bigInt(567890).toArray(100)).toEqual({
+                value: [56, 78, 90],
+                isNegative: false
+            });
 
-          expect(bigInt(12345).toArray(-10)).toEqual({
-            value: [2, 8, 4, 6, 5],
-            isNegative: false
-          });
+            expect(bigInt(12345).toArray(-10)).toEqual({
+                value: [2, 8, 4, 6, 5],
+                isNegative: false
+            });
 
-          expect(bigInt(-15).toArray(1)).toEqual({
-            value: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-            isNegative: true
-          });
+            expect(bigInt(-15).toArray(1)).toEqual({
+                value: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+                isNegative: true
+            });
 
-          expect(bigInt(0).toArray(1)).toEqual({
-            value: [0],
-            isNegative: false
-          });
+            expect(bigInt(0).toArray(1)).toEqual({
+                value: [0],
+                isNegative: false
+            });
 
-          expect(bigInt(-15).toArray(-1)).toEqual({
-            value: [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0],
-            isNegative: false
-          });
+            expect(bigInt(-15).toArray(-1)).toEqual({
+                value: [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0],
+                isNegative: false
+            });
 
-          expect(bigInt(0).toArray(-1)).toEqual({
-            value: [0],
-            isNegative: false
-          });
+            expect(bigInt(0).toArray(-1)).toEqual({
+                value: [0],
+                isNegative: false
+            });
 
-          expect(bigInt(0).toArray(0)).toEqual({
-            value: [0],
-            isNegative: false
-          });
+            expect(bigInt(0).toArray(0)).toEqual({
+                value: [0],
+                isNegative: false
+            });
 
-          expect(function () {return bigInt(1).toArray(0);}).toThrow();
+            expect(function () { return bigInt(1).toArray(0); }).toThrow();
         });
     });
 
@@ -1128,7 +1127,7 @@ describe("BigInteger", function () {
             expect(bigInt.randBetween("-9e99", "9e99").geq("-9e99")).toBe(true);
         });
         it("always returns integers", function () {
-            expect(+bigInt.randBetween(0, 127) % 1).toBe(0);
+            expect(bigInt.randBetween(0, 127) % 1).toBe(0);
 
             for (var i = 0; i < 20; i++) { // issue #60
                 expect(bigInt.randBetween(0, "11703780079612452").toString()).not.toBe("undefined");
@@ -1196,7 +1195,7 @@ describe("BigInteger", function () {
         });
         it("subtract, minus are the same", function () {
             expect(bigInt.one.subtract === bigInt.one.minus).toBe(true);
-        });     
+        });
         it("mod, remainder are the same", function () {
             expect(bigInt.one.mod === bigInt.one.remainder).toBe(true);
         });
@@ -1211,13 +1210,13 @@ describe("BigInteger", function () {
             expect(bigInt(10e20) instanceof bigInt).toBe(true);
         });
 
-        it("object construction", function() {
+        it("object construction", function () {
             expect((new bigInt(14)).add(new bigInt(7)).eq(21)).toBe(true);
         });
-        
-        it("JSON stringifiction", function() {
+
+        it("JSON stringifiction", function () {
             var x = JSON.parse(JSON.stringify({
-                a: bigInt(4), 
+                a: bigInt(4),
                 b: bigInt("4e100")
             }));
             expect(x.a).toEqualBigInt("4");

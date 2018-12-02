@@ -648,8 +648,8 @@ var bigInt = (function (undefined) {
     };
     SmallInteger.prototype.pow = BigInteger.prototype.pow;
     NativeBigInt.prototype.pow = function (v) {
-        let n = parseValue(v);
-        let a = this.value, b = n.value;
+        var n = parseValue(v);
+        var a = this.value, b = n.value;
         if (b === BigInt(0)) return Integer[1];
         if (a === BigInt(0)) return Integer[0];
         if (a === BigInt(1)) return Integer[1];
@@ -1154,7 +1154,7 @@ var bigInt = (function (undefined) {
         var low = min(a, b), high = max(a, b);
         var range = high.subtract(low).add(1);
         if (range.isSmall) return low.add(Math.floor(Math.random() * range));
-        let digits = toBase(range, BASE).value;
+        var digits = toBase(range, BASE).value;
         var result = [], restricted = true;
         for (var i = 0; i < digits.length; i++) {
             var top = restricted ? digits[i] : BASE;

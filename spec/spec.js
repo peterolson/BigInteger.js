@@ -1066,6 +1066,13 @@ describe("BigInteger", function () {
 
             expect(function () { return bigInt(1).toArray(0); }).toThrow();
         });
+
+        it("allows custom alphabet", function () {
+            expect(bigInt("9786534201", 10, "9786534201")).toEqualBigInt("0123456789");
+            expect(bigInt("bC", 3, "abc")).toEqualBigInt("5");
+            expect(bigInt("AAa", 2, "aA", true)).toEqualBigInt("6");
+            expect(bigInt("10").toString(2, "Aa")).toEqual("aAaA");
+        });
     });
 
     describe("Bitwise operations", function () {

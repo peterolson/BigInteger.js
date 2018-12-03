@@ -23,8 +23,11 @@ declare namespace bigInt {
 
         /**
          * Parse a string into a bigInt.
+         * Default base is 10.
+         * Default alphabet is "0123456789abcdefghijklmnopqrstuvwxyz".
+         * caseSensitive defaults to false.
          */
-        (string: string, base?: BigNumber): BigInteger;
+        (string: string, base?: BigNumber, alphabet?: string, caseSensitive?: boolean): BigInteger;
 
         /**
          * no-op.
@@ -66,12 +69,12 @@ declare namespace bigInt {
         /**
          * Equivalent to bigInt(-1).
          */
-        minusOne:  BigInteger;
+        minusOne: BigInteger;
 
         /**
          * Equivalent to bigInt(1).
          */
-        one:  BigInteger;
+        one: BigInteger;
 
         /**
          * Returns a random number between min and max.
@@ -130,7 +133,7 @@ declare namespace bigInt {
          * Performs division and returns an object with two properties: quotient and remainder.
          * The sign of the remainder will match the sign of the dividend.
          */
-        divmod(number: BigNumber): {quotient: BigInteger, remainder: BigInteger};
+        divmod(number: BigNumber): { quotient: BigInteger, remainder: BigInteger };
 
         /**
          * Alias for the equals method.
@@ -346,7 +349,7 @@ declare namespace bigInt {
          *
          * Converts a bigInt to an object representing it as an array of integers module the given radix.
          */
-         toArray(radix: number): BaseArray;
+        toArray(radix: number): BaseArray;
 
         /**
          * Converts a bigInt into a native Javascript number. Loses precision for numbers outside the range.
@@ -357,7 +360,7 @@ declare namespace bigInt {
          * Converts a bigInt to a string.
          */
         toString(radix?: number): string;
-		
+
 		/**
          * Converts a bigInt to a string. This method is called behind the scenes in JSON.stringify.
          */

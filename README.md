@@ -27,7 +27,7 @@ Then you can include it in your code:
 
 
 ## Usage
-### `bigInt(number, [base])`
+### `bigInt(number, [base], [alphabet], [caseSensitive])`
 
 You can create a bigInt by calling the `bigInt` function. You can pass in
 
@@ -36,7 +36,11 @@ You can create a bigInt by calling the `bigInt` function. You can pass in
  - another bigInt.
  - nothing, and it will return `bigInt.zero`.
 
- If you provide a second parameter, then it will parse `number` as a number in base `base`. Note that `base` can be any bigInt (even negative or zero). The letters "a-z" and "A-Z" will be interpreted as the numbers 10 to 35. Higher digits can be specified in angle brackets (`<` and `>`).
+ If you provide a second parameter, then it will parse `number` as a number in base `base`. Note that `base` can be any bigInt (even negative or zero). The letters "a-z" and "A-Z" will be interpreted as the numbers 10 to 35. Higher digits can be specified in angle brackets (`<` and `>`). The default `base` is `10`.
+
+ You can specify a custom alphabet for base conversion with the third parameter. The default `alphabet` is `"0123456789abcdefghijklmnopqrstuvwxyz"`.
+
+ The fourth parameter specifies whether or not the number string should be case-sensitive, i.e. whether `a` and `A` should be treated as different digits. By default `caseSensitive` is `false`.
 
 Examples:
 
@@ -520,12 +524,16 @@ Returns a random number between `min` and `max`.
 
 ### Override Methods
 
-#### `toString(radix = 10)`
+#### `toString(radix = 10, [alphabet])`
 
 Converts a bigInt to a string. There is an optional radix parameter (which defaults to 10) that converts the number to the given radix. Digits in the range `10-35` will use the letters `a-z`.
 
  - `bigInt("1e9").toString()` => `"1000000000"`
  - `bigInt("1e9").toString(16)` => `"3b9aca00"`
+
+ You can use a custom base alphabet with the second parameter. The default `alphabet` is `"0123456789abcdefghijklmnopqrstuvwxyz"`.
+
+  - `bigInt("5").toString(2, "aA")` => `"AaA"`
 
 **Note that arithmetical operators will trigger the `valueOf` function rather than the `toString` function.** When converting a bigInteger to a string, you should use the `toString` method or the `String` function instead of adding the empty string.
 

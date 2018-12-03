@@ -9,6 +9,8 @@
 
 **BigInteger.js** is an arbitrary-length integer library for Javascript, allowing arithmetic operations on integers of unlimited size, notwithstanding memory and time limitations.
 
+**Update (12/2/2018):** [`BigInt` is being added as a native feature of JavaScript](https://tc39.github.io/proposal-bigint/). This library now works as a polyfill: if the environment supports the native `BigInt`, this library acts as a thin wrapper over the native implementation.
+
 ## Installation
 
 If you are using a browser, you can download [BigInteger.js from GitHub](http://peterolson.github.com/BigInteger.js/BigInteger.min.js) or just hotlink to it:

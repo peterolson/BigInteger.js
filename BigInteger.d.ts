@@ -46,7 +46,7 @@ declare namespace bigInt {
         /**
          * Returns true if x is a BigInteger, false otherwise.
          */
-        isInstance: (x: any) => boolean;
+        isInstance: (x: any) => x is BigInteger;
 
         /**
          * Finds the least common multiple of a and b.

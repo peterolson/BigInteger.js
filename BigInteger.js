@@ -647,6 +647,13 @@ var bigInt = (function (undefined) {
         return y;
     };
     SmallInteger.prototype.pow = BigInteger.prototype.pow;
+
+    var pow;
+    if (supportsNativeBigInt) {
+        // forced to use eval because ** is a syntax error on pre-ECMAScript2017 environments.
+        pow = eval("(a,b)=>a**b");
+    }
+
     NativeBigInt.prototype.pow = function (v) {
         var n = parseValue(v);
         var a = this.value, b = n.value;
@@ -655,9 +662,7 @@ var bigInt = (function (undefined) {
         if (a === BigInt(1)) return Integer[1];
         if (a === BigInt(-1)) return n.isEven() ? Integer[1] : Integer[-1];
         if (n.isNegative()) return new NativeBigInt(BigInt(0));
-        // forced to use eval because ** is a syntax error on pre-ECMAScript2017 environments.
-        // should be fine w.r.t. security because parseValue(v) will throw an error if v is a malicious string.
-        return new NativeBigInt(eval("BigInt('" + a + "') ** BigInt('" + b + "')"));
+        return new NativeBigInt(pow(a, b));
     }
 
     BigInteger.prototype.modPow = function (exp, mod) {

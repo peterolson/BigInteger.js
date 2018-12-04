@@ -1085,6 +1085,7 @@ describe("BigInteger", function () {
             expect(bigInt("8589934592").shiftRight(-50)).toEqualBigInt("9671406556917033397649408");
             expect(bigInt("38685626227668133590597632").shiftLeft(-50)).toEqualBigInt("34359738368");
             expect(bigInt("-1").shiftRight(25)).toEqualBigInt(-1);
+            expect(bigInt(1).shiftLeft(bigInt(1))).toEqualBigInt(2); // https://github.com/peterolson/BigInteger.js/issues/163
         });
 
         it("shifting left and right throw for large shifts", function () {

@@ -818,7 +818,7 @@ describe("BigInteger", function () {
             }
         });
         it("correctly identifies pseudo primes", function () {
-            var largePrimes = ["3825123056546413051", "3825123056546413051", "3825123056546413051", "318665857834031151167461"];
+            var largePrimes = ["4033", "4681", "3825123056546413051", "3825123056546413051", "3825123056546413051", "318665857834031151167461"];
             for (var i = 0; i < largePrimes.length; i++) {
                 expect(bigInt(largePrimes[i]).isPrime()).toBe(false);
             }

@@ -904,7 +904,7 @@ var bigInt = (function (undefined) {
         var n = this.abs();
         var bits = n.bitLength();
         if (bits <= 64)
-            return millerRabinTest(n, [2, 325, 9375, 28178, 450775, 9780504, 1795265022]);
+            return millerRabinTest(n, [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37]);
         var logN = Math.log(2) * bits.toJSNumber();
         var t = Math.ceil((strict === true) ? (2 * Math.pow(logN, 2)) : logN);
         for (var a = [], i = 0; i < t; i++) {

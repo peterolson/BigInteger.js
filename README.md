@@ -15,7 +15,7 @@
 
 If you are using a browser, you can download [BigInteger.js from GitHub](http://peterolson.github.com/BigInteger.js/BigInteger.min.js) or just hotlink to it:
 
-	<script src="http://peterolson.github.com/BigInteger.js/BigInteger.min.js"></script>
+	<script src="https://peterolson.github.io/BigInteger.js/BigInteger.min.js"></script>
 
 If you are using node, you can install BigInteger with [npm](https://npmjs.org/).
 

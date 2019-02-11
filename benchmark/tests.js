@@ -114,7 +114,7 @@ var libraries = (function () {
         "Yaffle BigInteger": {
             url: ["https://rawgit.com/Yaffle/BigInteger/gh-pages/BigInteger.js"],
             projectURL: "https://github.com/Yaffle/BigInteger",
-            onStart: createInitialization("BigInteger.parseInt"),
+            onStart: createInitialization("BigInteger.BigInt"),
             tests: generateTests(function (x) {
                 return x
                 .replace(/([_a-zA-Z0-9]+)\.add\(([_a-zA-Z0-9]+)\)/g, "BigInteger.add($1, $2)")
@@ -123,8 +123,27 @@ var libraries = (function () {
                 .replace(/([_a-zA-Z0-9]+)\.over\(([_a-zA-Z0-9]+)\)/g, "BigInteger.divide($1, $2)")
                 .replace(/([_a-zA-Z0-9]+)\.square\(\)/g, "BigInteger.multiply($1, $1)")
                 .replace(/([_a-zA-Z0-9]+)\.toString\(([_a-zA-Z0-9]+)\)/g, "($1).toString($2)")
-                .replace("parseInt", "BigInteger.parseInt");
-            }, ["Exponentiation"])
+                .replace(/parseInt\(([_a-zA-Z0-9]+),\s*16\)/g, "BigInteger.BigInt('0x' + $1)")
+                .replace(/parseInt\(([_a-zA-Z0-9]+),\s*10\)/g, "BigInteger.BigInt($1)")
+                .replace(/([_a-zA-Z0-9]+)\.pow\(([_a-zA-Z0-9]+)\)/g, "BigInteger.exponentiate($1, $2)");
+            })
+        },
+        "ChromeLabs JSBI": {
+            url: ["https://unpkg.com/jsbi@2.0.5/dist/jsbi-umd.js"],
+            projectURL: "https://github.com/GoogleChromeLabs/jsbi",
+            onStart: createInitialization("JSBI.BigInt"),
+            tests: generateTests(function (x) {
+                return x
+                .replace(/([_a-zA-Z0-9]+)\.add\(([_a-zA-Z0-9]+)\)/g, "JSBI.add($1, $2)")
+                .replace(/([_a-zA-Z0-9]+)\.minus\(([_a-zA-Z0-9]+)\)/g, "JSBI.subtract($1, $2)")
+                .replace(/([_a-zA-Z0-9]+)\.times\(([_a-zA-Z0-9]+)\)/g, "JSBI.multiply($1, $2)")
+                .replace(/([_a-zA-Z0-9]+)\.over\(([_a-zA-Z0-9]+)\)/g, "JSBI.divide($1, $2)")
+                .replace(/([_a-zA-Z0-9]+)\.square\(\)/g, "JSBI.multiply($1, $1)")
+                .replace(/([_a-zA-Z0-9]+)\.toString\(([_a-zA-Z0-9]+)\)/g, "($1).toString($2)")
+                .replace(/parseInt\(([_a-zA-Z0-9]+),\s*16\)/g, "JSBI.BigInt('0x' + $1)")
+                .replace(/parseInt\(([_a-zA-Z0-9]+),\s*10\)/g, "JSBI.BigInt($1)")
+                .replace(/([_a-zA-Z0-9]+)\.pow\(([_a-zA-Z0-9]+)\)/g, "JSBI.exponentiate($1, $2)");
+            })
         },
         "Silent Matt BigInteger": {
             url: ["https://rawgit.com/silentmatt/javascript-biginteger/master/biginteger.js"],

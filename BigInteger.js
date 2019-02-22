@@ -610,7 +610,7 @@ var bigInt = (function (undefined) {
         return divModAny(this, v)[0];
     };
     NativeBigInt.prototype.over = NativeBigInt.prototype.divide = function (v) {
-      return new NativeBigInt(this.value / parseValue(v).value);
+        return new NativeBigInt(this.value / parseValue(v).value);
     };
     SmallInteger.prototype.over = SmallInteger.prototype.divide = BigInteger.prototype.over = BigInteger.prototype.divide;
 
@@ -618,7 +618,7 @@ var bigInt = (function (undefined) {
         return divModAny(this, v)[1];
     };
     NativeBigInt.prototype.mod = NativeBigInt.prototype.remainder = function (v) {
-      return new NativeBigInt(this.value % parseValue(v).value);
+        return new NativeBigInt(this.value % parseValue(v).value);
     };
     SmallInteger.prototype.remainder = SmallInteger.prototype.mod = BigInteger.prototype.remainder = BigInteger.prototype.mod;
 
@@ -654,21 +654,27 @@ var bigInt = (function (undefined) {
     };
     SmallInteger.prototype.pow = BigInteger.prototype.pow;
 
-    var pow;
-    if (supportsNativeBigInt) {
-        // forced to use eval because ** is a syntax error on pre-ECMAScript2017 environments.
-        pow = eval("(a,b)=>a**b");
-    }
-
     NativeBigInt.prototype.pow = function (v) {
         var n = parseValue(v);
         var a = this.value, b = n.value;
-        if (b === BigInt(0)) return Integer[1];
-        if (a === BigInt(0)) return Integer[0];
-        if (a === BigInt(1)) return Integer[1];
+        var _0 = BigInt(0), _1 = BigInt(1), _2 = BigInt(2);
+        if (b === _0) return Integer[1];
+        if (a === _0) return Integer[0];
+        if (a === _1) return Integer[1];
         if (a === BigInt(-1)) return n.isEven() ? Integer[1] : Integer[-1];
-        if (n.isNegative()) return new NativeBigInt(BigInt(0));
-        return new NativeBigInt(pow(a, b));
+        if (n.isNegative()) return new NativeBigInt(_0);
+        var x = this;
+        var y = Integer[1];
+        while (true) {
+            if ((b & _1) === _1) {
+                y = y.times(x);
+                --b;
+            }
+            if (b === _0) break;
+            b /= _2;
+            x = x.square();
+        }
+        return y;
     }
 
     BigInteger.prototype.modPow = function (exp, mod) {

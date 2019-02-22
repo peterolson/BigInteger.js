@@ -609,12 +609,18 @@ var bigInt = (function (undefined) {
     BigInteger.prototype.divide = function (v) {
         return divModAny(this, v)[0];
     };
-    NativeBigInt.prototype.over = NativeBigInt.prototype.divide = SmallInteger.prototype.over = SmallInteger.prototype.divide = BigInteger.prototype.over = BigInteger.prototype.divide;
+    NativeBigInt.prototype.over = NativeBigInt.prototype.divide = function (v) {
+      return new NativeBigInt(this.value / parseValue(v).value);
+    };
+    SmallInteger.prototype.over = SmallInteger.prototype.divide = BigInteger.prototype.over = BigInteger.prototype.divide;
 
     BigInteger.prototype.mod = function (v) {
         return divModAny(this, v)[1];
     };
-    NativeBigInt.prototype.mod = NativeBigInt.prototype.remainder = SmallInteger.prototype.remainder = SmallInteger.prototype.mod = BigInteger.prototype.remainder = BigInteger.prototype.mod;
+    NativeBigInt.prototype.mod = NativeBigInt.prototype.remainder = function (v) {
+      return new NativeBigInt(this.value % parseValue(v).value);
+    };
+    SmallInteger.prototype.remainder = SmallInteger.prototype.mod = BigInteger.prototype.remainder = BigInteger.prototype.mod;
 
     BigInteger.prototype.pow = function (v) {
         var n = parseValue(v),

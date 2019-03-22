@@ -359,7 +359,7 @@ declare namespace bigInt {
         /**
          * Converts a bigInt to a string.
          */
-        toString(radix?: number): string;
+        toString(radix?: number, alphabet?: string): string;
 
 		/**
          * Converts a bigInt to a string. This method is called behind the scenes in JSON.stringify.

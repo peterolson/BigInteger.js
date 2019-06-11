@@ -683,6 +683,10 @@ var bigInt = (function (undefined) {
         if (mod.isZero()) throw new Error("Cannot take modPow with modulus 0");
         var r = Integer[1],
             base = this.mod(mod);
+        if (exp.isNegative()) {
+            exp = exp.multiply(Integer[-1]);
+            base = base.modInv(mod);
+        }
         while (exp.isPositive()) {
             if (base.isZero()) return Integer[0];
             if (exp.isOdd()) r = r.multiply(base).mod(mod);

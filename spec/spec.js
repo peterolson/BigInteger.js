@@ -630,6 +630,9 @@ describe("BigInteger", function () {
             } catch (e) {
                 expect(true).toBe(true);
             }
+
+            expect(bigInt(2).modPow(-3, 11)).toEqualBigInt(7);
+            expect(bigInt(76455).modPow(-3758223534, 346346)).toEqualBigInt(339949);
         });
     });
 

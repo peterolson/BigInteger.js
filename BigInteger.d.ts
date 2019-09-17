@@ -8,7 +8,7 @@ export as namespace bigInt;
 declare var bigInt: bigInt.BigIntegerStatic;
 
 declare namespace bigInt {
-    type BigNumber = number | string | BigInteger;
+    type BigNumber = number | bigint | string | BigInteger;
 
     interface BigIntegerStatic {
         /**
@@ -20,6 +20,11 @@ declare namespace bigInt {
          * Parse a Javascript number into a bigInt.
          */
         (number: number): BigInteger;
+
+        /**
+         * Parse a Javascript native bigint into a bigInt.
+         */
+        (number: bigint): BigInteger;
 
         /**
          * Parse a string into a bigInt.

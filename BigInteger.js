@@ -1168,17 +1168,18 @@ var bigInt = (function (undefined) {
         b = parseValue(b).abs();
         return a.divide(gcd(a, b)).multiply(b);
     }
-    function randBetween(a, b, rng = Math.random) {
+    function randBetween(a, b, rng) {
         a = parseValue(a);
         b = parseValue(b);
+        var usedRNG = rng || Math.random;
         var low = min(a, b), high = max(a, b);
         var range = high.subtract(low).add(1);
-        if (range.isSmall) return low.add(Math.floor(rng() * range));
+        if (range.isSmall) return low.add(Math.floor(usedRNG() * range));
         var digits = toBase(range, BASE).value;
         var result = [], restricted = true;
         for (var i = 0; i < digits.length; i++) {
             var top = restricted ? digits[i] : BASE;
-            var digit = truncate(rng() * top);
+            var digit = truncate(usedRNG() * top);
             result.push(digit);
             if (digit < top) restricted = false;
         }

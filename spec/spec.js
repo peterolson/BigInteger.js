@@ -1156,6 +1156,14 @@ describe("BigInteger", function () {
                 expect(Math.abs(buckets[i] - ideal) / ideal < 0.1).toBe(true);
             }
         });
+        it("is predictable given predictable rng", function () {
+            for (var i = 0; i < 1e3; i++) {
+              function fakeRNG() {
+                return (i * 0.3571) % 1;
+              }
+              expect(bigInt.randBetween(0, 1024, fakeRNG)).toEqualBigInt(bigInt.randBetween(0, 1024, fakeRNG));
+            }
+        });
     });
 
     describe("isInstance", function () {

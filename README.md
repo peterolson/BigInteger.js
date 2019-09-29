@@ -49,7 +49,7 @@ Examples:
 	var largeNumber = bigInt("75643564363473453456342378564387956906736546456235345");
 	var googol = bigInt("1e100");
 	var bigNumber = bigInt(largeNumber);
-	 
+
 	var maximumByte = bigInt("FF", 16);
 	var fiftyFiveGoogol = bigInt("<55>0", googol);
 
@@ -68,7 +68,7 @@ There are three named constants already stored that you do not have to construct
  - `bigInt.one`, equivalent to `bigInt(1)`
  - `bigInt.zero`, equivalent to `bigInt(0)`
  - `bigInt.minusOne`, equivalent to `bigInt(-1)`
- 
+
 The numbers from -999 to 999 are also already prestored and can be accessed using `bigInt[index]`, for example:
 
  - `bigInt[-999]`, equivalent to `bigInt(-999)`
@@ -88,7 +88,7 @@ Returns the absolute value of a bigInt.
 Performs addition.
 
  - `bigInt(5).add(7)` => `12`
- 
+
 [View benchmarks for this method](http://peterolson.github.io/BigInteger.js/benchmark/#Addition)
 
 #### `and(number)`
@@ -129,7 +129,7 @@ Alias for the `compare` method.
 Performs integer division, disregarding the remainder.
 
  - `bigInt(59).divide(5)` => `11`
- 
+
 [View benchmarks for this method](http://peterolson.github.io/BigInteger.js/benchmark/#Division)
 
 #### `divmod(number)`
@@ -138,7 +138,7 @@ Performs division and returns an object with two properties: `quotient` and `rem
 
  - `bigInt(59).divmod(5)` => `{quotient: bigInt(11), remainder: bigInt(4) }`
  - `bigInt(-5).divmod(2)` => `{quotient: bigInt(-2), remainder: bigInt(-1) }`
- 
+
 [View benchmarks for this method](http://peterolson.github.io/BigInteger.js/benchmark/#Division)
 
 #### `eq(number)`
@@ -221,17 +221,21 @@ Returns `true` if the number is prime, `false` otherwise.
  - `bigInt(5).isPrime()` => `true`
  - `bigInt(6).isPrime()` => `false`
 
-#### `isProbablePrime([iterations])`
+#### `isProbablePrime([iterations], [rng])`
 
 Returns `true` if the number is very likely to be prime, `false` otherwise.
-Argument is optional and determines the amount of iterations of the test (default: `5`). The more iterations, the lower chance of getting a false positive.
+Supplying `iterations` is optional - it determines the number of iterations of the test (default: `5`). The more iterations, the lower chance of getting a false positive.
 This uses the [Miller Rabin test](https://en.wikipedia.org/wiki/Miller%E2%80%93Rabin_primality_test).
 
  - `bigInt(5).isProbablePrime()` => `true`
  - `bigInt(49).isProbablePrime()` => `false`
  - `bigInt(1729).isProbablePrime()` => `false`
- 
-Note that this function is not deterministic, since it relies on random sampling of factors, so the result for some numbers is not always the same.
+
+Note that this function is not deterministic, since it relies on random sampling of factors, so the result for some numbers is not always the same - unless you pass a predictable random number generator as `rng`. The behavior and requirements are the same as with `randBetween`.
+
+ - `bigInt(1729).isProbablePrime(1, () => 0.1)` => `false`
+ - `bigInt(1729).isProbablePrime(1, () => 0.2)` => `true`
+
 If the number is composite then the Miller–Rabin primality test declares the number probably prime with a probability at most `4` to the power `−iterations`.
 If the number is prime, this function always returns `true`.
 
@@ -280,7 +284,7 @@ Alias for the `lesser` method.
 Alias for the `subtract` method.
 
  - `bigInt(3).minus(5)` => `-2`
- 
+
 [View benchmarks for this method](http://peterolson.github.io/BigInteger.js/benchmark/#Subtraction)
 
 #### `mod(number)`
@@ -289,7 +293,7 @@ Performs division and returns the remainder, disregarding the quotient. The sign
 
  - `bigInt(59).mod(5)` =>  `4`
  - `bigInt(-5).mod(2)` => `-1`
- 
+
 [View benchmarks for this method](http://peterolson.github.io/BigInteger.js/benchmark/#Division)
 
 #### `modInv(mod)`
@@ -349,7 +353,7 @@ Performs the bitwise OR operation. The operands are treated as if they were repr
 Alias for the `divide` method.
 
  - `bigInt(59).over(5)` => `11`
- 
+
 [View benchmarks for this method](http://peterolson.github.io/BigInteger.js/benchmark/#Division)
 
 #### `plus(number)`
@@ -357,7 +361,7 @@ Alias for the `divide` method.
 Alias for the `add` method.
 
  - `bigInt(5).plus(7)` => `12`
- 
+
 [View benchmarks for this method](http://peterolson.github.io/BigInteger.js/benchmark/#Addition)
 
 #### `pow(number)`
@@ -399,7 +403,7 @@ Shifts the number right by `n` places in its binary representation. If a negativ
 Squares the number
 
  - `bigInt(3).square()` => `9`
- 
+
 [View benchmarks for this method](http://peterolson.github.io/BigInteger.js/benchmark/#Squaring)
 
 #### `subtract(number)`
@@ -407,7 +411,7 @@ Squares the number
 Performs subtraction.
 
  - `bigInt(3).subtract(5)` => `-2`
- 
+
 [View benchmarks for this method](http://peterolson.github.io/BigInteger.js/benchmark/#Subtraction)
 
 #### `times(number)`
@@ -415,7 +419,7 @@ Performs subtraction.
 Alias for the `multiply` method.
 
  - `bigInt(111).times(111)` => `12321`
- 
+
 [View benchmarks for this method](http://peterolson.github.io/BigInteger.js/benchmark/#Multiplication)
 
 #### `toArray(radix)`
@@ -474,7 +478,7 @@ Performs the bitwise XOR operation. The operands are treated as if they were rep
 
  - `bigInt(12).xor(5)` => `9`
  - `bigInt(12).xor(-5)` => `-9`
- 
+
 ### Static Methods
 
 #### `fromArray(digits, base = 10, isNegative?)`
@@ -496,13 +500,13 @@ Returns `true` if `x` is a BigInteger, `false` otherwise.
 
  - `bigInt.isInstance(bigInt(14))` => `true`
  - `bigInt.isInstance(14)` => `false`
- 
+
 #### `lcm(a,b)`
 
 Finds the least common multiple of `a` and `b`.
- 
+
  - `bigInt.lcm(21, 6)` => `42`
- 
+
 #### `max(a,b)`
 
 Returns the largest of `a` and `b`.
@@ -515,11 +519,15 @@ Returns the smallest of `a` and `b`.
 
  - `bigInt.min(77, 432)` => `77`
 
-#### `randBetween(min, max)`
+#### `randBetween(min, max, [rng])`
 
-Returns a random number between `min` and `max`.
+Returns a random number between `min` and `max`, optionally using `rng` to generate randomness.
 
  - `bigInt.randBetween("-1e100", "1e100")` => (for example) `8494907165436643479673097939554427056789510374838494147955756275846226209006506706784609314471378745`
+
+`rng` should take no arguments and return a `number` between 0 and 1. It defaults to `Math.random`.
+
+  - `bigInt.randBetween("-1e100", "1e100", () => 0.5)` => (always) `50000005000000500000050000005000000500000050000005000000500000050000005000000500000050000005000000`
 
 
 ### Override Methods
@@ -558,9 +566,9 @@ Base 0 is only allowed for the number zero.
 
  - `bigInt(0).toString(0)` => `0`
  - `bigInt(1).toString(0)` => `Error: Cannot convert nonzero numbers to base 0.`
- 
+
 [View benchmarks for this method](http://peterolson.github.io/BigInteger.js/benchmark/#toString)
- 
+
 #### `valueOf()`
 
 Converts a bigInt to a native Javascript number. This override allows you to use native arithmetic operators without explicit conversion:

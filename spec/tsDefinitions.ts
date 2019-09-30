@@ -142,6 +142,7 @@ isBigInteger = bigInt.lcm(0, 1);
 isBigInteger = bigInt.max(0, 1);
 isBigInteger = bigInt.min(0, 1);
 isBigInteger = bigInt.randBetween(0, 1);
+isBigInteger = bigInt.randBetween(0, 1, () => 0.5);
 
 // Instance methods
 isBigInteger = x.abs();
@@ -209,6 +210,7 @@ isBoolean = x.isPrime();
 
 isBoolean = x.isProbablePrime();
 isBoolean = x.isProbablePrime(5);
+isBoolean = x.isProbablePrime(11, () => 0.5);
 
 isBoolean = x.isUnit();
 isBoolean = x.isZero();

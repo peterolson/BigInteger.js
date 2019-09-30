@@ -84,7 +84,7 @@ declare namespace bigInt {
         /**
          * Returns a random number between min and max.
          */
-        randBetween: (min: BigNumber, max: BigNumber) => BigInteger;
+        randBetween: (min: BigNumber, max: BigNumber, rng?: () => number) => BigInteger;
 
         /**
          * Equivalent to bigInt(0).
@@ -205,7 +205,7 @@ declare namespace bigInt {
         /**
          * Returns true if the number is very likely to be prime, false otherwise.
          */
-        isProbablePrime(iterations?: number): boolean;
+        isProbablePrime(iterations?: number, rng?: () => number): boolean;
 
         /**
          * Returns true if the number is 1 or -1, false otherwise.

@@ -858,6 +858,24 @@ describe("BigInteger", function () {
             }
             expect(falsePrimes / totalPrimes < 0.001).toBe(true);
         });
+        it("is predictable given predictable rng", function () {
+            function getProbablePrimes(fakeRNG) {
+              var result = [];
+              for (var i = 1; i < 100; i++) {
+                  var x = bigInt(i);
+                  if (x.isProbablePrime(1, fakeRNG)) {
+                    result.push(i);
+                  }
+              }
+              return result;
+            }
+            for (var i = 0; i < 100; i++) {
+              function fakeRNG() {
+                return (i * 0.3571) % 1;
+              }
+              expect(getProbablePrimes(fakeRNG)).toEqual(getProbablePrimes(fakeRNG));
+            }
+        });
     });
 
     describe("isUnit", function () {
@@ -1154,6 +1172,14 @@ describe("BigInteger", function () {
             var ideal = N / buckets.length;
             for (var i = 0; i < buckets.length; i++) {
                 expect(Math.abs(buckets[i] - ideal) / ideal < 0.1).toBe(true);
+            }
+        });
+        it("is predictable given predictable rng", function () {
+            for (var i = 0; i < 1e3; i++) {
+              function fakeRNG() {
+                return (i * 0.3571) % 1;
+              }
+              expect(bigInt.randBetween(0, 1024, fakeRNG)).toEqualBigInt(bigInt.randBetween(0, 1024, fakeRNG));
             }
         });
     });

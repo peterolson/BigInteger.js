@@ -214,9 +214,10 @@ Returns `false` for `0` and `-0`.
  - `bigInt(54).isPositive()` => `true`
  - `bigInt(-1).isPositive()` => `false`
 
-#### `isPrime()`
+#### `isPrime(strict?)`
 
 Returns `true` if the number is prime, `false` otherwise.
+Set "strict" boolean to true to force GRH-supported lower bound of 2*log(N)^2.
 
  - `bigInt(5).isPrime()` => `true`
  - `bigInt(6).isPrime()` => `false`

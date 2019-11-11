@@ -1447,7 +1447,7 @@ if (typeof module !== "undefined" && module.hasOwnProperty("exports")) {
 
 //amd check
 if (typeof define === "function" && define.amd) {
-    define("big-integer", [], function () {
+    define( function () {
         return bigInt;
     });
 }

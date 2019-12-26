@@ -28,6 +28,7 @@ const testedInstanceFns = [
     'abs',
     'add',
     'and',
+    'binary',
     'bitLength',
     'compare',
     'compareAbs',
@@ -40,6 +41,7 @@ const testedInstanceFns = [
     'greater',
     'greaterOrEquals',
     'gt',
+    'hex',
     'isDivisibleBy',
     'isEven',
     'isNegative',
@@ -149,6 +151,8 @@ isBigInteger = x.abs();
 isBigInteger = x.add(0).add(x).add("100").add(100n);
 isBigInteger = x.and(0).and(x).and("100").and(100n);
 
+isString = x.binary();
+
 isNumber = x.compare(0);
 isNumber = x.compare(x);
 isNumber = x.compare("100");
@@ -200,6 +204,8 @@ isBoolean = x.gt(0);
 isBoolean = x.gt(x);
 isBoolean = x.gt("100");
 isBoolean = x.gt(100n);
+
+isString = x.hex();
 
 isBoolean = x.isDivisibleBy(x);
 isBoolean = x.isEven();

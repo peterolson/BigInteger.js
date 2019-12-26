@@ -1260,4 +1260,20 @@ describe("BigInteger", function () {
             expect(x.b).toEqualBigInt("4e100");
         });
     });
+
+    describe("Base conversions", function() {
+        it("converts numbers to binary", function() {
+            const decimalNum = "8889898989899898878877798898989";
+            const correctResult = "1110000001101001101000000010111100011010100111011011111000000000100011111111101100110100001110100101101";
+            expect(bigInt(decimalNum).binary()).toEqual(correctResult);
+            expect(bigInt("10").binary()).toEqual("1010");
+        });
+
+        it("converts numbers to hexadecimal", function() {
+            const decimalNum = "8889898989899898878877798898989";
+            const correctResult = "7034D0178D4EDF0047FD9A1D2D";
+            expect(bigInt(decimalNum).hex()).toEqual(correctResult);
+            expect(bigInt("10").hex()).toEqual("A");
+        });
+    });
 });

@@ -381,6 +381,10 @@ declare namespace bigInt {
          * Performs the bitwise XOR operation.
          */
         xor(number: BigNumber): BigInteger;
+
+        binary(): string;
+
+        hex(): string;
     }
 
     // Array constant accessors

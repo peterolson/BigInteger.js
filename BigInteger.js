@@ -277,7 +277,6 @@ var bigInt = (function (undefined) {
         return new NativeBigInt(this.value >= 0 ? this.value : -this.value);
     }
 
-
     function multiplyLong(a, b) {
         var a_l = a.length,
             b_l = b.length,
@@ -1417,6 +1416,63 @@ var bigInt = (function (undefined) {
         }
         return v;
     }
+
+    BigInteger.prototype.binary = function () {
+        return convToBase(this.value, 2);
+    };
+
+    SmallInteger.prototype.binary = function () {
+        return Number(this.value).toString(2);
+    };
+
+    NativeBigInt.prototype.binary = function () {
+        return convToBase(this.value, 2);
+    }
+
+    BigInteger.prototype.hex = function () {
+        return convToBase(this.value, 16);
+    };
+
+    SmallInteger.prototype.hex = function () {
+        return Number(this.value).toString(16);
+    };
+
+    NativeBigInt.prototype.hex = function () {
+        return convToBase(this.value, 16);
+    }
+
+    function convToBase(num, base) {
+        var n = new BigInteger(num, true);
+        var val = n.divide(base);
+        var tmpMod = n.mod(base).toString();
+        var res = (base === 16 ? getHexCode(tmpMod) : tmpMod);
+        while (val.greater(0)) {
+            var tmpMod = val.mod(base).toString();
+            res = (base === 16 ? getHexCode(tmpMod) : tmpMod) + res;
+            val = val.divide(base);
+        }
+        return res;
+    }
+
+    function getHexCode(num) {
+        switch (Number(num)) {
+            case 10:
+                return 'A';
+            case 11:
+                return 'B';
+            case 12:
+                return 'C';
+            case 13:
+                return 'D';
+            case 14:
+                return 'E';
+            case 15:
+                return 'F';
+            default:
+                return String(num);
+        }
+    }
+
     // Pre-define numbers in range [-999,999]
     for (var i = 0; i < 1000; i++) {
         Integer[i] = parseValue(i);

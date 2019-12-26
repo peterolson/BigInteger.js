@@ -98,6 +98,12 @@ Performs the bitwise AND operation. The operands are treated as if they were rep
  - `bigInt(6).and(3)` => `2`
  - `bigInt(6).and(-3)` => `4`
 
+#### `binary()`
+
+Returns the binary representation of a bigInt.
+
+ - `bigInt(10).binary()` => `1010`
+
 #### `bitLength()`
 
 Returns the number of digits required to represent a bigInt in binary.
@@ -176,6 +182,12 @@ Checks if the first number is greater than or equal to the second.
 #### `gt(number)`
 
 Alias for the `greater` method.
+
+#### `hex()`
+
+Returns the hexadecimal representation of a bigInt.
+
+ - `bigInt(10).hex()` => `A`
 
 #### `isDivisibleBy(number)`
 

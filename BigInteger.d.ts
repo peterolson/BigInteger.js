@@ -200,7 +200,7 @@ declare namespace bigInt {
         /**
          * Returns true if the number is prime, false otherwise.
          */
-        isPrime(): boolean;
+        isPrime(strict?: boolean): boolean;
 
         /**
          * Returns true if the number is very likely to be prime, false otherwise.

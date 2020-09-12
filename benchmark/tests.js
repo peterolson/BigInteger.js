@@ -145,17 +145,6 @@ var libraries = (function () {
                 .replace(/([_a-zA-Z0-9]+)\.pow\(([_a-zA-Z0-9]+)\)/g, "JSBI.exponentiate($1, $2)");
             })
         },
-        "Silent Matt BigInteger": {
-            url: ["https://rawgit.com/silentmatt/javascript-biginteger/master/biginteger.js"],
-            projectURL: "http://silentmatt.com/biginteger/",
-            onStart: createInitialization("BigInteger.parse"),
-            tests: generateTests(function (x) {
-                return x.replace(/\.minus/g, ".subtract")
-                .replace(/\.times/g, ".multiply")
-                .replace(/\.over/g, ".divide")
-                .replace("parseInt", "BigInteger.parse");
-            })
-        },
         "Tom Wu jsbn": {
             url: ["http://www-cs-students.stanford.edu/~tjw/jsbn/jsbn.js", "http://www-cs-students.stanford.edu/~tjw/jsbn/jsbn2.js"],
             projectURL: "http://www-cs-students.stanford.edu/~tjw/jsbn/",

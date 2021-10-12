@@ -1,6 +1,6 @@
 {
   "name": "big-integer",
-  "version": "1.6.49",
+  "version": "1.6.50",
   "author": "Peter Olson <peter.e.c.olson+npm@gmail.com>",
   "description": "An arbitrary length integer library for Javascript",
   "contributors": [],
@@ -26,15 +26,15 @@
     "arithmetic"
   ],
   "devDependencies": {
-    "@types/lodash": "^4.14.118",
+    "@types/lodash": "^4.14.175",
     "@types/node": "^7.10.2",
     "coveralls": "^3.0.6",
     "jasmine": "3.5.0",
     "jasmine-core": "^3.5.0",
-    "karma": "^4.3.0",
+    "karma": "^6.3.4",
     "karma-cli": "^2.0.0",
-    "karma-coverage": "^2.0.1",
-    "karma-jasmine": "^2.0.1",
+    "karma-coverage": "^2.0.3",
+    "karma-jasmine": "^4.0.1",
     "karma-phantomjs-launcher": "^1.0.4",
     "lodash": "^4.17.21",
     "typescript": "^3.6.3",

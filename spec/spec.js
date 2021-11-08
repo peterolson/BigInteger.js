@@ -1163,16 +1163,26 @@ describe("BigInteger", function () {
             }
         });
         it("is within 10% of uniform distribution (this test is probabilistic and has a small change of failing)", function () {
+          const ranges = [["0", "1e25"], ["0", "16777215"]];
+          for (var j = 0; j < ranges.length; j++) {
+            var range = ranges[j];
             var buckets = new Array(25), N = 50000;
             for (var i = 0; i < buckets.length; i++) buckets[i] = 0;
-            var min = bigInt[0], max = bigInt("1e25"), divisor = max.over(buckets.length);
+            var min = bigInt(range[0]), max = bigInt(range[1]);
             for (var i = 0; i < N; i++) {
-                buckets[bigInt.randBetween(min, max).over(divisor)]++;
+                var value = bigInt.randBetween(min, max);
+                var index = value.minus(min).times(buckets.length).over(max.minus(min).add(1));
+                if (index >= buckets.length) {
+                  throw new RangeError(value);
+                }
+                buckets[index]++;
             }
+            console.debug('buckets:', buckets);
             var ideal = N / buckets.length;
             for (var i = 0; i < buckets.length; i++) {
-                expect(Math.abs(buckets[i] - ideal) / ideal < 0.1).toBe(true);
+                expect(Math.abs(buckets[i] - ideal) / ideal).toBeLessThan(0.1);
             }
+          }
         });
         it("is predictable given predictable rng", function () {
             for (var i = 0; i < 1e3; i++) {

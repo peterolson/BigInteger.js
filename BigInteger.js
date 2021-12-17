@@ -1421,7 +1421,7 @@ var bigInt = (function (undefined) {
     function log10(bigint) {
         if (bigint<0) return NaN;
         var s = bigint.toString(10);
-        return new Number(s.length + Math.log10("0."+s.substring(0,15))) 
+        return s.length + Math.log10("0."+s.substring(0,15));
     }
 
     NativeBigInt.prototype.log10 = function () {
@@ -1429,7 +1429,7 @@ var bigInt = (function (undefined) {
     };
 
     function log(bigint){
-        return new Number(log10(bigint)*Math.log(10));
+        return log10(bigint)*Math.log(10);
       }    
 
     NativeBigInt.prototype.log = function () {

@@ -276,6 +276,20 @@ Checks if the first number is less than or equal to the second.
  - `bigInt(5).lesserOrEquals(5)` => `true`
  - `bigInt(5).lesserOrEquals(4)` => `false`
 
+#### `log10()`
+
+Returns the Base-10 logarithm as a standard precision float for a BigInt.
+
+ - `bigInt(1000000).log10()` =>  `6`
+ - `bigInt(2000000).log10()` => `6.301029995663981`
+
+#### `log()`
+
+Returns the natural logarithm as a standard precision float for a BigInt.
+
+ - `bigInt(1000000).log()` =>  `13.815510557964275`
+ - `bigInt(2000000).log()` => `14.50865773852422`
+
 #### `lt(number)`
 
 Alias for the `lesser` method.

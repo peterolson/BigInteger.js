@@ -52,6 +52,8 @@ const testedInstanceFns = [
     'leq',
     'lesser',
     'lesserOrEquals',
+    'log10',
+    'log',
     'lt',
     'minus',
     'mod',
@@ -245,6 +247,8 @@ isBigInteger = x.square();
 isBigInteger = x.subtract(0).subtract(x).subtract('0').subtract(0n);
 isBigInteger = x.times(0).times(x).times('0').times(0n);
 isNumber = x.toJSNumber();
+isNumber = x.log10();
+isNumber = x.log();
 
 isBaseArray = x.toArray(10);
 isBaseArray = x.toArray(36);

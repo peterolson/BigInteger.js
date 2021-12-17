@@ -233,6 +233,16 @@ declare namespace bigInt {
         lesserOrEquals(number: BigNumber): boolean;
 
         /**
+         * Returns the Base-10 logarithm as a standard precision float for a BigInt.
+         */
+        log10(): number;
+
+        /**
+         * Returns the natural logarithm as a standard precision float for a BigInt.
+         */
+        log(): number;
+
+        /**
          * Alias for the lesser method.
          */
         lt(number: BigNumber): boolean;

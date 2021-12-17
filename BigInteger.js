@@ -1417,6 +1417,25 @@ var bigInt = (function (undefined) {
         }
         return v;
     }
+
+    function log10(bigint) {
+        if (bigint<0) return NaN;
+        var s = bigint.toString(10);
+        return new Number(s.length + Math.log10("0."+s.substring(0,15))) 
+    }
+
+    NativeBigInt.prototype.log10 = function () {
+        return log10(this.value);
+    };
+
+    function log(bigint){
+        return new Number(log10(bigint)*Math.log(10));
+      }    
+
+    NativeBigInt.prototype.log = function () {
+        return log(this.value);
+    };
+
     // Pre-define numbers in range [-999,999]
     for (var i = 0; i < 1000; i++) {
         Integer[i] = parseValue(i);

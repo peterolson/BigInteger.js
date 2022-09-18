@@ -1353,6 +1353,12 @@ var bigInt = (function (undefined) {
     }
 
     function parseStringValue(v) {
+        var isHex = /^(?:0x|x)[0-9A-Fa-f]+$/.test(v);
+        if(isHex){
+            var cleanedHex = v.replace(/^(?:0x|x)/, "");
+            return bigInt(cleanedHex,16)
+        }
+        
         if (isPrecise(+v)) {
             var x = +v;
             if (x === truncate(x))

@@ -6,6 +6,10 @@ var bigInt = (function (undefined) {
         MAX_INT = 9007199254740992,
         MAX_INT_ARR = smallToArray(MAX_INT),
         DEFAULT_ALPHABET = "0123456789abcdefghijklmnopqrstuvwxyz";
+    
+    var HEXADECIMAL_PREFIX = '0x',
+        BINARY_PREFIX = '0b',
+        OCTAL_PREFIX = '0o';
 
     var supportsNativeBigInt = typeof BigInt === "function";
 
@@ -1406,6 +1410,16 @@ var bigInt = (function (undefined) {
     }
 
     function parseValue(v) {
+        const vString = `${v}`; 
+        if (vString.startsWith(HEXADECIMAL_PREFIX)) {
+            return parseNumberValue(parseInt(vString, 16));
+        }
+        if (vString?.startsWith(BINARY_PREFIX)) {
+            return parseNumberValue(parseInt(vString, 2));
+        }
+        if (vString?.startsWith(OCTAL_PREFIX)) {
+            return parseNumberValue(parseInt(vString, 8));
+        }
         if (typeof v === "number") {
             return parseNumberValue(v);
         }

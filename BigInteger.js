@@ -1410,6 +1410,10 @@ var bigInt = (function (undefined) {
             return parseNumberValue(v);
         }
         if (typeof v === "string") {
+            const isHex = /^0x[0-9a-fA-F]+$/.test(v)
+            if (isHex) {
+                return parseBase(v.substring(2), 16)
+            }
             return parseStringValue(v);
         }
         if (typeof v === "bigint") {

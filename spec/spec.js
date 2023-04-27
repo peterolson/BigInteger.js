@@ -45,6 +45,16 @@ describe("BigInteger", function () {
         expect(n).toEqualBigInt(14930352);
     });
 
+    // Issue #237
+    // https://github.com/peterolson/BigInteger.js/issues/237
+    it("can handle hex numbers larger than max int", function () {
+        var maxUint256Hex = "0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff";
+        var maxUint256decimal = "115792089237316195423570985008687907853269984665640564039457584007913129639935";
+        var test = "0x428a2f98d728ae22";
+        expect(bigInt(maxUint256Hex)).toEqualBigInt(maxUint256decimal);
+        expect(bigInt(test)).toEqualBigInt("4794697086780616226")
+    })
+
     describe("Equality and comparison", function () {
         it("works for positive numbers", function () {
             expect(bigInt.one).toEqualBigInt(1);

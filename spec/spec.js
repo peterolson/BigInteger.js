@@ -1093,6 +1093,8 @@ describe("BigInteger", function () {
             expect(bigInt("bC", 3, "abc")).toEqualBigInt("5");
             expect(bigInt("AAa", 2, "aA", true)).toEqualBigInt("6");
             expect(bigInt("10").toString(2, "Aa")).toEqual("aAaA");
+            // https://github.com/peterolson/BigInteger.js/issues/242
+            expect(bigInt(5).toString(10, 'ABCDEFGHIJKLMNOP')).toEqual('F');
         });
     });
 

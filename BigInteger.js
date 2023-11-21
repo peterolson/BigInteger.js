@@ -1319,7 +1319,7 @@ var bigInt = (function (undefined) {
 
     BigInteger.prototype.toString = function (radix, alphabet) {
         if (radix === undefined) radix = 10;
-        if (radix !== 10) return toBaseString(this, radix, alphabet);
+        if (radix !== 10 || alphabet) return toBaseString(this, radix, alphabet);
         var v = this.value, l = v.length, str = String(v[--l]), zeros = "0000000", digit;
         while (--l >= 0) {
             digit = String(v[l]);
@@ -1331,7 +1331,7 @@ var bigInt = (function (undefined) {
 
     SmallInteger.prototype.toString = function (radix, alphabet) {
         if (radix === undefined) radix = 10;
-        if (radix != 10) return toBaseString(this, radix, alphabet);
+        if (radix != 10 || alphabet) return toBaseString(this, radix, alphabet);
         return String(this.value);
     };
 

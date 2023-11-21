@@ -37,7 +37,7 @@
     "karma-jasmine": "^4.0.1",
     "karma-phantomjs-launcher": "^1.0.4",
     "lodash": "^4.17.21",
-    "typescript": "^3.6.3",
+    "typescript": "^5.3.2",
     "uglifyjs": "^2.4.10"
   },
   "license": "Unlicense",

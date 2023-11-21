@@ -14,9 +14,7 @@
         "typeRoots": [
             "./"
         ],
-        "types": [
-            "node"
-        ],
+        "types": [],
         "forceConsistentCasingInFileNames": true
     },
     "files": [

@@ -12,7 +12,7 @@
   "main": "./BigInteger",
   "repository": {
     "type": "git",
-    "url": "git@github.com:peterolson/BigInteger.js.git"
+    "url": "github:peterolson/BigInteger.js"
   },
   "keywords": [
     "math",

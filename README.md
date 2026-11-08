@@ -40,6 +40,8 @@ You can create a bigInt by calling the `bigInt` function. You can pass in
 
  You can specify a custom alphabet for base conversion with the third parameter. The default `alphabet` is `"0123456789abcdefghijklmnopqrstuvwxyz"`.
 
+ A leading `+` sign is accepted, for example `bigInt("+abc", 16)`. If a custom alphabet contains `+`, it keeps its meaning as a digit instead of a sign.
+
  The fourth parameter specifies whether or not the number string should be case-sensitive, i.e. whether `a` and `A` should be treated as different digits. By default `caseSensitive` is `false`.
 
 Examples:

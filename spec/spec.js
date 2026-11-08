@@ -985,6 +985,54 @@ describe("BigInteger", function () {
     });
 
     describe("Base conversion", function () {
+        it("accepts a leading plus in explicit positive and negative bases", function () {
+            expect(bigInt("+abc", 16)).toEqualBigInt(2748);
+            expect(bigInt("+ABC", 16)).toEqualBigInt(2748);
+            expect(bigInt("+00101", 2)).toEqualBigInt(5);
+            expect(bigInt("+10", -2)).toEqualBigInt(-2);
+            expect(bigInt("+111", 1)).toEqualBigInt(3);
+            expect(bigInt("+101", -1)).toEqualBigInt(2);
+            expect(bigInt("+zz", 36)).toEqualBigInt(1295);
+        });
+
+        it("accepts a leading plus in large decimal values", function () {
+            var values = ["9007199254740992", "123456789012345678901234567890", "1e30", "1.5e30"];
+            values.forEach(function (value) {
+                expect(bigInt("+" + value)).toEqualBigInt(bigInt(value));
+                expect(bigInt("+" + value, 10)).toEqualBigInt(bigInt(value));
+            });
+        });
+
+        it("accepts a leading plus before extended digits", function () {
+            expect(bigInt("+<36>1", 37)).toEqualBigInt(1333);
+            expect(bigInt("+<99>0", 100)).toEqualBigInt(9900);
+        });
+
+        it("accepts a leading plus with custom alphabets without plus", function () {
+            expect(bigInt("+bC", 3, "abc")).toEqualBigInt(5);
+            expect(bigInt("+AAa", 2, "aA", true)).toEqualBigInt(6);
+            expect(bigInt("+ba", -2, "ab")).toEqualBigInt(-2);
+        });
+
+        it("preserves plus as a digit in custom alphabets", function () {
+            expect(bigInt("+", 2, "0+")).toEqualBigInt(1);
+            expect(bigInt("++", 2, "0+")).toEqualBigInt(3);
+            expect(bigInt("+0", 2, "0+")).toEqualBigInt(2);
+            expect(bigInt("-+", 2, "0+")).toEqualBigInt(-1);
+            expect(bigInt("+0", 2, "+0")).toEqualBigInt(1);
+            expect(function () { bigInt("+1", 2, "01+"); }).toThrow();
+        });
+
+        it("does not accept misplaced or repeated plus signs", function () {
+            ["+", "++10", "+-10", "-+10", "10+1", "+ 10"].forEach(function (value) {
+                expect(function () { bigInt(value); }).toThrow();
+                expect(function () { bigInt(value, 2); }).toThrow();
+                expect(function () { bigInt(value, 16); }).toThrow();
+            });
+            expect(function () { bigInt("+2", 2); }).toThrow();
+            expect(function () { bigInt("+0x10", 16); }).toThrow();
+        });
+
         it("parses numbers correctly", function () {
             expect(bigInt("10", 2).equals(2)).toBe(true);
             expect(bigInt("FF", 16)).toEqualBigInt(255);

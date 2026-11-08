@@ -1213,7 +1213,9 @@ var bigInt = (function (undefined) {
         base = parseValue(base);
         var digits = [];
         var isNegative = text[0] === "-";
-        for (i = isNegative ? 1 : 0; i < text.length; i++) {
+        // A custom alphabet may use + as a digit rather than a sign.
+        var isPositive = text[0] === "+" && length > 1 && !("+" in alphabetValues);
+        for (i = isNegative || isPositive ? 1 : 0; i < text.length; i++) {
             var c = text[i];
             if (c in alphabetValues) digits.push(parseValue(alphabetValues[c]));
             else if (c === "<") {
@@ -1360,7 +1362,7 @@ var bigInt = (function (undefined) {
             throw new Error("Invalid integer: " + v);
         }
         var sign = v[0] === "-";
-        if (sign) v = v.slice(1);
+        if (sign || v[0] === "+") v = v.slice(1);
         var split = v.split(/e/i);
         if (split.length > 2) throw new Error("Invalid integer: " + split.join("e"));
         if (split.length === 2) {
